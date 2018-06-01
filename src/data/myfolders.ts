@@ -1,0 +1,17 @@
+export const MyFolders = [
+    {
+        "name": "Folder 1",
+        "id": "folder1",
+        "created_date": "23-05-2018"
+    },
+    {
+        "name": "Folder 2",
+        "id": "folder1",
+        "created_date" : "23-05-2018"
+    },
+    {
+        "name": "Folder 3",
+        "id": "folder1",
+        "created_date": "23-05-2018"
+    }
+];

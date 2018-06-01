@@ -1,0 +1,54 @@
+.ws-topbar {
+  position: relative;
+  z-index: 10000;
+  height: 120px;
+  width:100%;
+  background: #fff;
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  .ws-main-search {
+    position: relative;
+    color: #aaa;
+    input {
+      padding: 7px 10px 7px 40px;
+      border: solid 1px #ddd;
+      border-radius: 3px;
+      width: 600px;
+      color: #aaa;
+    }
+    i.material-icons {
+      position: absolute;
+      color: #aaa;
+      font-size: 18px;
+      height: 18px;
+      top: 0px;
+      bottom: 0px;
+      left: 10px;
+      margin: auto;
+    }
+  }
+  .ws-topbar-user-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+  }
+  nav {
+    background: #fff!important;
+  }
+  .ws-topbar-filters {
+    padding: 20px;
+
+    .ws-addbtn-wrap {
+      .dropdown-menu {
+        width: 250px;
+        padding: 10px;
+      }
+    }
+  }
+}

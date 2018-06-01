@@ -1,0 +1,22 @@
+@import '../../variables';
+
+.ws-sidenav {
+  height: 100%;
+  width: 250px;
+  padding: $ws-padding-outer;
+  .ws-sidenav-item {
+    padding: $ws-padding-inner-secondray;
+    -webkit-transition: background $ws-transition-time;
+    -moz-transition: background $ws-transition-time;
+    -ms-transition: background $ws-transition-time;
+    -o-transition: background $ws-transition-time;
+    transition: background $ws-transition-time;
+    .ws-list-item-icon {
+      font-size: 24px;
+    }
+
+    &:first-child {
+      margin-bottom: $ws-margin-primary;
+    }
+  }
+}
