@@ -54,7 +54,8 @@ body {
     }
     &.ws-button-flat {
       background: transparent;
-      color: #aaaaaa;
+      color: #888;
+      padding:$ws-padding-inner-secondray 20px $ws-padding-inner-secondray 20px;
       &:hover {
         @extend .ws-hover-flat-primary;
       }
@@ -65,6 +66,7 @@ body {
       line-height: 10px;
       color: $ws-color-text-secondary;
       border-radius: 50%;
+      padding: 0;
     }
     &.ws-abs-button {
       position: absolute;
@@ -149,4 +151,33 @@ body {
     -moz-box-shadow: 0 3px 50px rgba(0, 0, 0, 0.2);
     box-shadow: 0 3px 50px rgba(0, 0, 0, 0.2);
   }
+
+  //Form elements
+  input {
+    padding: 5px;
+    border: solid 1px #ddd;
+    border-radius: 3px;
+    width: auto;
+    color: #555;
+  }
+
+  //Cards
+  .ws-card {
+    .ws-card-header {
+      padding: $ws-padding-inner-primary;
+      h5 {
+        font-size: 16px;
+      }
+    }
+  }
+
+
+  //************** HELPERS **************
+  .fill-width {
+    width: 100%;
+  }
+  .fill-height {
+    height: 100%;
+  }
+  //. . . . . . . . . . . . . . . . . . .
 }

@@ -10,13 +10,6 @@
   .ws-main-search {
     position: relative;
     color: #aaa;
-    input {
-      padding: 7px 10px 7px 40px;
-      border: solid 1px #ddd;
-      border-radius: 3px;
-      width: 600px;
-      color: #aaa;
-    }
     i.material-icons {
       position: absolute;
       color: #aaa;
@@ -26,6 +19,11 @@
       bottom: 0px;
       left: 10px;
       margin: auto;
+    }
+    input {
+      padding: 7px 10px 7px 40px;
+      max-width: 600px;
+      width: 600px;
     }
   }
   .ws-topbar-user-icon {
@@ -50,5 +48,10 @@
         padding: 10px;
       }
     }
+  }
+
+  #initNewFolder {
+    width: 240px;
+    padding: 5px;
   }
 }
