@@ -18,8 +18,13 @@ export class TopbarComponent implements OnInit {
     ngOnInit() {
     }
 
+    newFolderData = {
+        name : ""
+    };
+
     addNewFolder = function () {
-        this.myContentService.addNewFolder();
+        this.myContentService.addNewFolder(this.newFolderData);
+        this.newFolderData.name = "";
     };
 
     addNewFile = function () {

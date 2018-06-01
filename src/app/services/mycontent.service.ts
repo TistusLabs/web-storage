@@ -15,12 +15,13 @@ export class MyContentService {
         return this.myFolders;
     }
 
-    addNewFolder() {
+    addNewFolder(folderdata) {
        this.myFolders.push({
-           name : 'Folder 1',
-           id : 'folder1',
+           name : folderdata.name,
+           id : 'ws'+ folderdata.name.toLowerCase().trim(),
            created_date: '23-05-2018'
        });
+        $("#initNewFolder").modal('hide');
     }
 
     addNewFile() {
