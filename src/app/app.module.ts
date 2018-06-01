@@ -8,6 +8,9 @@ import { TopbarComponent } from './topbar/topbar.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { BodyComponent } from './body/body.component';
 import { MyContentService } from  './services/mycontent.service';
+import * as $ from 'jquery';
+import * as bootstrap from "bootstrap";
+
 
 @NgModule({
     declarations: [
