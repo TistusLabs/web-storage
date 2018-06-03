@@ -8,7 +8,7 @@ const app = express();
 app.use(express.static(__dirname +'/dist' + '/web-storage'));
 
 app.get('/*', function(req,res) {
-    
+
 res.sendFile(path.join(__dirname+'/dist/web-storage/index.html'));
 });
 

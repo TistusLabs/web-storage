@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MyFolders } from '../../data/myfolders';
+import { MyFolders } from '../../assets/data/myfolders';
 
 interface myData {
     obj : Object

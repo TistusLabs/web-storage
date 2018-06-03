@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContentItems } from '../../data/content';
+import { ContentItems } from '../../assets/data/content';
 
 @Component({
     selector: 'app-body',

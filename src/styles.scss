@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-
 @import "variables";
+
 html,
 body {
   height: 100%;
@@ -163,21 +163,56 @@ body {
 
   //Cards
   .ws-card {
+    box-shadow: $ws-item-shadow-primary;
+    border-radius: $ws-border-radius-primary;
+    &.ws-card-medium {
+      width: $ws-card-medium;
+    }
+    &.ws-card-small {
+      width: $ws-card-small;
+    }
     .ws-card-header {
       padding: $ws-padding-inner-primary;
       h5 {
         font-size: 16px;
       }
     }
+    .ws-card-content {
+      padding: $ws-padding-inner-primary;
+    }
+    .ws-card-footer {}
   }
-
 
   //************** HELPERS **************
-  .fill-width {
+  .ws-fill-width {
     width: 100%;
   }
-  .fill-height {
+  .ws-fill-height {
     height: 100%;
+  }
+  .ws-pos-abs {
+    position: absolute;
+  }
+  .ws-pos-rel {
+    position: relative;
+  }
+
+  .ws-clearfix-h {
+    right: 0;
+    left: 0;
+    margin: auto;
+  }
+  .ws-clearfix-v {
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  .ws-clearfix-all {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
   //. . . . . . . . . . . . . . . . . . .
 }

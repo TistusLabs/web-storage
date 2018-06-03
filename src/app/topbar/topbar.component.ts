@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../data/user';
+import { User } from '../../assets/data/user';
 import { MyContentService } from  '../services/mycontent.service';
 
 @Component({
@@ -10,7 +10,9 @@ import { MyContentService } from  '../services/mycontent.service';
 export class TopbarComponent implements OnInit {
     user : User = {
         name : 'Username',
-        type : 'admin'
+        type : 'admin',
+        username : null,
+        password : null
     };
     constructor(public myContentService: MyContentService) {
     }
