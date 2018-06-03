@@ -14,7 +14,6 @@ import * as bootstrap from "bootstrap";
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
-import { BodyComponent } from './body/body.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthComponent } from './auth/auth.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -28,7 +27,6 @@ import { HistoryComponent } from './history/history.component';
     AppComponent,
     TopbarComponent,
     SidenavComponent,
-    BodyComponent,
     AuthComponent,
     DashboardComponent,
     WsComponent,

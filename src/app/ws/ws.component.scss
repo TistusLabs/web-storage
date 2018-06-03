@@ -1,0 +1,7 @@
+@import "../../variables";
+
+.ws-body {
+  height: 100%;
+  padding: $ws-padding-outer;
+  overflow-y: scroll;
+}

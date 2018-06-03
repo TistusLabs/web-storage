@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BodyComponent } from './body/body.component';
 import { AuthComponent } from './auth/auth.component';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -20,26 +19,22 @@ const routes: Routes = [
     path      : 'auth',
     component : AuthComponent
   },{
-    path      : 'ws/:id',
+    path      : 'ws',
     component : WsComponent,
     canActivate : [AuthGuard],
     children  : [
       {
         path  : 'dashboard',
-        component : DashboardComponent,
-        outlet: 'sub'
+        component : DashboardComponent
       },{
         path      : 'shared',
-        component : SharedComponent,
-        outlet: 'sub'
+        component : SharedComponent
       },{
         path      : 'recent',
-        component : RecentComponent,
-        outlet: 'sub'
+        component : RecentComponent
       },{
         path      : 'history',
-        component : HistoryComponent,
-        outlet: 'sub'
+        component : HistoryComponent
       }
     ]
   }

@@ -27,7 +27,7 @@ export class AuthComponent implements OnInit {
         .subscribe(data=> {
           if(data.username === input.inputUsername) {
             if(data.password === input.inputPassword) {
-              this.router.navigate(['/ws/dashboard']);
+              this.router.navigate(['ws/dashboard']);
               this.authService.setUserValidity(true);
             }else{
               this.errorMessage = "Your password is wrong";
