@@ -1,30 +1,30 @@
 <div class="ws-sidenav">
-    <ul class="ws-list ws-iconed-list">
-        <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">
-            <a data-toggle="collapse" href="#myFoldersDropdown">
-                <i class="material-icons ws-list-item-icon">folder_shared</i>
-                <span class="ws-list-item-text">My Folders</span>
-            </a>
-            <div class="collapse" id="myFoldersDropdown">
-                <ul class="ws-list ws-iconed-list">
-                    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" *ngFor="let folder of myFolders" routerLinkActive="/ws/{{ folder.name.replace(' ','').toLowerCase() }}">
-                        <i class="material-icons ws-list-item-icon">folder</i>
-                        <span class="ws-list-item-text">{{ folder.name }}</span>
-                    </li>
-                </ul>
-            </div>
-        </li>
-        <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">
-            <i class="material-icons ws-list-item-icon">people_outline</i>
-            <span class="ws-list-item-text" routerLink="/ws/shared">Shared with me</span>
-        </li>
-        <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">
-            <i class="material-icons ws-list-item-icon">recent_actors</i>
-            <span class="ws-list-item-text" routerLink="/ws/recent">Recent</span>
-        </li>
-        <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">
-            <i class="material-icons ws-list-item-icon">history</i>
-            <span class="ws-list-item-text" routerLink="/ws/history">History</span>
-        </li>
-    </ul>
+  <ul class="ws-list ws-iconed-list">
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">
+      <a data-toggle="collapse" href="#myFoldersDropdown" (click)="getFolders()">
+        <i class="material-icons ws-list-item-icon">folder_shared</i>
+        <span class="ws-list-item-text">My Folders</span>
+      </a>
+      <div class="collapse" id="myFoldersDropdown">
+        <ul class="ws-list ws-iconed-list">
+          <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" *ngFor="let folder of myFolders" routerLinkActive="/ws/{{ folder.name.replace(' ','').toLowerCase() }}">
+            <i class="material-icons ws-list-item-icon">folder</i>
+            <span class="ws-list-item-text">{{ folder.name }}</span>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">
+      <i class="material-icons ws-list-item-icon">people_outline</i>
+      <span class="ws-list-item-text" routerLink="/ws/shared">Shared with me</span>
+    </li>
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">
+      <i class="material-icons ws-list-item-icon">recent_actors</i>
+      <span class="ws-list-item-text" routerLink="/ws/recent">Recent</span>
+    </li>
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">
+      <i class="material-icons ws-list-item-icon">history</i>
+      <span class="ws-list-item-text" routerLink="/ws/history">History</span>
+    </li>
+  </ul>
 </div>
