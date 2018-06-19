@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MyContentService } from  '../services/mycontent.service';
+import { MyContentService } from '../services/mycontent.service';
 import { Router } from "@angular/router";
 
 @Component({
@@ -12,7 +12,12 @@ export class SidenavComponent implements OnInit {
   myFolders = null;
 
   ngOnInit() {
-    this.myFolders = this.myContentService.getAllFolders();
+    this.myContentService.getAllFolders()
+      .subscribe(data => {
+        debugger;
+        this.myFolders = data.folders;
+        console.log(this.myFolders);
+      });
   }
 
   getFolders = function () {
