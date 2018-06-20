@@ -12,13 +12,12 @@ export class SidenavComponent implements OnInit {
   myFolders = null;
 
   ngOnInit() {
-    // this.myContentService.getAllFolders()
-    //   .subscribe(data => {
-    //     debugger;
-    //     this.myFolders = data;
-    //     console.log(this.myFolders);
-    //   });
-    this.myFolders = this.myContentService.getAllFolders();
+    this.myContentService.getAllFolders()
+      .subscribe(data => {
+        this.myFolders = data;
+        console.log(this.myFolders);
+      });
+    //this.myFolders = this.myContentService.getAllFolders();
   }
 
   getFolders = function () {

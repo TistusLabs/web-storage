@@ -1,7 +1,7 @@
 <div>
-  <div class="ws-content-item clickable" *ngFor="let item of content" (click)="openContentItem(item.id, $event)">
+  <div class="ws-content-item clickable" *ngFor="let item of allFilesFolders" (click)="openContentItem(item, $event)">
     <button class="ws-content-more-ops ws-button-flat iconed ws-abs-button" id="moreOptions-{{item.id}}" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+      aria-haspopup="true" aria-expanded="false">
       <i class="ws-content-more-ops material-icons">more_vert</i>
     </button>
     <div class="ws-shadow-full dropdown-menu dropdown-menu-right" attr.aria-labelledby="moreOptions-{{item.id}}">
@@ -24,7 +24,7 @@
       <i class="material-icons">{{ item.icon }}</i>
     </div>
     <div class="ws-content-item-info {{content.layout}}">
-      <h3 class="ws-info-text-title">{{ item.title | slice:0:18 }}{{item.title.length >= 18 ? '...' : null}}</h3>
+      <h3 class="ws-info-text-title">{{ item.folderName | slice:0:18 }}{{item.folderName.length >= 18 ? '...' : null}}</h3>
       <div class="ws-info-text-sub">
         Size : {{ item.size }}</div>
       <i class="ws-info-text-sub">{{ item.added_date }}</i>

@@ -7,10 +7,10 @@
       </a>
       <div class="collapse" id="myFoldersDropdown">
         <ul class="ws-list ws-iconed-list">
-          <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" *ngFor="let folder of myFolders" routerLinkActive="/ws/{{ folder.name.replace(' ','').toLowerCase() }}" > 
+          <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" *ngFor="let folder of myFolders.folders" > 
             <!-- routerLinkActive="/ws/{{ folder.name.replace(' ','').toLowerCase() }}" -->
             <i class="material-icons ws-list-item-icon">folder</i>
-            <span class="ws-list-item-text">{{ folder.name }}</span>
+            <span class="ws-list-item-text">{{ folder.folderName }}</span>
           </li>
         </ul>
       </div>

@@ -1,4 +1,4 @@
-interface FileTemplate {
+export interface FileTemplate {
     folderId: string,
     folderName: string,
     uniqueName: string,
@@ -7,6 +7,8 @@ interface FileTemplate {
 }
 
 export interface IFilemanager {
+    files: Array<FileTemplate>,
     folders: Array<FileTemplate>,
+    sharedFiles: Array<FileTemplate>
 }
 

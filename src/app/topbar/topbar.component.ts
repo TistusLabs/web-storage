@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../assets/data/user';
-import { MyContentService } from  '../services/mycontent.service';
+import { MyContentService } from '../services/mycontent.service';
 
 @Component({
     selector: 'app-topbar',
@@ -8,11 +8,11 @@ import { MyContentService } from  '../services/mycontent.service';
     styleUrls: ['topbar.component.scss']
 })
 export class TopbarComponent implements OnInit {
-    user : User = {
-        name : 'Username',
-        type : 'admin',
-        username : null,
-        password : null
+    user: User = {
+        name: 'Username',
+        type: 'admin',
+        username: null,
+        password: null
     };
     constructor(public myContentService: MyContentService) {
     }
@@ -21,12 +21,18 @@ export class TopbarComponent implements OnInit {
     }
 
     newFolderData = {
-        name : ""
+        name: ""
     };
 
     addNewFolder = function () {
-        this.myContentService.addNewFolder(this.newFolderData);
-        this.newFolderData.name = "";
+        // this.myContentService.addNewFolder(this.newFolderData);
+        // this.newFolderData.name = "";
+
+        this.myContentService.addNewFolder(this.newFolderData)
+            .subscribe(newFolderinfo => {
+                this.newFolderData.name = "";
+                $("#initNewFolder").modal('hide');
+            });
     };
 
     addNewFile = function () {
