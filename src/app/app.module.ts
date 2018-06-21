@@ -21,6 +21,7 @@ import { WsComponent } from './ws/ws.component';
 import { SharedComponent } from './shared/shared.component';
 import { RecentComponent } from './recent/recent.component';
 import { HistoryComponent } from './history/history.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { HistoryComponent } from './history/history.component';
     WsComponent,
     SharedComponent,
     RecentComponent,
-    HistoryComponent
+    HistoryComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

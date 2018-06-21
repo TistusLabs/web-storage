@@ -7,6 +7,7 @@ import { WsComponent } from './ws/ws.component';
 import { SharedComponent } from './shared/shared.component';
 import { RecentComponent } from './recent/recent.component';
 import { HistoryComponent } from './history/history.component';
+import { SignupComponent } from './signup/signup.component';
 
 import { AuthGuard } from './auth.guard';
 
@@ -18,6 +19,9 @@ const routes: Routes = [
   }, {
     path: 'auth',
     component: AuthComponent
+  },{
+    path: 'signup',
+    component: SignupComponent
   }, {
     path: 'ws',
     component: WsComponent,

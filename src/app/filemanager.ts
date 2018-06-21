@@ -18,3 +18,22 @@ export interface UploadTemplate {
     upfile: any,
     userId: string
 }
+
+export interface NewUserTemplate {
+    user: userObject,
+    permission: userPermissionObject
+}
+
+interface userObject {
+    username: string,
+    password: string,
+    userType: number
+}
+
+interface userPermissionObject {
+    canEdit: number,
+    canView: number,
+    canDownload: number,
+    canAdd: number,
+    canDelete: number
+}

@@ -42,7 +42,7 @@ export class AuthComponent implements OnInit {
   }
 
   private navigatePage(){
-    alert("signing up");
+    this.router.navigate(['signup']);
   }
 
 }
