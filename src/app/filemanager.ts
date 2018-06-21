@@ -12,3 +12,9 @@ export interface IFilemanager {
     sharedFiles: Array<FileTemplate>
 }
 
+export interface UploadTemplate {
+    filename: string,
+    folderName: string,
+    upfile: any,
+    userId: string
+}

@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
 
   openContentItem = function (item, e) {
     if (item.category = "folder") {
-      debugger
+      // debugger
       this.myContentService.setCurrentFolder(item.uniqueName);
       this.getAllItemsForPage(item.uniqueName);
     } else {

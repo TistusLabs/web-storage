@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MyFolders } from '../../assets/data/myfolders';
 import { HttpClient, HttpEvent, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { IFilemanager, FileTemplate } from '../filemanager';
+import { IFilemanager, FileTemplate, UploadTemplate } from '../filemanager';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpParams } from "@angular/common/http";
@@ -18,10 +18,12 @@ export class MyContentService {
     private requestOptions;
     private requestParams;
     private newFolderDetails;
+    private newFileDetails;
 
     private _url_getitems = "http://104.196.2.1/filemanagement/filemanager/filemanager/getitems";
     private _url_createfolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/createfolder";
-    private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InJ1Y2hpcmE2IiwibmFtZWlkIjoiMSIsInJvbGUiOiJhZG1pbiIsInBlcm1pc3Npb24iOiJ7XCJJZFwiOjEsXCJ1c2VySWRcIjoxLFwiY2FuRWRpdFwiOmZhbHNlLFwiY2FuVmlld1wiOmZhbHNlLFwiY2FuRG93bmxvYWRcIjpmYWxzZSxcImNhbkFkZFwiOmZhbHNlLFwiY2FuRGVsZXRlXCI6ZmFsc2V9IiwibmJmIjoxNTI5NDc0NDYxLCJleHAiOjE1Mjk1NjA4NjEsImlhdCI6MTUyOTQ3NDQ2MSwiaXNzIjoic2VsZiIsImF1ZCI6ImxvY2FsaG9zdCJ9.-GLBCU2oyReHfnJD77oROYn2nVRq3O6J4yAgMBuSP8w";
+    private _url_uploadfile = "http://104.196.2.1/filemanagement/filemanager/uploadfile";
+    private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI";
     private _userID = "1";
     private _headers = {
         'Content-Type': 'application/json',
@@ -30,15 +32,17 @@ export class MyContentService {
         'Authorization': "Bearer " + this._token
     };
 
-    private currentFolderSource = new BehaviorSubject('default message');
-    private currentFolder = this.currentFolderSource.asObservable();
+    // private currentFolderSource = new BehaviorSubject('default message');
+    // private currentFolder = this.currentFolderSource.asObservable();
 
+
+    private currentFolder = "";
     public setCurrentFolder(folderID: string) {
-        this.currentFolderSource.next(folderID);
+        this.currentFolder = folderID;
     }
 
-    public getCurrenFolder(){
-        return this.currentFolderSource;
+    public getCurrenFolder() {
+        return this.currentFolder;
     }
 
     public getAllFolders(): Observable<HttpEvent<IFilemanager>> {
@@ -85,7 +89,6 @@ export class MyContentService {
 
     public addNewFolder(folderdata: any): Observable<HttpEvent<FileTemplate>> {
         this.requestOptions = {
-            params: this.requestParams,
             headers: new HttpHeaders(this._headers)
         };
 
@@ -101,7 +104,25 @@ export class MyContentService {
             );
     }
 
-    public addNewFile() {
-        document.getElementById('newFile').click();
+    public addNewFile(filedata: any): Observable<HttpEvent<UploadTemplate>> {
+        //document.getElementById('newFile').click();
+        this.requestOptions = {
+            headers: new HttpHeaders(this._headers),
+            reportProgress: true,
+            observe:'events'
+        };
+
+        this.newFileDetails = {};
+        this.newFileDetails.filename = filedata.filename;
+        this.newFileDetails.folderName = this.getCurrenFolder(); // get from service
+        this.newFileDetails.userId = this._userID;
+        this.newFileDetails.upfile = filedata.upfile;
+
+        debugger
+        return this.http.post<UploadTemplate>(this._url_uploadfile, this.newFileDetails, this.requestOptions)
+            .pipe(
+                retry(3),
+                catchError(this.handleError)
+            );
     }
 }
