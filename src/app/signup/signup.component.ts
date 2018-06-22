@@ -20,7 +20,6 @@ export class SignupComponent implements OnInit {
   }
 
   signupUser() {
-    debugger
     this.authService.signUpUser(this.newUserDetails)
       .subscribe(data => {
         alert("new user was created");

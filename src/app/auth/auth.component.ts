@@ -22,26 +22,24 @@ export class AuthComponent implements OnInit {
   errorMessage = "";
 
   login = function (input) {
-    if(input.inputUsername != "" && input.inputPassword != "") {
-      this.authService.getUser()
-        .subscribe(data=> {
-          if(data.username === input.inputUsername) {
-            if(data.password === input.inputPassword) {
-              this.router.navigate(['ws/dashboard']);
-              this.authService.setUserValidity(true);
-            }else{
-              this.errorMessage = "Your password is wrong";
-            }
-          }else{
-            this.errorMessage = "Your username is wrong";
+    debugger
+    if (input.inputUsername != "" && input.inputPassword != "") {
+      this.authService.loginUser(input)
+        .subscribe(data => {
+          if (data.status) {
+            this.authService.setAuthToken(data.data);
+            this.router.navigate(['ws/dashboard']);
+            this.authService.setUserValidity(true);
+          } else {
+            this.errorMessage = "Incorrect Username or Password.";
           }
         });
-    }else{
+    } else {
       this.errorMessage = "Username & Password is required";
     }
   }
 
-  private navigatePage(){
+  private navigatePage() {
     this.router.navigate(['signup']);
   }
 

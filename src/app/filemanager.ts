@@ -37,3 +37,9 @@ interface userPermissionObject {
     canAdd: number,
     canDelete: number
 }
+
+export interface loginResponse {
+    status: boolean,
+    data: string,
+    error: string
+}
