@@ -22,7 +22,7 @@ export class AuthComponent implements OnInit {
   errorMessage = "";
 
   login = function (input) {
-    debugger
+    //debugger
     if (input.inputUsername != "" && input.inputPassword != "") {
       this.authService.loginUser(input)
         .subscribe(data => {

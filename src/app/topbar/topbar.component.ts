@@ -41,21 +41,26 @@ export class TopbarComponent implements OnInit {
     };
 
     setFile = function (event) {
+        //debugger
         this.newFileData.upfile = event.target.files[0]
     }
 
     addNewFile = function () {
         //this.myContentService.addNewFile();
 
-        // const uploadData = new FormData();
-        // uploadData.append('filename',this.newFileData.filename,);
+        debugger
+        const uploadData = new FormData();
+        uploadData.append('filename', this.newFileData.filename);
+        uploadData.append('upfile', this.newFileData.upfile);
+        uploadData.append('folderName', this.myContentService.getCurrenFolder());
+        uploadData.append('userId', "1");
 
         // this.newFileDetails.filename = filedata.filename;
         // this.newFileDetails.folderName = this.getCurrenFolder(); // get from service
         // this.newFileDetails.userId = this._userID;
         // this.newFileDetails.upfile = filedata.upfile;
-
-        this.myContentService.addNewFile(this.newFileData)
+        debugger
+        this.myContentService.addNewFile(uploadData)
             .subscribe(event => {
                 console.log(event);
                 this.newFileData.filename = "";

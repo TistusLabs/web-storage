@@ -4,7 +4,7 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpErrorResponse } from '@angular/
 import { IFilemanager, FileTemplate, UploadTemplate } from '../filemanager';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { HttpParams } from "@angular/common/http";
+import { HttpParams, HttpResponse } from "@angular/common/http";
 import { AuthService } from './auth.service';
 
 interface myData {
@@ -23,7 +23,9 @@ export class MyContentService {
 
     private _url_getitems = "http://104.196.2.1/filemanagement/filemanager/filemanager/getitems";
     private _url_createfolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/createfolder";
-    private _url_uploadfile = "http://104.196.2.1/filemanagement/filemanager/uploadfile";
+    private _url_uploadfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/uploadfile";
+    private _url_getfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/showfile";
+    //private _url_uploadfile = "https://f7c89f2a.ngrok.io/filemanager/uploadfile";
     // private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI";
     private _userID = "1";
     private _headers = {
@@ -105,25 +107,53 @@ export class MyContentService {
             );
     }
 
-    public addNewFile(filedata: any): Observable<HttpEvent<UploadTemplate>> {
+    public addNewFile(formData: FormData) {
         //document.getElementById('newFile').click();
-        this.requestOptions = {
-            headers: new HttpHeaders(this._headers),
-            reportProgress: true,
-            observe:'events'
+
+        const headers = {
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': "Bearer " + this.authService.getAuthToken()
         };
 
-        this.newFileDetails = {};
-        this.newFileDetails.filename = filedata.filename;
-        this.newFileDetails.folderName = this.getCurrenFolder(); // get from service
-        this.newFileDetails.userId = this._userID;
-        this.newFileDetails.upfile = filedata.upfile;
+        this.requestOptions = {
+            headers: new HttpHeaders(headers),
+            reportProgress: true,
+            observe: 'events'
+        };
 
-        debugger
-        return this.http.post<UploadTemplate>(this._url_uploadfile, this.newFileDetails, this.requestOptions)
+        // this.newFileDetails = {};
+        // this.newFileDetails.filename = filedata.filename;
+        // this.newFileDetails.folderName = this.getCurrenFolder(); // get from service
+        // this.newFileDetails.userId = this._userID;
+        // this.newFileDetails.upfile = filedata.upfile;
+
+        return this.http.post(this._url_uploadfile, formData)
             .pipe(
                 retry(3),
                 catchError(this.handleError)
             );
+    }
+
+    public getItemToDisplay(uniqueFilename: string): Observable<HttpEvent<Blob>> {
+
+        const headers = {
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': "Bearer " + this.authService.getAuthToken()
+        };
+
+        this.requestParams = new HttpParams()
+            .set('userId', this._userID)
+            .set('filename', uniqueFilename);
+
+        this.requestOptions = {
+            params: this.requestParams,
+            headers: new HttpHeaders(headers),
+            observe: 'response',
+            responseType: 'blob' as 'json'
+        };
+        return this.http.get<Blob>(this._url_getfile, this.requestOptions);
     }
 }

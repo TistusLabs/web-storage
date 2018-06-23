@@ -106,7 +106,7 @@ export class AuthService {
     this.newUserDetails.username = userdata.inputUsername;
     this.newUserDetails.password = userdata.inputPassword;
 
-    debugger
+    //debugger
 
     return this.http.post<loginResponse>(this._url_loginuser, this.newUserDetails, this.requestOptions)
       .pipe(
