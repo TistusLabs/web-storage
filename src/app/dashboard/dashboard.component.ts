@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   isContentItemFull = false;
   fullViewPos = '';
   selectedContentItem = {};
-  itemLoading = '';
+  imageToShow: any;
 
   ngOnInit() {
     this.myContentService.setCurrentFolder('');
@@ -71,26 +71,37 @@ export class DashboardComponent implements OnInit {
     this.layout = layout;
   };
 
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
   openContentItem = function (item, e) {
-    // debugger;
-    if (e.target.className.split(' ')[0] !== 'ws-content-more-ops') {
-      if (item.category === 'folder') {
+    //debugger
+    if (e.target.className.split(' ')[0] != 'ws-content-more-ops') {
+      if (item.category == "folder") {
         // debugger
         this.myContentService.setCurrentFolder(item.uniqueName);
         this.getAllItemsForPage(item.uniqueName);
       } else {
-        // debugger
-        this.itemLoading = item.uniqueName;
-        for (let i = 0; i < this.allFilesFolders.length; i++) {
-          if (this.allFilesFolders[i].id === item.id) {
+        //debugger
+        this.imageToShow = Object;
+        this.isContentItemFull = true;
+        for (var i = 0; i < this.allFilesFolders.length; i++) {
+          if (this.allFilesFolders[i].id == item.id) {
             const count = i;
             this.myContentService.getItemToDisplay(item.uniqueFileName)
               .subscribe((resp: HttpResponse<Blob>) => {
-                const headers = resp.headers;
-                // console.log(headers); //<--- Check log for content disposition
-                const contentDisposition = headers.get('Content-Disposition');
-                // console.log(resp.headers.get('Content-Disposition'));
+                //debugger
+                console.log("Item to display:", this.allFilesFolders[count]);
                 this.selectedContentItem = this.allFilesFolders[count];
+                this.createImageFromBlob(resp);
                 // this.selectedContentItem.filedata = data;
                 this.isContentItemFull = true;
                 this.itemLoading = '';
