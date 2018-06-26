@@ -25,6 +25,7 @@ export class MyContentService {
     private _url_createfolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/createfolder";
     private _url_uploadfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/uploadfile";
     private _url_getfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/showfile";
+    private _url_getfilenew = "http://104.196.2.1/filemanagement/filemanager/filemanager/getFile";
     //private _url_uploadfile = "https://f7c89f2a.ngrok.io/filemanager/uploadfile";
     // private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI";
     private _userID = "1";
@@ -123,6 +124,8 @@ export class MyContentService {
             observe: 'events'
         };
 
+        formData.append('authorize', this.authService.getAuthToken());
+
         // this.newFileDetails = {};
         // this.newFileDetails.filename = filedata.filename;
         // this.newFileDetails.folderName = this.getCurrenFolder(); // get from service
@@ -139,8 +142,6 @@ export class MyContentService {
     public getItemToDisplay(uniqueFilename: string): Observable<HttpEvent<Blob>> {
 
         const headers = {
-            'Access-Control-Allow-Headers': '*',
-            'Access-Control-Allow-Origin': '*',
             'Authorization': "Bearer " + this.authService.getAuthToken()
         };
 
@@ -148,12 +149,18 @@ export class MyContentService {
             .set('userId', this._userID)
             .set('filename', uniqueFilename);
 
+        // this.requestOptions = {
+        //     params: this.requestParams,
+        //     headers: new HttpHeaders(headers),
+        //     observe: 'response',
+        //     responseType: 'blob' as 'json'
+        // };
+
         this.requestOptions = {
             params: this.requestParams,
             headers: new HttpHeaders(headers),
-            observe: 'response',
-            responseType: 'blob' as 'json'
+            responseType: 'blob'
         };
-        return this.http.get<Blob>(this._url_getfile, this.requestOptions);
+        return this.http.get<Blob>(this._url_getfilenew, this.requestOptions);
     }
 }

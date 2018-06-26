@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   isContentItemFull = false;
   fullViewPos = '';
   selectedContentItem = {};
+  imageToShow: any;
 
   ngOnInit() {
     this.myContentService.setCurrentFolder("");
@@ -66,6 +67,17 @@ export class DashboardComponent implements OnInit {
     this.layout = layout;
   };
 
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
+  }
+
   openContentItem = function (item, e) {
     //debugger
     if (item.category == "folder") {
@@ -74,6 +86,7 @@ export class DashboardComponent implements OnInit {
       this.getAllItemsForPage(item.uniqueName);
     } else {
       //debugger
+      this.imageToShow = Object;
       if (e.target.className.split(' ')[0] != 'ws-content-more-ops') {
         this.isContentItemFull = true;
         for (var i = 0; i < this.allFilesFolders.length; i++) {
@@ -81,11 +94,10 @@ export class DashboardComponent implements OnInit {
             const count = i;
             this.myContentService.getItemToDisplay(item.uniqueFileName)
               .subscribe((resp: HttpResponse<Blob>) => {
-                var headers = resp.headers;
-                console.log(headers); //<--- Check log for content disposition
-                var contentDisposition = headers.get('Content-Disposition');
-                console.log(resp.headers.get('Content-Disposition'));
+                //debugger
+                console.log("Item to display:", this.allFilesFolders[count]);
                 this.selectedContentItem = this.allFilesFolders[count];
+                this.createImageFromBlob(resp);
                 // this.selectedContentItem.filedata = data;
               });
           }

@@ -36,7 +36,7 @@ export class TopbarComponent implements OnInit {
         this.myContentService.addNewFolder(this.newFolderData)
             .subscribe(newFolderinfo => {
                 this.newFolderData.name = "";
-                $("#initNewFolder").modal('hide');
+                //$("#initNewFolder").modal('hide');
             });
     };
 
@@ -65,7 +65,7 @@ export class TopbarComponent implements OnInit {
                 console.log(event);
                 this.newFileData.filename = "";
                 this.newFileData.upfile = {};
-                $("#initNewFile").modal('hide');
+                //$("#initNewFile").modal('hide');
             });
     }
 
