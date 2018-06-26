@@ -4,12 +4,8 @@ import { HttpClient, HttpEvent, HttpHeaders, HttpErrorResponse } from '@angular/
 import { IFilemanager, FileTemplate, UploadTemplate } from '../filemanager';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { HttpParams, HttpResponse } from "@angular/common/http";
+import { HttpParams, HttpResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
-
-interface myData {
-    obj: Object
-}
 
 @Injectable()
 export class MyContentService {
@@ -20,30 +16,43 @@ export class MyContentService {
     private requestParams;
     private newFolderDetails;
     private newFileDetails;
+    private currentFolder = '';
+    private parentFolder = [];
 
-    private _url_getitems = "http://104.196.2.1/filemanagement/filemanager/filemanager/getitems";
-    private _url_createfolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/createfolder";
-    private _url_uploadfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/uploadfile";
-    private _url_getfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/showfile";
-    //private _url_uploadfile = "https://f7c89f2a.ngrok.io/filemanager/uploadfile";
-    // private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI";
-    private _userID = "1";
+    private _url_getitems = 'http://104.196.2.1/filemanagement/filemanager/filemanager/getitems';
+    private _url_createfolder = 'http://104.196.2.1/filemanagement/filemanager/filemanager/createfolder';
+    private _url_uploadfile = 'http://104.196.2.1/filemanagement/filemanager/filemanager/uploadfile';
+    private _url_getfile = 'http://104.196.2.1/filemanagement/filemanager/filemanager/showfile';
+    // private _url_uploadfile = 'https://f7c89f2a.ngrok.io/filemanager/uploadfile';
+    // private _token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI';
+    private _userID = '1';
     private _headers = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Headers': '*',
         'Access-Control-Allow-Origin': '*',
-        'Authorization': "Bearer " + this.authService.getAuthToken()
+        'Authorization': 'Bearer ' + this.authService.getAuthToken()
     };
 
     // private currentFolderSource = new BehaviorSubject('default message');
     // private currentFolder = this.currentFolderSource.asObservable();
 
-
-    private currentFolder = "";
+    public setParentFolder(folderID: string) {
+        this.parentFolder.push(folderID);
+    }
     public setCurrentFolder(folderID: string) {
+        if (this.currentFolder !== '') {
+            this.setParentFolder(this.currentFolder);
+        }
         this.currentFolder = folderID;
     }
 
+    public getParentFolder() {
+        if (this.parentFolder.length !== 0) {
+            return this.parentFolder.pop();
+        } else {
+            return null;
+        }
+    }
     public getCurrenFolder() {
         return this.currentFolder;
     }
@@ -52,7 +61,7 @@ export class MyContentService {
 
         this.requestParams = new HttpParams()
             .set('userId', this._userID)
-            .set('folder', "");
+            .set('folder', '');
 
         this.requestOptions = {
             params: this.requestParams,
@@ -62,7 +71,6 @@ export class MyContentService {
     }
 
     public getItemsInFolder(folderID: string): Observable<HttpEvent<IFilemanager>> {
-
         this.requestParams = new HttpParams()
             .set('userId', this._userID)
             .set('folder', folderID);
@@ -88,7 +96,7 @@ export class MyContentService {
         // return an observable with a user-facing error message
         return throwError(
             'Something bad happened; please try again later.');
-    };
+    }
 
     public addNewFolder(folderdata: any): Observable<HttpEvent<FileTemplate>> {
         this.requestOptions = {
@@ -98,7 +106,7 @@ export class MyContentService {
         this.newFolderDetails = {};
         this.newFolderDetails.folderName = folderdata.name;
         this.newFolderDetails.userId = this._userID;
-        this.newFolderDetails.parentFolder = "";
+        this.newFolderDetails.parentFolder = '';
 
         return this.http.post<FileTemplate>(this._url_createfolder, this.newFolderDetails, this.requestOptions)
             .pipe(
@@ -108,13 +116,13 @@ export class MyContentService {
     }
 
     public addNewFile(formData: FormData) {
-        //document.getElementById('newFile').click();
+        // document.getElementById('newFile').click();
 
         const headers = {
             'Content-Type': 'multipart/form-data',
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Origin': '*',
-            'Authorization': "Bearer " + this.authService.getAuthToken()
+            'Authorization': 'Bearer ' + this.authService.getAuthToken()
         };
 
         this.requestOptions = {
@@ -141,7 +149,7 @@ export class MyContentService {
         const headers = {
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Origin': '*',
-            'Authorization': "Bearer " + this.authService.getAuthToken()
+            'Authorization': 'Bearer ' + this.authService.getAuthToken()
         };
 
         this.requestParams = new HttpParams()
@@ -156,4 +164,16 @@ export class MyContentService {
         };
         return this.http.get<Blob>(this._url_getfile, this.requestOptions);
     }
+
+    // public goBackFromFolder() {
+    //     const parent = this.getParentFolder();
+    //     if (parent === null) {
+    //         return null;
+    //     } else {
+    //         this.getItemsInFolder(parent)
+    //             .subscribe(data => {
+    //                 return data;
+    //             });
+    //     }
+    // }
 }

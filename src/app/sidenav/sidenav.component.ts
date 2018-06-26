@@ -9,18 +9,23 @@ import { Router } from "@angular/router";
 })
 export class SidenavComponent implements OnInit {
   constructor(public myContentService: MyContentService, private router: Router) { }
-  myFolders = null;
+  myFolders = {
+    folders : []
+  };
 
   ngOnInit() {
     this.myContentService.getAllFolders()
       .subscribe(data => {
         this.myFolders = data;
-        console.log(this.myFolders);
+        // console.log(this.myFolders);
       });
-    //this.myFolders = this.myContentService.getAllFolders();
+    // this.myFolders = this.myContentService.getAllFolders();
   }
 
   getFolders = function () {
-    this.router.navigate(['ws/dashboard']);
+    this.myContentService.getAllFolders()
+      .subscribe(data => {
+        this.populateItems(data);
+      });
   }
 }

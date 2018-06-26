@@ -1,5 +1,12 @@
 <div>
   <div class="ws-content-item clickable" *ngFor="let item of allFilesFolders" (click)="openContentItem(item, $event)">
+    <div class="ws-preloader-line" *ngIf="itemLoading == item.uniqueName">
+      <div class="ws-preloader-load-bar">
+        <div class="ws-preloader-bar"></div>
+        <div class="ws-preloader-bar"></div>
+        <div class="ws-preloader-bar"></div>
+      </div>
+    </div>
     <button class="ws-content-more-ops ws-button-flat iconed ws-abs-button" id="moreOptions-{{item.id}}" role="button" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="false">
       <i class="ws-content-more-ops material-icons">more_vert</i>

@@ -22,6 +22,7 @@ import { SharedComponent } from './shared/shared.component';
 import { RecentComponent } from './recent/recent.component';
 import { HistoryComponent } from './history/history.component';
 import { SignupComponent } from './signup/signup.component';
+import { PreloaderLineDirective } from './directives/preloader-line.directive';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { SignupComponent } from './signup/signup.component';
     SharedComponent,
     RecentComponent,
     HistoryComponent,
-    SignupComponent
+    SignupComponent,
+    PreloaderLineDirective
   ],
   imports: [
     BrowserModule,
