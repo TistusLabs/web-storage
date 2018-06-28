@@ -16,6 +16,7 @@ export class MyContentService {
     private requestParams;
     private newFolderDetails;
     private newFileDetails;
+    private currentFolder = "";
 
     private _url_getitems = "http://104.196.2.1/filemanagement/filemanager/filemanager/getitems";
     private _url_createfolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/createfolder";
@@ -35,22 +36,8 @@ export class MyContentService {
     // private currentFolderSource = new BehaviorSubject('default message');
     // private currentFolder = this.currentFolderSource.asObservable();
 
-    public setParentFolder(folderID: string) {
-        this.parentFolder.push(folderID);
-    }
     public setCurrentFolder(folderID: string) {
-        if (this.currentFolder !== '') {
-            this.setParentFolder(this.currentFolder);
-        }
         this.currentFolder = folderID;
-    }
-
-    public getParentFolder() {
-        if (this.parentFolder.length !== 0) {
-            return this.parentFolder.pop();
-        } else {
-            return null;
-        }
     }
     public getCurrenFolder() {
         return this.currentFolder;

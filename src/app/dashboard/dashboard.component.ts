@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
   fullViewPos = '';
   selectedContentItem = {};
   imageToShow: any;
+  itemLoading: "";
 
   ngOnInit() {
     this.myContentService.setCurrentFolder('');
@@ -48,6 +49,7 @@ export class DashboardComponent implements OnInit {
       this.allFilesFolders.push(file);
     }
     this.content = this.allFilesFolders;
+    this.itemLoading = '';
     // console.log(this.allFilesFolders);
   }
 
@@ -59,11 +61,9 @@ export class DashboardComponent implements OnInit {
   }
 
   private getAllItemsForPage(folderID) {
-    this.itemLoading = folderID;
     this.myContentService.getItemsInFolder(folderID)
       .subscribe(data => {
         this.populateItems(data);
-        this.itemLoading = '';
       });
   }
 
@@ -87,12 +87,13 @@ export class DashboardComponent implements OnInit {
     if (e.target.className.split(' ')[0] != 'ws-content-more-ops') {
       if (item.category == "folder") {
         // debugger
+        this.itemLoading = item.uniqueName;
         this.myContentService.setCurrentFolder(item.uniqueName);
         this.getAllItemsForPage(item.uniqueName);
       } else {
         //debugger
         this.imageToShow = Object;
-        this.isContentItemFull = true;
+        this.itemLoading = item.uniqueName;
         for (var i = 0; i < this.allFilesFolders.length; i++) {
           if (this.allFilesFolders[i].id == item.id) {
             const count = i;

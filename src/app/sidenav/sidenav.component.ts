@@ -9,9 +9,7 @@ import { Router } from "@angular/router";
 })
 export class SidenavComponent implements OnInit {
   constructor(public myContentService: MyContentService, private router: Router) { }
-  myFolders = {
-    folders : []
-  };
+  myFolders = null;
 
   ngOnInit() {
     this.myContentService.getAllFolders()
