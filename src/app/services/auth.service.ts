@@ -4,6 +4,7 @@ import { User } from '../../assets/data/user';
 import { Observable, throwError } from 'rxjs';
 import { NewUserTemplate, loginResponse } from '../filemanager';
 import { retry, catchError } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 interface myData {
   obj: Object
@@ -33,10 +34,20 @@ export class AuthService {
 
   public setAuthToken(token) {
     this.authToken = token;
+    const helper = new JwtHelperService();
+    this.authObject = helper.decodeToken(token);
   }
 
-  public getAuthToken(){
+  public getAuthToken() {
     return this.authToken;
+  }
+
+  public getAuthObject() {
+    return this.authObject;
+  }
+
+  public getUserID() {
+    return this.authObject.nameid;
   }
 
   get userValidity() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../assets/data/user';
 import { MyContentService } from '../services/mycontent.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-topbar',
@@ -14,7 +15,7 @@ export class TopbarComponent implements OnInit {
         username: null,
         password: null
     };
-    constructor(public myContentService: MyContentService) {
+    constructor(public myContentService: MyContentService, private authService: AuthService) {
     }
 
     ngOnInit() {
@@ -36,7 +37,7 @@ export class TopbarComponent implements OnInit {
         this.myContentService.addNewFolder(this.newFolderData)
             .subscribe(newFolderinfo => {
                 this.newFolderData.name = "";
-                //$("#initNewFolder").modal('hide');
+                $("#initNewFolder").modal('hide');
             });
     };
 
@@ -48,24 +49,24 @@ export class TopbarComponent implements OnInit {
     addNewFile = function () {
         //this.myContentService.addNewFile();
 
-        debugger
+        // debugger
         const uploadData = new FormData();
         uploadData.append('filename', this.newFileData.filename);
         uploadData.append('upfile', this.newFileData.upfile);
         uploadData.append('folderName', this.myContentService.getCurrenFolder());
-        uploadData.append('userId', "1");
+        uploadData.append('userId', this.authService.getUserID());
 
         // this.newFileDetails.filename = filedata.filename;
         // this.newFileDetails.folderName = this.getCurrenFolder(); // get from service
         // this.newFileDetails.userId = this._userID;
         // this.newFileDetails.upfile = filedata.upfile;
-        debugger
+        // debugger
         this.myContentService.addNewFile(uploadData)
             .subscribe(event => {
                 console.log(event);
                 this.newFileData.filename = "";
                 this.newFileData.upfile = {};
-                //$("#initNewFile").modal('hide');
+                $("#initNewFile").modal('hide');
             });
     }
 

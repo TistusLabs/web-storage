@@ -25,7 +25,6 @@ export class MyContentService {
     private _url_getfilenew = "http://104.196.2.1/filemanagement/filemanager/filemanager/getFile";
     //private _url_uploadfile = "https://f7c89f2a.ngrok.io/filemanager/uploadfile";
     // private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI";
-    private _userID = "1";
     private _headers = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Headers': '*',
@@ -46,7 +45,7 @@ export class MyContentService {
     public getAllFolders(): Observable<HttpEvent<IFilemanager>> {
 
         this.requestParams = new HttpParams()
-            .set('userId', this._userID)
+            .set('userId', this.authService.getUserID())
             .set('folder', '');
 
         this.requestOptions = {
@@ -58,7 +57,7 @@ export class MyContentService {
 
     public getItemsInFolder(folderID: string): Observable<HttpEvent<IFilemanager>> {
         this.requestParams = new HttpParams()
-            .set('userId', this._userID)
+            .set('userId', this.authService.getUserID())
             .set('folder', folderID);
 
         this.requestOptions = {
@@ -91,7 +90,7 @@ export class MyContentService {
 
         this.newFolderDetails = {};
         this.newFolderDetails.folderName = folderdata.name;
-        this.newFolderDetails.userId = this._userID;
+        this.newFolderDetails.userId = this.authService.getUserID();
         this.newFolderDetails.parentFolder = '';
 
         return this.http.post<FileTemplate>(this._url_createfolder, this.newFolderDetails, this.requestOptions)
@@ -122,7 +121,7 @@ export class MyContentService {
         // this.newFileDetails = {};
         // this.newFileDetails.filename = filedata.filename;
         // this.newFileDetails.folderName = this.getCurrenFolder(); // get from service
-        // this.newFileDetails.userId = this._userID;
+        // this.newFileDetails.userId = this.authService.getUserID();
         // this.newFileDetails.upfile = filedata.upfile;
 
         return this.http.post(this._url_uploadfile, formData)
@@ -139,7 +138,7 @@ export class MyContentService {
         };
 
         this.requestParams = new HttpParams()
-            .set('userId', this._userID)
+            .set('userId', this.authService.getUserID())
             .set('filename', uniqueFilename);
 
         // this.requestOptions = {
