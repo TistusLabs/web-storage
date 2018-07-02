@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pageData: Observable<string>;
   pageID = "";
   form: FormGroup;
-  allusers = [];
+  allusers: HttpEvent<Blob>;
 
   constructor(
     private myContentService: MyContentService,
@@ -153,7 +153,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   openContentItem = function (item, e) {
     // debugger
-    if (e.target.className.split(' ')[0] != 'ws-content-more-ops') {
+    if (e.target.className.split(' ')[0] != 'ws-overhead-btn') {
       if (item.category == "folder") {
         // debugger
         this.itemLoading = item.id;
