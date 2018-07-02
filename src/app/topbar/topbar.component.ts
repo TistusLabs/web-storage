@@ -47,6 +47,7 @@ export class TopbarComponent implements OnInit {
             .subscribe(newFolderinfo => {
                 this.newFolderData.name = "";
                 $("#initNewFolder").modal('hide');
+                this.reloadPage();
             });
     };
 

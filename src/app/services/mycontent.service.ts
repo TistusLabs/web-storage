@@ -91,7 +91,7 @@ export class MyContentService {
         this.newFolderDetails = {};
         this.newFolderDetails.folderName = folderdata.name;
         this.newFolderDetails.userId = this.authService.getUserID();
-        this.newFolderDetails.parentFolder = '';
+        this.newFolderDetails.parentFolder = this.getCurrenFolder();
 
         return this.http.post<FileTemplate>(this._url_createfolder, this.newFolderDetails, this.requestOptions)
             .pipe(
