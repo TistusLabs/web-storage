@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { User } from '../../assets/data/user';
 import { Observable, throwError } from 'rxjs';
 import { NewUserTemplate, loginResponse } from '../filemanager';
@@ -23,9 +23,12 @@ export class AuthService {
   private newUserObject;
   private authObject;
   private authToken;
+  private allUsers;
 
   private _url_createuser = "http://104.196.2.1/filemanagement/user_management/users/registration";
   private _url_loginuser = "http://104.196.2.1/filemanagement/user_management/users/login/";
+  private _url_getAllusers = "http://104.196.2.1/filemanagement/user_management/users/getAll/";
+
   private _headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Headers': '*',
@@ -124,5 +127,25 @@ export class AuthService {
         retry(3),
         catchError(this.handleError)
       );
+  }
+
+  public getAllUsers() {
+
+    const headers = {
+      'Authorization': "Bearer " + this.getAuthToken()
+    };
+
+    this.requestOptions = {
+      headers: new HttpHeaders(headers)
+    };
+    return this.http.get<Blob>(this._url_getAllusers, this.requestOptions);
+  }
+
+  public setUsers(users){
+    this.allUsers = users;
+  }
+
+  public getUsers(){
+    return this.allUsers;
   }
 }

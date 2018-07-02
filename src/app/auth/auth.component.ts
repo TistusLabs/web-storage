@@ -33,6 +33,7 @@ export class AuthComponent implements OnInit {
             };
             this.router.navigate(['ws/dashboard'], navigationExtras);
             this.authService.setUserValidity(true);
+            this.authService.getAllUsers();
           } else {
             this.errorMessage = "Incorrect Username or Password.";
           }

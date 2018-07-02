@@ -6,6 +6,8 @@ import { IFilemanager } from '../filemanager';
 import { HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,13 +16,6 @@ import { map } from 'rxjs/operators';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   navigationSubscription;
-
-  constructor(
-    public myContentService: MyContentService,
-    private actrouter: ActivatedRoute,
-    private router: Router
-  ) { }
-
   allFilesFolders = [];
   content;
   layout = 'carded';
@@ -31,6 +26,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
   itemLoading: "";
   pageData: Observable<string>;
   pageID = "";
+  form: FormGroup;
+  allusers = [];
+
+  constructor(
+    private myContentService: MyContentService,
+    private authService: AuthService,
+    private actrouter: ActivatedRoute,
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.authService.getAllUsers().subscribe(userdetails => {
+      //debugger
+      this.allusers = userdetails;
+      const controls = this.allusers.map(c => new FormControl(false));
+      // controls[0].setValue(true); // Set the first checkbox to true (checked)
+  
+      this.form = this.fb.group({
+        usercontrollers: new FormArray(controls)
+      });
+    });
+  }
 
   ngOnInit() {
     // this.pageData = this.router
@@ -68,6 +84,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  submit() {
+    alert("submitted, check console");
+    const selectedOrderIds = this.form.value.orders
+      .map((v, i) => v ? this.allusers[i].username : null)
+      .filter(v => v !== null);
+    console.log(selectedOrderIds);
+  }
+
   private getcontentforPage = function (page) {
     this.myContentService.setCurrentFolder(page);
     this.getAllItemsForPage(page);
@@ -85,6 +109,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.allFilesFolders.push(folder);
     }
     for (const file of items.files) {
+      file.id = file.id;
       file.name = file.filename;
       file.category = 'image';
       file.icon = 'image';
@@ -127,16 +152,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openContentItem = function (item, e) {
-    //debugger
+    // debugger
     if (e.target.className.split(' ')[0] != 'ws-content-more-ops') {
       if (item.category == "folder") {
         // debugger
-        this.itemLoading = item.uniqueName;
+        this.itemLoading = item.id;
         this.goToRoute(item.uniqueName);
       } else {
         //debugger
         this.imageToShow = Object;
-        this.itemLoading = item.uniqueName;
+        this.itemLoading = item.id;
         for (var i = 0; i < this.allFilesFolders.length; i++) {
           if (this.allFilesFolders[i].id == item.id) {
             const count = i;

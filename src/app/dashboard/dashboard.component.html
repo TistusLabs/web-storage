@@ -1,6 +1,6 @@
 <div>
   <div class="ws-content-item clickable" *ngFor="let item of allFilesFolders" (click)="openContentItem(item, $event)">
-    <div class="ws-preloader-line" *ngIf="itemLoading == item.uniqueName">
+    <div class="ws-preloader-line" *ngIf="itemLoading == item.id">
       <div class="ws-preloader-load-bar">
         <div class="ws-preloader-bar"></div>
         <div class="ws-preloader-bar"></div>
@@ -13,11 +13,11 @@
     </button>
     <div class="ws-shadow-full dropdown-menu dropdown-menu-right" attr.aria-labelledby="moreOptions-{{item.id}}">
       <ul class="ws-list ws-iconed-list">
-        <li class="ws-list-item clickable ws-hover-flat-primary" (click)="addNewFolder()">
+        <li class="ws-list-item clickable ws-hover-flat-primary">
           <i class="material-icons ws-list-item-icon">link</i>
           <span class="ws-list-item-text">Get a link</span>
         </li>
-        <li class="ws-list-item clickable ws-hover-flat-primary">
+        <li class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initShareFile">
           <i class="material-icons ws-list-item-icon">share</i>
           <span class="ws-list-item-text">Share</span>
         </li>
@@ -38,6 +38,33 @@
     </div>
   </div>
 
+  <!--Share file initialization-->
+  <div class="modal fade" id="initShareFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content ws-card">
+        <div class="modal-header ws-card-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Share File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div class="modal-body">
+            <p>Select the users below to set permission for this file:</p>
+            <label formArrayName="allusers" *ngFor="let user of form.controls.usercontrollers.controls; let i = index">
+              <input type="checkbox" [formControlName]="i"> {{allusers[i].username}}
+              <br>
+            </label>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="ws-button-flat" data-dismiss="modal">Done</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--Share file initialization - ENDS -->
+
   <!--Full view-->
   <div class="ws-content-item-full" [ngStyle]="isContentItemFull ? {'width':'100%' , 'height':'100%'} : {'width':'0' , 'height':'0'}">
     <div class="ws-content-item-full-header clearfix row">
@@ -47,7 +74,7 @@
       <div class="col-md-4 col-sm-6 col-6"></div>
       <div class="col-md-4 col-sm-6 col-6">
         <ul class="nav ws-list-horizontal justify-content-end">
-          <li class="nav-item">
+          <li class="nav-item" data-toggle="modal" data-target="#initShareFile">
             <button class="ws-button-flat iconed">
               <i class="material-icons ws-color-white">share</i>
             </button>
@@ -91,6 +118,4 @@
       </div>
     </div>
   </div>
-
-  <!-- <input id="newFile" type="file" hidden> -->
 </div>

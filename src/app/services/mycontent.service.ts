@@ -141,13 +141,6 @@ export class MyContentService {
             .set('userId', this.authService.getUserID())
             .set('filename', uniqueFilename);
 
-        // this.requestOptions = {
-        //     params: this.requestParams,
-        //     headers: new HttpHeaders(headers),
-        //     observe: 'response',
-        //     responseType: 'blob' as 'json'
-        // };
-
         this.requestOptions = {
             params: this.requestParams,
             headers: new HttpHeaders(headers),
@@ -155,16 +148,4 @@ export class MyContentService {
         };
         return this.http.get<Blob>(this._url_getfilenew, this.requestOptions);
     }
-
-    // public goBackFromFolder() {
-    //     const parent = this.getParentFolder();
-    //     if (parent === null) {
-    //         return null;
-    //     } else {
-    //         this.getItemsInFolder(parent)
-    //             .subscribe(data => {
-    //                 return data;
-    //             });
-    //     }
-    // }
 }
