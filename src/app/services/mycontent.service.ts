@@ -148,4 +148,22 @@ export class MyContentService {
         };
         return this.http.get<Blob>(this._url_getfilenew, this.requestOptions);
     }
+
+    public shareFileWithUser(userID: string, filename: string) {
+
+        const headers = {
+            'Authorization': "Bearer " + this.authService.getAuthToken()
+        };
+
+        this.requestParams = new HttpParams()
+            .set('userId', this.authService.getUserID())
+            .set('filename', uniqueFilename);
+
+        this.requestOptions = {
+            params: this.requestParams,
+            headers: new HttpHeaders(headers),
+            responseType: 'blob'
+        };
+        return this.http.get(this._url_getfilenew, this.requestOptions);
+    }
 }

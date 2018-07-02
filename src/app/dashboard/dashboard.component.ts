@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       // controls[0].setValue(true); // Set the first checkbox to true (checked)
   
       this.form = this.fb.group({
-        usercontrollers: new FormArray(controls)
+        allusers: new FormArray(controls)
       });
     });
   }
@@ -84,9 +84,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  submit() {
-    alert("submitted, check console");
-    const selectedOrderIds = this.form.value.orders
+  sharefile(){
+    alert("now you may share");
+    const selectedOrderIds = this.form.value.allusers
       .map((v, i) => v ? this.allusers[i].username : null)
       .filter(v => v !== null);
     console.log(selectedOrderIds);
@@ -116,6 +116,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       file.added_date = '21 May 2018';
       file.size = 1000;
       this.allFilesFolders.push(file);
+    }
+    for (const sharedfile of items.sharedFiles) {
+      sharedfile.id = sharedfile.id;
+      sharedfile.name = sharedfile.filename;
+      sharedfile.category = 'shared';
+      sharedfile.icon = 'shared';
+      sharedfile.added_date = '21 May 2018';
+      sharedfile.size = 1000;
+      this.allFilesFolders.push(sharedfile);
     }
     this.content = this.allFilesFolders;
     this.itemLoading = '';

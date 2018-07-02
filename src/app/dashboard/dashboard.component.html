@@ -48,16 +48,17 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form [formGroup]="form" (ngSubmit)="submit()">
+        <form [formGroup]="form">
           <div class="modal-body">
             <p>Select the users below to set permission for this file:</p>
-            <label formArrayName="allusers" *ngFor="let user of form.controls.usercontrollers.controls; let i = index">
+            <label formArrayName="allusers" *ngFor="let user of form.controls.allusers.controls; let i = index">
               <input type="checkbox" [formControlName]="i"> {{allusers[i].username}}
               <br>
             </label>
+            <div *ngIf="!form.valid">At least one user must be selected.</div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="ws-button-flat" data-dismiss="modal">Done</button>
+            <button [disabled]="!form.valid" type="submit" class="ws-button-flat" (click)="sharefile()" data-dismiss="modal">Share</button>
           </div>
         </form>
       </div>
