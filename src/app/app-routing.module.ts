@@ -19,7 +19,7 @@ const routes: Routes = [
   }, {
     path: 'auth',
     component: AuthComponent
-  },{
+  }, {
     path: 'signup',
     component: SignupComponent
   }, {
@@ -40,13 +40,14 @@ const routes: Routes = [
         path: 'history',
         component: HistoryComponent
       }
-    ]
+    ],
+    runGuardsAndResolvers: 'always'
   }
 ];
 
 @NgModule({
   exports: [RouterModule],
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
 })
 
 export class AppRoutingModule { }

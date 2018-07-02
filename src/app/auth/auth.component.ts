@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from "@angular/router";
+import { Router, NavigationExtras } from "@angular/router";
 
 @Component({
   selector: 'app-auth',
@@ -28,7 +28,10 @@ export class AuthComponent implements OnInit {
         .subscribe(data => {
           if (data.status) {
             this.authService.setAuthToken(data.data);
-            this.router.navigate(['ws/dashboard']);
+            let navigationExtras: NavigationExtras = {
+              queryParams: { 'page': "" }
+            };
+            this.router.navigate(['ws/dashboard'], navigationExtras);
             this.authService.setUserValidity(true);
           } else {
             this.errorMessage = "Incorrect Username or Password.";

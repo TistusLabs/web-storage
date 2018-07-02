@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../assets/data/user';
 import { MyContentService } from '../services/mycontent.service';
 import { AuthService } from '../services/auth.service';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
     selector: 'app-topbar',
@@ -15,7 +16,7 @@ export class TopbarComponent implements OnInit {
         username: null,
         password: null
     };
-    constructor(public myContentService: MyContentService, private authService: AuthService) {
+    constructor(public myContentService: MyContentService, private authService: AuthService, private router: Router) {
     }
 
     ngOnInit() {
@@ -29,6 +30,14 @@ export class TopbarComponent implements OnInit {
         filename: "",
         upfile: {}
     };
+
+    goToRoute = function (route) {
+        //debugger
+        let navigationExtras: NavigationExtras = {
+            queryParams: { 'page': route }
+        };
+        this.router.navigate(['ws/dashboard'], navigationExtras);
+    }
 
     addNewFolder = function () {
         // this.myContentService.addNewFolder(this.newFolderData);
@@ -44,6 +53,10 @@ export class TopbarComponent implements OnInit {
     setFile = function (event) {
         //debugger
         this.newFileData.upfile = event.target.files[0]
+    }
+
+    reloadPage = function(){
+        this.goToRoute(this.myContentService.getCurrenFolder());
     }
 
     addNewFile = function () {
@@ -67,6 +80,7 @@ export class TopbarComponent implements OnInit {
                 this.newFileData.filename = "";
                 this.newFileData.upfile = {};
                 $("#initNewFile").modal('hide');
+                this.reloadPage();
             });
     }
 

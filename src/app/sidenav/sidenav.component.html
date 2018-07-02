@@ -1,18 +1,19 @@
 <div class="ws-sidenav">
   <ul class="ws-list ws-iconed-list">
-    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" routerLink="/ws/dashboard">
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">
+      <!-- routerLink="/ws/dashboard" -->
       <a data-toggle="collapse" href="#myFoldersDropdown">
         <i class="material-icons ws-list-item-icon">folder_shared</i>
         <span class="ws-list-item-text">My Folders</span>
       </a>
       <div class="collapse" id="myFoldersDropdown">
         <ul class="ws-list ws-iconed-list">
-          <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="getAll()">
+          <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/dashboard','')">
             <i class="material-icons ws-list-item-icon">folder_open</i>
             <span class="ws-list-item-text">All</span>
           </li>
           <hr>
-          <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" *ngFor="let folder of myFolders.folders">
+          <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" *ngFor="let folder of myFolders.folders" (click)="goToRoute('/ws/dashboard',folder.uniqueName)">
             <!-- routerLinkActive="/ws/{{ folder.name.replace(' ','').toLowerCase() }}" -->
             <i class="material-icons ws-list-item-icon">folder</i>
             <span class="ws-list-item-text">{{ folder.folderName }}</span>
@@ -20,15 +21,15 @@
         </ul>
       </div>
     </li>
-    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" routerLink="/ws/shared">
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/shared','')">
       <i class="material-icons ws-list-item-icon">people_outline</i>
       <span class="ws-list-item-text">Shared with me</span>
     </li>
-    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" routerLink="/ws/recent">
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/recent','')">
       <i class="material-icons ws-list-item-icon">recent_actors</i>
       <span class="ws-list-item-text">Recent</span>
     </li>
-    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" routerLink="/ws/history">
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/history','')">
       <i class="material-icons ws-list-item-icon">history</i>
       <span class="ws-list-item-text">History</span>
     </li>

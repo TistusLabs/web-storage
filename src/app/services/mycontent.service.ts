@@ -16,7 +16,7 @@ export class MyContentService {
     private requestParams;
     private newFolderDetails;
     private newFileDetails;
-    private currentFolder = "";
+    private currentFolder: string;
 
     private _url_getitems = "http://104.196.2.1/filemanagement/filemanager/filemanager/getitems";
     private _url_createfolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/createfolder";

@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MyContentService } from  './services/mycontent.service';
-import { AuthService } from  './services/auth.service';
+import { MyContentService } from './services/mycontent.service';
+import { AuthService } from './services/auth.service';
 
 import { AuthGuard } from './auth.guard';
 // TypeScript syntax configuration
@@ -48,6 +48,10 @@ import { PreloaderLineDirective } from './directives/preloader-line.directive';
     MyContentService,
     AuthService,
     AuthGuard
+  ],
+  entryComponents: [
+    AppComponent,
+    DashboardComponent
   ],
   bootstrap: [AppComponent]
 })

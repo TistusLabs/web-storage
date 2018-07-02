@@ -1,19 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentItems } from '../../assets/data/content';
 import { MyContentService } from '../services/mycontent.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras, NavigationEnd } from '@angular/router';
 import { IFilemanager } from '../filemanager';
 import { HttpParams, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+  navigationSubscription;
+
   constructor(
     public myContentService: MyContentService,
-    private router: Router) { }
+    private actrouter: ActivatedRoute,
+    private router: Router
+  ) { }
 
   allFilesFolders = [];
   content;
@@ -23,10 +29,48 @@ export class DashboardComponent implements OnInit {
   selectedContentItem = {};
   imageToShow: any;
   itemLoading: "";
+  pageData: Observable<string>;
+  pageID = "";
 
   ngOnInit() {
-    this.myContentService.setCurrentFolder('');
-    this.getAllItems();
+    // this.pageData = this.router
+    //   .queryParamMap
+    //   .pipe(map(params => params.get('page') || ''));
+    // this.pageData.subscribe(data => {
+    //   this.pageID = data;
+    // })
+    // this.myContentService.setCurrentFolder(this.pageID);
+    // // this.getAllItems();
+    // this.getAllItemsForPage(this.pageID);
+
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.initialiseInvites();
+      }
+    });
+    this.actrouter.queryParams.subscribe(params => {
+      this.pageID = params.page;
+      this.getcontentforPage(this.pageID);
+    });
+  }
+
+  initialiseInvites() {
+    this.actrouter.queryParams.subscribe(params => {
+      this.pageID = params.page;
+      this.getcontentforPage(this.pageID);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.navigationSubscription) {
+      this.navigationSubscription.unsubscribe();
+    }
+  }
+
+  private getcontentforPage = function (page) {
+    this.myContentService.setCurrentFolder(page);
+    this.getAllItemsForPage(page);
   }
 
   private populateItems(items) {
@@ -60,7 +104,7 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  private getAllItemsForPage(folderID) {
+  private getAllItemsForPage(folderID: string) {
     this.myContentService.getItemsInFolder(folderID)
       .subscribe(data => {
         this.populateItems(data);
@@ -88,8 +132,7 @@ export class DashboardComponent implements OnInit {
       if (item.category == "folder") {
         // debugger
         this.itemLoading = item.uniqueName;
-        this.myContentService.setCurrentFolder(item.uniqueName);
-        this.getAllItemsForPage(item.uniqueName);
+        this.goToRoute(item.uniqueName);
       } else {
         //debugger
         this.imageToShow = Object;
@@ -113,6 +156,13 @@ export class DashboardComponent implements OnInit {
       }
     }
   };
+
+  goToRoute = function (route) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: { 'page': route }
+    };
+    this.router.navigate(['ws/dashboard'], navigationExtras);
+  }
 
   closeContentFull = function () {
     this.isContentItemFull = false;
