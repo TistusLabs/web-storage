@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MyContentService } from '../services/mycontent.service';
-import { Router, NavigationExtras } from "@angular/router";
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
@@ -29,7 +29,7 @@ export class SidenavComponent implements OnInit {
 
   goToRoute = function (route, advance) {
     // debugger
-    if (route == "/ws/dashboard") {
+    if (route === '/ws/dashboard') {
       let navigationExtras: NavigationExtras = {
         queryParams: { 'page': advance }
       };

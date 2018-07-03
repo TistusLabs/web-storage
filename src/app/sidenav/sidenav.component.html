@@ -7,7 +7,7 @@
         <span class="ws-list-item-text">My Folders</span>
       </a>
       <div class="collapse" id="myFoldersDropdown">
-        <ul class="ws-list ws-iconed-list">
+        <ul class="ws-list ws-iconed-list" *ngIf="myFolders">
           <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/dashboard','')">
             <i class="material-icons ws-list-item-icon">folder_open</i>
             <span class="ws-list-item-text">All</span>

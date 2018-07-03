@@ -74,10 +74,10 @@
   <!--Share file initialization - ENDS -->
 
   <!--Full view-->
-  <div class="ws-content-item-full" [ngStyle]="isContentItemFull ? {'width':'100%' , 'height':'100%'} : {'width':'0' , 'height':'0'}">
+  <div class="ws-content-item-full" *ngIf="isContentItemFull" [ngStyle]="isContentItemFull ? {'width':'100%' , 'height':'100%'} : {'width':'0' , 'height':'0'}">
     <div class="ws-content-item-full-header clearfix row">
       <div class="col-md-4 col-sm-6 col-6">
-        <h5>{{ selectedContentItem.name }}</h5>
+        <h5>{{ selectedContentItem.folderName }}</h5>
       </div>
       <div class="col-md-4 col-sm-6 col-6"></div>
       <div class="col-md-4 col-sm-6 col-6">

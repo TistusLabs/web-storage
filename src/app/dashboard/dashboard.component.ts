@@ -194,17 +194,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let reader = new FileReader();
     reader.addEventListener("load", () => {
       this.imageToShow = reader.result;
-      let info = {
-        addedDate: null,
-        lastModifiedDate: null,
-        size: null,
-        name: null
-      };
-      let f = new File([this.imageToShow.split(',')[1]], 'file', {});
-      info.lastModifiedDate = moment(f.lastModifiedDate).format('DD MMMM YYYY');
-      info.size = this.formatBytes(f.size, null);
-      info.name = this.selectedContentItem.folderName;
-      this.selectedContentItem.fileInfo = info;
+      const f = new File([this.imageToShow.split(',')[1]], 'file', {});
+      this.selectedContentItem.fileInfo.addedDate = 'N/A';
+      this.selectedContentItem.fileInfo.lastModifiedDate = moment(f.lastModifiedDate).format('DD MMMM YYYY');
+      this.selectedContentItem.fileInfo.size = this.formatBytes(f.size, null);
+      this.selectedContentItem.fileInfo.name = this.selectedContentItem.folderName;
     }, false);
 
     if (image) {

@@ -5,7 +5,12 @@ export interface FileTemplate {
     uniqueFileName:string,
     parentFolder: string,
     userId: string,
-    fileInfo: object
+    fileInfo: {
+        addedDate: string,
+        lastModifiedDate: string,
+        name: string,
+        size: string
+    }
 }
 
 export interface IFilemanager {
