@@ -205,13 +205,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.itemLoading = item.id;
         this.goToRoute(item.uniqueName);
       } else {
-        //debugger
+        debugger
         this.imageToShow = Object;
         this.itemLoading = item.id;
         for (var i = 0; i < this.allFilesFolders.length; i++) {
           if (this.allFilesFolders[i].id == item.id) {
             const count = i;
-            this.myContentService.getItemToDisplay(item.uniqueFileName)
+            this.myContentService.getItemToDisplay(item.uniqueFileName, item.userId)
               .subscribe((resp: HttpResponse<Blob>) => {
                 //debugger
                 console.log("Item to display:", this.allFilesFolders[count]);

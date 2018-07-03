@@ -132,14 +132,14 @@ export class MyContentService {
             );
     }
 
-    public getItemToDisplay(uniqueFilename: string): Observable<HttpEvent<Blob>> {
+    public getItemToDisplay(uniqueFilename: string, userid: string): Observable<HttpEvent<Blob>> {
 
         const headers = {
             'Authorization': "Bearer " + this.authService.getAuthToken()
         };
 
         this.requestParams = new HttpParams()
-            .set('userId', this.authService.getUserID())
+            .set('userId', userid)
             .set('filename', uniqueFilename);
 
         this.requestOptions = {
@@ -150,7 +150,7 @@ export class MyContentService {
         return this.http.get<Blob>(this._url_getfilenew, this.requestOptions);
     }
 
-    public shareFileWithUser(uniqueFilename: string,userID: string) {
+    public shareFileWithUser(uniqueFilename: string, userID: string) {
 
         const headers = {
             'Authorization': "Bearer " + this.authService.getAuthToken()
