@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   layout = 'carded';
   isContentItemFull = false;
   fullViewPos = '';
-  selectedContentItem: null;
+  selectedContentItem = null;
   selectedItemFull = {
     addedDate: null,
     lastModifiedDate: null,
