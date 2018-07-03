@@ -206,7 +206,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
   }
 
-  setItemDimension(f, dim) {
+  setItemInfo(f, dim) {
     this.selectedItemFull.addedDate = 'N/A';
     this.selectedItemFull.lastModifiedDate = moment(f.lastModifiedDate).format('DD MMMM YYYY');
     this.selectedItemFull.size = this.formatBytes(f.size, null);
@@ -231,10 +231,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         f = new File([this.imageToShow.split(',')[1]], 'file', {});
         const img = new Image;
         img.src = this.imageToShow;
-        this.getImageDim(img, (w, h) => this.setItemDimension(f, {h : h, w : w}));
+        this.getImageDim(img, (w, h) => this.setItemInfo(f, {h : h, w : w}));
       } else {
         f = new File([this.imageToShow.split(',')[1]], 'file', {});
-        this.setItemDimension(f, null);
+        this.setItemInfo(f, null);
       }
     }, false);
 
