@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     height: null
   };
   imageToShow: any;
-  itemLoading: "";
+  itemLoading = '';
   itemsLoading = false;
   pageData: Observable<string>;
   pageID = "";
