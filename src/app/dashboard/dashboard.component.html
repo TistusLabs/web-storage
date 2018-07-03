@@ -77,7 +77,7 @@
   <div class="ws-content-item-full" *ngIf="isContentItemFull" [ngStyle]="isContentItemFull ? {'width':'100%' , 'height':'100%'} : {'width':'0' , 'height':'0'}">
     <div class="ws-content-item-full-header clearfix row">
       <div class="col-md-4 col-sm-6 col-6">
-        <h5>{{ selectedContentItem.folderName }}</h5>
+        <h5>{{ selectedItemFull.folderName }}</h5>
       </div>
       <div class="col-md-4 col-sm-6 col-6"></div>
       <div class="col-md-4 col-sm-6 col-6">
@@ -109,17 +109,17 @@
         <div class="row ws-content-item-details">
           <div class="col-md-4 col-sm-4 col-4">
             <div>Added date :
-              <b>{{selectedContentItem.fileInfo.addedDate}}</b>
+              <b>{{selectedItemFull.addedDate}}</b>
             </div>
           </div>
           <div class="col-md-4 col-sm-4 col-4">
             <div>Last modified date :
-              <b>{{selectedContentItem.fileInfo.lastModifiedDate}}</b>
+              <b>{{selectedItemFull.lastModifiedDate}}</b>
             </div>
           </div>
           <div class="col-md-4 col-sm-4 col-4">
             <div>Size :
-              <b>{{selectedContentItem.fileInfo.size}}</b>
+              <b>{{selectedItemFull.size}}</b>
             </div>
           </div>
         </div>

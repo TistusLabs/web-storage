@@ -22,7 +22,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   layout = 'carded';
   isContentItemFull = false;
   fullViewPos = '';
-  selectedContentItem: FileTemplate;
+  selectedContentItem: null;
+  selectedItemFull = {
+    addedDate: null,
+    lastModifiedDate: null,
+    name: null,
+    size: null,
+    width: null,
+    height: null
+  };
   imageToShow: any;
   itemLoading: "";
   itemsLoading = false;
@@ -190,15 +198,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.layout = layout;
   };
 
+  getImageDim(i, callback) {
+    i.onload = function () {
+      const width = i.width;
+      const height = i.height;
+      callback(width, height);
+    };
+  }
+
+  setItemDimension(f, dim) {
+    this.selectedItemFull.addedDate = 'N/A';
+    this.selectedItemFull.lastModifiedDate = moment(f.lastModifiedDate).format('DD MMMM YYYY');
+    this.selectedItemFull.size = this.formatBytes(f.size, null);
+    this.selectedItemFull.name = this.selectedContentItem.filename;
+    if (dim) {
+      this.selectedItemFull.width = dim.w;
+      this.selectedItemFull.height = dim.h;
+      const maxh = $('.ws-content-item-full-body').height();
+      if (dim.h > maxh) {
+        $('.ws-content-item-preview img').css('height', maxh + 'px');
+      }
+    }
+  }
+
   createImageFromBlob(image: Blob) {
     let reader = new FileReader();
     reader.addEventListener("load", () => {
       this.imageToShow = reader.result;
-      const f = new File([this.imageToShow.split(',')[1]], 'file', {});
-      this.selectedContentItem.fileInfo.addedDate = 'N/A';
-      this.selectedContentItem.fileInfo.lastModifiedDate = moment(f.lastModifiedDate).format('DD MMMM YYYY');
-      this.selectedContentItem.fileInfo.size = this.formatBytes(f.size, null);
-      this.selectedContentItem.fileInfo.name = this.selectedContentItem.folderName;
+      let f = null;
+      const ext = this.selectedContentItem.filename.split('.').pop();
+      if (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'svg' || ext === 'gif') {
+        f = new File([this.imageToShow.split(',')[1]], 'file', {});
+        const img = new Image;
+        img.src = this.imageToShow;
+        this.getImageDim(img, (w, h) => this.setItemDimension(f, {h : h, w : w}));
+      } else {
+        f = new File([this.imageToShow.split(',')[1]], 'file', {});
+        this.setItemDimension(f, null);
+      }
     }, false);
 
     if (image) {
@@ -223,7 +260,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.itemLoading = item.id;
         this.goToRoute(item.uniqueName);
       } else {
-        debugger
+        // debugger
         this.imageToShow = Object;
         this.itemLoading = item.id;
         for (var i = 0; i < this.allFilesFolders.length; i++) {
