@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +25,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectedContentItem: FileTemplate;
   imageToShow: any;
   itemLoading: "";
+  itemsLoading = false;
   pageData: Observable<string>;
   pageID = "";
   form: FormGroup;
@@ -72,6 +74,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     });
     this.actrouter.queryParams.subscribe(params => {
+      this.itemsLoading = true;
       this.pageID = params.page;
       this.getcontentforPage(this.pageID);
     });
@@ -165,6 +168,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     this.content = this.allFilesFolders;
     this.itemLoading = '';
+    this.itemsLoading = false;
     // console.log(this.allFilesFolders);
   }
 
@@ -190,11 +194,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let reader = new FileReader();
     reader.addEventListener("load", () => {
       this.imageToShow = reader.result;
+      let info = {
+        addedDate: null,
+        lastModifiedDate: null,
+        size: null,
+        name: null
+      };
+      let f = new File([this.imageToShow.split(',')[1]], 'file', {});
+      info.lastModifiedDate = moment(f.lastModifiedDate).format('DD MMMM YYYY');
+      info.size = this.formatBytes(f.size, null);
+      info.name = this.selectedContentItem.folderName;
+      this.selectedContentItem.fileInfo = info;
     }, false);
 
     if (image) {
       reader.readAsDataURL(image);
     }
+  }
+
+  formatBytes(a, b) {
+    if (0 === a) { return '0 Bytes'; }
+    const c = 1024,
+      d = b || 2,
+      e = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+      f = Math.floor(Math.log(a) / Math.log(c));
+    return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
   }
 
   openContentItem = function (item, e) {

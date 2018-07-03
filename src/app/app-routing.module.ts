@@ -10,6 +10,7 @@ import { HistoryComponent } from './history/history.component';
 import { SignupComponent } from './signup/signup.component';
 
 import { AuthGuard } from './auth.guard';
+import * as moment from 'moment';
 
 const routes: Routes = [
   {

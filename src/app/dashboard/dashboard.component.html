@@ -1,4 +1,11 @@
 <div>
+  <div class="ws-preloader-line" *ngIf="itemsLoading">
+    <div class="ws-preloader-load-bar">
+      <div class="ws-preloader-bar"></div>
+      <div class="ws-preloader-bar"></div>
+      <div class="ws-preloader-bar"></div>
+    </div>
+  </div>
   <div class="ws-content-item clickable" *ngFor="let item of allFilesFolders" (click)="openContentItem(item, $event)">
     <div class="ws-preloader-line" *ngIf="itemLoading == item.id">
       <div class="ws-preloader-load-bar">
@@ -101,18 +108,18 @@
         </div>
         <div class="row ws-content-item-details">
           <div class="col-md-4 col-sm-4 col-4">
-            <div>Category :
-              <b>{{selectedContentItem.category}}</b>
+            <div>Added date :
+              <b>{{selectedContentItem.fileInfo.addedDate}}</b>
             </div>
           </div>
           <div class="col-md-4 col-sm-4 col-4">
-            <div>Added date :
-              <b>{{selectedContentItem.added_date}}</b>
+            <div>Last modified date :
+              <b>{{selectedContentItem.fileInfo.lastModifiedDate}}</b>
             </div>
           </div>
           <div class="col-md-4 col-sm-4 col-4">
             <div>Size :
-              <b>{{selectedContentItem.size}}</b>
+              <b>{{selectedContentItem.fileInfo.size}}</b>
             </div>
           </div>
         </div>

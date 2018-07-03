@@ -4,7 +4,8 @@ export interface FileTemplate {
     uniqueName: string,
     uniqueFileName:string,
     parentFolder: string,
-    userId: string
+    userId: string,
+    fileInfo: object
 }
 
 export interface IFilemanager {
