@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { User } from '../../assets/data/user';
 import { Observable, throwError } from 'rxjs';
-import { NewUserTemplate, loginResponse } from '../filemanager';
+import { NewUserTemplate, loginResponse, userObject } from '../filemanager';
 import { retry, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -138,7 +138,7 @@ export class AuthService {
     this.requestOptions = {
       headers: new HttpHeaders(headers)
     };
-    return this.http.get<Blob>(this._url_getAllusers, this.requestOptions);
+    return this.http.get<userObject>(this._url_getAllusers, this.requestOptions);
   }
 
   public setUsers(users){

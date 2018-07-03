@@ -24,7 +24,8 @@ export interface NewUserTemplate {
     permission: userPermissionObject
 }
 
-interface userObject {
+export interface userObject {
+    userId:number,
     username: string,
     password: string,
     userType: number

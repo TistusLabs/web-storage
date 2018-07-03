@@ -23,6 +23,7 @@ export class MyContentService {
     private _url_uploadfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/uploadfile";
     private _url_getfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/showfile";
     private _url_getfilenew = "http://104.196.2.1/filemanagement/filemanager/filemanager/getFile";
+    private _url_sharefile = "http://104.196.2.1/filemanagement/filemanager/filemanager/sharefile";
     //private _url_uploadfile = "https://f7c89f2a.ngrok.io/filemanager/uploadfile";
     // private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI";
     private _headers = {
@@ -149,21 +150,20 @@ export class MyContentService {
         return this.http.get<Blob>(this._url_getfilenew, this.requestOptions);
     }
 
-    public shareFileWithUser(uniqueFilename: string,userID: string, filename: string) {
+    public shareFileWithUser(uniqueFilename: string,userID: string) {
 
         const headers = {
             'Authorization': "Bearer " + this.authService.getAuthToken()
         };
 
         this.requestParams = new HttpParams()
-            .set('userId', this.authService.getUserID())
-            .set('filename', uniqueFilename);
+            .set('shardeUserId', userID)
+            .set('uniqueFileName', uniqueFilename);
 
         this.requestOptions = {
             params: this.requestParams,
-            headers: new HttpHeaders(headers),
-            responseType: 'blob'
+            headers: new HttpHeaders(headers)
         };
-        return this.http.get(this._url_getfilenew, this.requestOptions);
+        return this.http.get(this._url_sharefile, this.requestOptions);
     }
 }

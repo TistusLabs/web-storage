@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentItems } from '../../assets/data/content';
 import { MyContentService } from '../services/mycontent.service';
 import { Router, ActivatedRoute, NavigationExtras, NavigationEnd } from '@angular/router';
-import { IFilemanager } from '../filemanager';
+import { IFilemanager, userObject } from '../filemanager';
 import { HttpParams, HttpResponse, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pageData: Observable<string>;
   pageID = "";
   form: FormGroup;
-  allusers: HttpEvent<Blob>;
+  allusers: Array<userObject>;
 
   constructor(
     private myContentService: MyContentService,
@@ -37,11 +37,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private fb: FormBuilder
   ) {
     this.authService.getAllUsers().subscribe(userdetails => {
-      //debugger
-      this.allusers = userdetails;
+      this.allusers = new Array<userObject>();
+      for (const user of Object.keys(userdetails)) {
+        let newuser = <userObject>{};
+        newuser.userId = userdetails[user].userId;
+        newuser.username = userdetails[user].username;
+        newuser.userType = userdetails[user].userType;
+        this.allusers.push(newuser);
+      }
       const controls = this.allusers.map(c => new FormControl(false));
       // controls[0].setValue(true); // Set the first checkbox to true (checked)
-  
+
       this.form = this.fb.group({
         allusers: new FormArray(controls)
       });
@@ -84,12 +90,43 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  sharefile(){
-    alert("now you may share");
+  private getUserIDs(selectedUsers) {
+    let userids = [];
+    for (let userindex = 0; userindex < selectedUsers.length; userindex++) {
+      for (let index = 0; index < this.allusers.length; index++) {
+        if (this.allusers[index].username == selectedUsers[userindex]) {
+          userids.push(this.allusers[index].userId);
+        }
+      }
+    }
+
+    return userids;
+  }
+
+  private addPermissionToUser(userIDs, index, uniqueFileName) {
+    this.myContentService.shareFileWithUser(uniqueFileName, userIDs[index])
+      .subscribe(data => {
+        //this.populateItems(data);
+        if (userIDs.length > ++index) {
+          this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
+        } else {
+          alert("Shared file with the selected Users.");
+        }
+      });
+  }
+
+  setcurrentItem(item) {
+    this.selectedContentItem = item;
+  }
+
+  sharefile(item) {
+    // alert("now you may share");
     const selectedOrderIds = this.form.value.allusers
       .map((v, i) => v ? this.allusers[i].username : null)
       .filter(v => v !== null);
     console.log(selectedOrderIds);
+    let userIDs = this.getUserIDs(selectedOrderIds);
+    this.addPermissionToUser(userIDs, 0, this.selectedContentItem.uniqueFileName);
   }
 
   private getcontentforPage = function (page) {
