@@ -2,6 +2,7 @@ export interface FileTemplate {
     folderId: string,
     folderName: string,
     uniqueName: string,
+    uniqueFileName:string,
     parentFolder: string,
     userId: string
 }

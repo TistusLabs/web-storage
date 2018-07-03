@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentItems } from '../../assets/data/content';
 import { MyContentService } from '../services/mycontent.service';
 import { Router, ActivatedRoute, NavigationExtras, NavigationEnd } from '@angular/router';
-import { IFilemanager, userObject } from '../filemanager';
+import { IFilemanager, userObject, FileTemplate } from '../filemanager';
 import { HttpParams, HttpResponse, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   layout = 'carded';
   isContentItemFull = false;
   fullViewPos = '';
-  selectedContentItem = {};
+  selectedContentItem: FileTemplate;
   imageToShow: any;
   itemLoading: "";
   pageData: Observable<string>;
