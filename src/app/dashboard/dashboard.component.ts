@@ -3,7 +3,7 @@ import { ContentItems } from '../../assets/data/content';
 import { MyContentService } from '../services/mycontent.service';
 import { Router, ActivatedRoute, NavigationExtras, NavigationEnd } from '@angular/router';
 import { IFilemanager } from '../filemanager';
-import { HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpParams, HttpResponse, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';

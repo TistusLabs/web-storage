@@ -149,7 +149,7 @@ export class MyContentService {
         return this.http.get<Blob>(this._url_getfilenew, this.requestOptions);
     }
 
-    public shareFileWithUser(userID: string, filename: string) {
+    public shareFileWithUser(uniqueFilename: string,userID: string, filename: string) {
 
         const headers = {
             'Authorization': "Bearer " + this.authService.getAuthToken()
