@@ -133,10 +133,10 @@ body {
         color: $ws-color-text-secondary;
         font-size: 18px;
         margin-right: $ws-margin-primary;
-        vertical-align: middle;
+        vertical-align: top;
       }
       .ws-list-item-text {
-        vertical-align: middle;
+        vertical-align: top;
       }
       ul {
         padding: $ws-padding-inner-primary 0 0 0;
@@ -239,6 +239,62 @@ body {
       }
     }
 
+    &:hover {
+      -webkit-box-shadow: $ws-item-shadow-secondary;
+      -moz-box-shadow: $ws-item-shadow-secondary;
+      box-shadow: $ws-item-shadow-secondary;
+      -webkit-transition: box-shadow $ws-transition-time-secondary;
+      -moz-transition: box-shadow $ws-transition-time-secondary;
+      -ms-transition: box-shadow $ws-transition-time-secondary;
+      -o-transition: box-shadow $ws-transition-time-secondary;
+      transition: box-shadow $ws-transition-time-secondary;
+    }
+  }
+  .ws-content-item-horizontal {
+    position: relative;
+    margin-right: $ws-margin-secondary;
+    margin-bottom: $ws-margin-secondary;
+    width: 100%;
+    height: $ws-content-item-hor-height;
+    background: $ws-content-item-background;
+    border-radius: $ws-border-radius-secondary;
+    box-shadow: $ws-item-shadow-primary;
+    -webkit-transition: box-shadow $ws-transition-time-secondary;
+    -moz-transition: box-shadow $ws-transition-time-secondary;
+    -ms-transition: box-shadow $ws-transition-time-secondary;
+    -o-transition: box-shadow $ws-transition-time-secondary;
+    transition: box-shadow $ws-transition-time-secondary;
+    .ws-content-item-preview {
+      float: left;
+      height: $ws-content-item-hor-height;
+      padding: $ws-padding-inner-secondray $ws-padding-inner-primary;
+      border-radius: $ws-border-radius-secondary $ws-border-radius-secondary 0 0;
+      i.material-icons {
+        font-size: ($ws-content-item-hor-height - 10);
+        color: $ws-color-primary;
+      }
+    }
+    .ws-content-item-info {
+      background: #fafafa;
+      padding: ($ws-padding-inner-primary + 3) $ws-padding-inner-primary;
+      border-radius: 0 0 $ws-border-radius-secondary $ws-border-radius-secondary;
+      overflow: auto;
+      .ws-info-text-title {
+        margin: 0 0 5px 0;
+        font-size: 16px;
+        float: left;
+      }
+      .ws-info-text-sub {
+        font-size: $ws-font-size-secondary;
+        color: $ws-color-text-secondary;
+        line-height: 18px;
+        float: right;
+        margin-right: 50px;
+        &.ws-info-text-sub-bold {
+          font-weight: bold;
+        }
+      }
+    }
     &:hover {
       -webkit-box-shadow: $ws-item-shadow-secondary;
       -moz-box-shadow: $ws-item-shadow-secondary;

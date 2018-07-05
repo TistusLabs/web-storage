@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import * as moment from 'moment';
+import { UIHelperService } from '../services/uihelper.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,7 +45,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private actrouter: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private uiHelperService: UIHelperService
   ) {
     this.authService.getAllUsers().subscribe(userdetails => {
       this.allusers = new Array<userObject>();
@@ -64,6 +66,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  itemsLayout = 'grid';
   ngOnInit() {
     // this.pageData = this.router
     //   .queryParamMap
@@ -85,6 +88,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.itemsLoading = true;
       this.pageID = params.page;
       this.getcontentforPage(this.pageID);
+    });
+
+    this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
+      this.itemsLayout = il;
     });
   }
 

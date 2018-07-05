@@ -6,7 +6,10 @@
       <div class="ws-preloader-bar"></div>
     </div>
   </div>
-  <div class="ws-content-item clickable" *ngFor="let item of allFilesFolders" (click)="openContentItem(item, $event)">
+  <div class="clickable" 
+ [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
+    *ngFor="let item of allFilesFolders" 
+    (click)="openContentItem(item, $event)">
     <div class="ws-preloader-line" *ngIf="itemLoading == item.id">
       <div class="ws-preloader-load-bar">
         <div class="ws-preloader-bar"></div>

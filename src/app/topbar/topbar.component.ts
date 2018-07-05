@@ -3,6 +3,7 @@ import { User } from '../../assets/data/user';
 import { MyContentService } from '../services/mycontent.service';
 import { AuthService } from '../services/auth.service';
 import { Router, NavigationExtras } from '@angular/router';
+import { UIHelperService } from '../services/uihelper.service';
 
 @Component({
     selector: 'app-topbar',
@@ -16,10 +17,17 @@ export class TopbarComponent implements OnInit {
         username: null,
         password: null
     };
-    constructor(public myContentService: MyContentService, private authService: AuthService, private router: Router) {
+    constructor(
+        public myContentService: MyContentService,
+        private authService: AuthService,
+        private router: Router,
+        public uiHelperService: UIHelperService ) {
     }
-
+    itemsLayout = 'grid';
     ngOnInit() {
+        this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
+            this.itemsLayout = il;
+        });
     }
 
     newFolderData = {
@@ -30,6 +38,11 @@ export class TopbarComponent implements OnInit {
         filename: "",
         upfile: {}
     };
+
+    // Update items layout
+    toggleItemsLayout(l) {
+        this.uiHelperService.toggleItemsLayout(l);
+    }
 
     goToRoute = function (route) {
         //debugger

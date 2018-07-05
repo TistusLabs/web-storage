@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MyContentService } from './services/mycontent.service';
 import { AuthService } from './services/auth.service';
+import { UIHelperService } from './services/uihelper.service';
 
 import { AuthGuard } from './auth.guard';
 // TypeScript syntax configuration
@@ -47,6 +48,7 @@ import { PreloaderLineDirective } from './directives/preloader-line.directive';
   ],
   providers: [
     MyContentService,
+    UIHelperService,
     AuthService,
     AuthGuard
   ],
