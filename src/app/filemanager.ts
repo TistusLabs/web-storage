@@ -31,19 +31,23 @@ export interface NewUserTemplate {
     permission: userPermissionObject
 }
 
-export interface userObject {
-    userId:number,
-    username: string,
-    password: string,
-    userType: number
+export class userObject {
+    userId:number;
+    username: string;
+    password: string;
+    userType: number;
+    firstName: string;
+    lastName: string;
+    email:string;
+    imageUrl : string;
 }
 
-interface userPermissionObject {
-    canEdit: number,
-    canView: number,
-    canDownload: number,
-    canAdd: number,
-    canDelete: number
+export class userPermissionObject {
+    canEdit: number;
+    canView: number;
+    canDownload: number;
+    canAdd: number;
+    canDelete: number;
 }
 
 export interface loginResponse {
