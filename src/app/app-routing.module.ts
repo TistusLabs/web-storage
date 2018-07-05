@@ -12,6 +12,7 @@ import { AuthGuard } from './auth.guard';
 import * as moment from 'moment';
 import { UsersComponent } from './users/users.component';
 import { GroupsComponent } from './groups/groups.component';
+import { AudittrailComponent } from './audittrail/audittrail.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,9 @@ const routes: Routes = [
       }, {
         path: 'groups',
         component: GroupsComponent
+      }, {
+        path: 'audit-trail',
+        component: AudittrailComponent
       }
     ],
     runGuardsAndResolvers: 'always'

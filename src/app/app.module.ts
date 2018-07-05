@@ -25,6 +25,7 @@ import { SignupComponent } from './signup/signup.component';
 import { PreloaderLineDirective } from './directives/preloader-line.directive';
 import { UsersComponent } from './users/users.component';
 import { GroupsComponent } from './groups/groups.component';
+import { AudittrailComponent } from './audittrail/audittrail.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { GroupsComponent } from './groups/groups.component';
     SignupComponent,
     PreloaderLineDirective,
     UsersComponent,
-    GroupsComponent
+    GroupsComponent,
+    AudittrailComponent
   ],
   imports: [
     BrowserModule,
