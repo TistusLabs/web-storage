@@ -10,7 +10,10 @@ $ws-transition-time-secondary : 0.2s;
 
 //Colors
 $ws-color-primary : #2b9fff;
-$ws-color-primary-dark : #1e72b7;
+$ws-color-primary-dark : darken($ws-color-primary, 20%);
+$ws-color-primary-darker : darken($ws-color-primary, 37%);
+$ws-color-primary-light: lighten($ws-color-primary, 20%);
+$ws-color-primary-lighter: lighten($ws-color-primary, 37%);
 $ws-color-text-primary : #000;
 $ws-color-text-secondary : #888;
 $ws-color-text-third : #aaa;
@@ -45,3 +48,6 @@ $ws-content-item-width : 200px;
 //Card
 $ws-card-medium : 50%;
 $ws-card-small : 30%;
+
+// Icons
+$ws-imaged-message-text : 80px;

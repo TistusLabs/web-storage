@@ -1,3 +1,6 @@
+@import '../../variables';
+@import '../../messages';
+
 .ws-topbar {
   position: relative;
   z-index: 10000;
@@ -56,5 +59,11 @@
   #initNewFolder {
     width: 240px;
     padding: 5px;
+  }
+  #initNewFile {
+    .modal-dialog {
+      max-width: 600px;
+      width: 600px;
+    }
   }
 }

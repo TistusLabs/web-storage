@@ -98,7 +98,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <input type="text" class="fill-width" placeholder="New folder name" [(ngModel)]="newFolderData.name">
+            <input type="text" fill-width placeholder="New folder name" [(ngModel)]="newFolderData.name">
           </div>
         </div>
         <div class="modal-footer">
@@ -110,7 +110,7 @@
   </div>
   <!--New folder initialization - ENDS -->
 
-  <!--New folder initialization-->
+  <!--New file initialization-->
   <div class="modal fade" id="initNewFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content ws-card">
@@ -122,21 +122,40 @@
         </div>
         <div class="modal-body">
           <!-- <div class="form-group">
-                            <input type="text" class="fill-width" placeholder="New folder name" [(ngModel)]="newFolderData.name">
-                        </div> -->
+              <input type="text" class="fill-width" placeholder="New folder name" [(ngModel)]="newFolderData.name">
+          </div> -->
           <div class="form-group">
-            <!-- <label for="caption">FileName</label> -->
-            <input name="filename" type="text" class="fill-width" placeholder="File Name" [(ngModel)]="newFileData.filename" />
+            <input name="filename" type="text" fill-width placeholder="File Name" [(ngModel)]="newFileData.filename" />
           </div>
           <!-- <div class="form-group">
-                            <input name="folderName" type="text" class="fill-width" placeholder="Folder Name" [(ngModel)]="newFileData.name" />
-                        </div>
-                        <div class="form-group">
-                            <input name="userId" type="text" class="fill-width" placeholder="User ID" [(ngModel)]="newFileData.name" />
-                        </div> -->
-          <div class="form-group">
-            <!-- <label for="upfile">Image File</label> -->
-            <input name="upfile" type="file" class="fill-width" placeholder="Select File" (change)="setFile($event)" />
+                <input name="folderName" type="text" class="fill-width" placeholder="Folder Name" [(ngModel)]="newFileData.name" />
+            </div>
+            <div class="form-group">
+                <input name="userId" type="text" class="fill-width" placeholder="User ID" [(ngModel)]="newFileData.name" />
+            </div> -->
+
+          <div class="ws-dragndrop-wrap" id="fileDragNDrop" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+            <div class="ws-imaged-message ws-message">
+              <i class="material-icons ws-message-image" *ngIf="!fileReady">flip_to_front</i>
+
+              <div *ngIf="fileReady" class="ws-file">
+                <i class="material-icons ws-file-icon">{{newFileData.upfile.type.split('/')[0] === 'image' ? 'image' : 'document'}}</i>
+                <div class="ws-file-info">
+                  <div><b>{{newFileData.upfile.name}}</b></div>
+                  <div>{{newFileData.upfile.type}}</div>
+                  <div>{{tempFileSize}}</div>
+                </div>
+              </div>
+
+              <div>Drag and Drop</div>
+              <div style="margin-bottom: 5px">
+                <b><i>or</i></b>
+              </div>
+              <div>
+                <button type="button" class="ws-button-primary ws-raised" (click)="browseFileInit()">Browse</button>
+                <input name="upfile" id="upFile" type="file" class="fill-width" placeholder="Select File" (change)="setFile($event)" style="display: none"/>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -146,5 +165,5 @@
       </div>
     </div>
   </div>
-  <!--New folder initialization - ENDS -->
+  <!--New file initialization - ENDS -->
 </div>

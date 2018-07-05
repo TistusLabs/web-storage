@@ -1,0 +1,18 @@
+// ############# IMAGED MESSAGE ##############
+.ws-message {
+    // position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    &.ws-imaged-message {
+        // width: 100px;
+        text-align: center;
+        color: $ws-color-text-secondary;
+        i.material-icons {
+            font-size: $ws-imaged-message-text;
+            color: $ws-hover-background-secondary;
+        }
+    }
+}

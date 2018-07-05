@@ -17,19 +17,6 @@ export class TopbarComponent implements OnInit {
         username: null,
         password: null
     };
-    constructor(
-        public myContentService: MyContentService,
-        private authService: AuthService,
-        private router: Router,
-        public uiHelperService: UIHelperService ) {
-    }
-    itemsLayout = 'grid';
-    ngOnInit() {
-        this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
-            this.itemsLayout = il;
-        });
-    }
-
     newFolderData = {
         name: ""
     };
@@ -38,6 +25,22 @@ export class TopbarComponent implements OnInit {
         filename: "",
         upfile: {}
     };
+
+    tempFileSize = 0;
+
+    constructor(
+        public myContentService: MyContentService,
+        private authService: AuthService,
+        private router: Router,
+        public uiHelperService: UIHelperService ) {
+    }
+    fileReady = false;
+    itemsLayout = 'grid';
+    ngOnInit() {
+        this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
+            this.itemsLayout = il;
+        });
+    }
 
     // Update items layout
     toggleItemsLayout(l) {
@@ -64,9 +67,33 @@ export class TopbarComponent implements OnInit {
             });
     };
 
-    setFile = function (event) {
-        //debugger
-        this.newFileData.upfile = event.target.files[0]
+    browseFileInit() {
+        $('#upFile').click();
+    }
+
+    onDrop(event: any) {
+        event.preventDefault();
+        this.setFile(event, 'dnd');
+    }
+
+    onDragOver(evt) {
+        evt.preventDefault();
+        $('#fileDragNDrop').addClass('draggedOver');
+    }
+
+    onDragLeave(evt) {
+        evt.preventDefault();
+        $('#fileDragNDrop').removeClass('draggedOver');
+    }
+
+    setFile = function (event, eventType) {
+        if (eventType === 'dnd') {
+            this.newFileData.upfile = event.dataTransfer.files[0];
+        } else {
+            this.newFileData.upfile = event.target.files[0];
+        }
+        this.tempFileSize = this.uiHelperService.formatBytes(this.newFileData.upfile.size);
+        this.fileReady = true;
     }
 
     reloadPage = function(){

@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables";
+@import "helpers";
 
 html,
 body {
@@ -302,6 +303,7 @@ body {
       }
     }
     &:hover {
+      border-radius: $ws-border-radius-secondary;
       background: #fff;
       -webkit-box-shadow: $ws-item-shadow-primary;
       -moz-box-shadow: $ws-item-shadow-primary;
@@ -409,34 +411,61 @@ body {
   .ws-fill-height {
     height: 100%;
   }
-  .ws-pos-abs {
-    position: absolute;
-  }
-  .ws-pos-rel {
-    position: relative;
-  }
+  //. . . . . . . . . . . . . . . . . . .
 
-  .ws-clearfix-h {
-    right: 0;
-    left: 0;
-    margin: auto;
-  }
-  .ws-clearfix-v {
-    top: 0;
-    bottom: 0;
-    margin: auto;
-  }
-  .ws-clearfix-all {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+  //************** MODAL **************
+  .ws-modal-large {
+    width: $ws-card-medium;
   }
   //. . . . . . . . . . . . . . . . . . .
 
-//************** ANIMATIONS **************
-@keyframes loading {
+  //************** FILE **************
+  .ws-file {
+    overflow: auto;
+    display: inline-block;
+    padding: 5px 20px 5px 5px;
+    background: #fff;
+    border-radius: $ws-border-radius-primary;
+    box-shadow: $ws-button-raised-primary;
+    margin-bottom: $ws-margin-primary;
+    .ws-file-icon {
+      float: left;
+      font-size: 50px!important;
+      margin: 10px;
+    }
+    .ws-file-info {
+      float: left;
+      text-align: left;
+    }
+  }
+  //. . . . . . . . . . . . . . . . . . .
+
+  //************** DRAG N DROP **************
+  .ws-dragndrop-wrap {
+    position: relative;
+    padding: 40px;
+    border-radius: 5px;
+    border: dashed 2px $ws-color-text-third;
+    text-align: center;
+    transition: all $ws-transition-time;
+    .ws-message-image {
+      transition: all $ws-transition-time;
+    }
+    &.draggedOver {
+      border-color: $ws-color-primary;
+      background: $ws-color-primary-lighter;
+      transition: all $ws-transition-time;
+
+      .ws-message-image {
+        color: $ws-color-primary!important;
+        transition: color $ws-transition-time;
+      }
+    }
+  }
+  //. . . . . . . . . . . . . . . . . . .
+  
+  //************** ANIMATIONS **************
+  @keyframes loading {
     from {
       left: 50%;
       width: 0;
@@ -452,5 +481,6 @@ body {
       width: 100%;
     }
   }
+  //. . . . . . . . . . . . . . . . . . .
 }
- //. . . . . . . . . . . . . . . . . . .
+ 
