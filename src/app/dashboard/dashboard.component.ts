@@ -219,7 +219,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   setItemInfo(f, dim) {
     this.selectedItemFull.addedDate = 'N/A';
     this.selectedItemFull.lastModifiedDate = moment(f.lastModifiedDate).format('DD MMMM YYYY');
-    this.selectedItemFull.size = this.formatBytes(f.size, null);
+    this.selectedItemFull.size = this.uiHelperService.formatBytes(f.size, null);
     this.selectedItemFull.name = this.selectedContentItem.filename;
     if (dim) {
       this.selectedItemFull.width = dim.w;
@@ -251,15 +251,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (image) {
       reader.readAsDataURL(image);
     }
-  }
-
-  formatBytes(a, b) {
-    if (0 === a) { return '0 Bytes'; }
-    const c = 1024,
-      d = b || 2,
-      e = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-      f = Math.floor(Math.log(a) / Math.log(c));
-    return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
   }
 
   openContentItem = function (item, e) {
