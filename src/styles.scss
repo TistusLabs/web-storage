@@ -78,6 +78,11 @@ body {
       color: $ws-color-text-secondary;
       border-radius: 50%;
       padding: 0;
+      &.active {
+        .material-icons {
+          color: $ws-color-primary;
+        }
+      }
     }
     &.ws-abs-button {
       position: absolute;
@@ -252,13 +257,14 @@ body {
   }
   .ws-content-item-horizontal {
     position: relative;
-    margin-right: $ws-margin-secondary;
-    margin-bottom: $ws-margin-secondary;
+    // margin-right: $ws-margin-secondary;
+    // margin-bottom: $ws-margin-primary;
     width: 100%;
     height: $ws-content-item-hor-height;
-    background: $ws-content-item-background;
-    border-radius: $ws-border-radius-secondary;
-    box-shadow: $ws-item-shadow-primary;
+    // background: $ws-content-item-background;
+    // border-radius: $ws-border-radius-secondary;
+    // box-shadow: $ws-item-shadow-primary;
+    border-bottom: solid 1px $ws-hover-background-secondary;
     -webkit-transition: box-shadow $ws-transition-time-secondary;
     -moz-transition: box-shadow $ws-transition-time-secondary;
     -ms-transition: box-shadow $ws-transition-time-secondary;
@@ -275,7 +281,7 @@ body {
       }
     }
     .ws-content-item-info {
-      background: #fafafa;
+      // background: #fafafa;
       padding: ($ws-padding-inner-primary + 3) $ws-padding-inner-primary;
       border-radius: 0 0 $ws-border-radius-secondary $ws-border-radius-secondary;
       overflow: auto;
@@ -296,9 +302,11 @@ body {
       }
     }
     &:hover {
-      -webkit-box-shadow: $ws-item-shadow-secondary;
-      -moz-box-shadow: $ws-item-shadow-secondary;
-      box-shadow: $ws-item-shadow-secondary;
+      background: #fff;
+      -webkit-box-shadow: $ws-item-shadow-primary;
+      -moz-box-shadow: $ws-item-shadow-primary;
+      box-shadow: $ws-item-shadow-primary;
+      border: none;
       -webkit-transition: box-shadow $ws-transition-time-secondary;
       -moz-transition: box-shadow $ws-transition-time-secondary;
       -ms-transition: box-shadow $ws-transition-time-secondary;

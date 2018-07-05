@@ -1,3 +1,11 @@
 #initShareFile {
   z-index: 10500 !important;
 }
+
+.ws-dashboard {
+  .ws-content-item-horizontal{
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

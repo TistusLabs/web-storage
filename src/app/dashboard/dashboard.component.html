@@ -1,4 +1,4 @@
-<div>
+<div class="ws-dashboard">
   <div class="ws-preloader-line" *ngIf="itemsLoading && itemLoading===''">
     <div class="ws-preloader-load-bar">
       <div class="ws-preloader-bar"></div>
@@ -41,7 +41,7 @@
       <i class="material-icons">{{ item.icon }}</i>
     </div>
     <div class="ws-content-item-info {{content.layout}}">
-      <h3 class="ws-info-text-title">{{ item.name | slice:0:18 }}{{item.name.length >= 18 ? '...' : null}}</h3>
+      <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (item.name | slice:0:18) : itemsLayout==='list' ? (item.name | slice:0:50) : null }} {{item.name.length >= 18 && itemsLayout==='grid' ? '...' : item.name.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
       <div class="ws-info-text-sub">
         Size : {{ item.size }}</div>
       <i class="ws-info-text-sub">{{ item.added_date }}</i>
