@@ -4,13 +4,14 @@ import { AuthComponent } from './auth/auth.component';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { WsComponent } from './ws/ws.component';
-import { SharedComponent } from './shared/shared.component';
 import { RecentComponent } from './recent/recent.component';
 import { HistoryComponent } from './history/history.component';
 import { SignupComponent } from './signup/signup.component';
 
 import { AuthGuard } from './auth.guard';
 import * as moment from 'moment';
+import { UsersComponent } from './users/users.component';
+import { GroupsComponent } from './groups/groups.component';
 
 const routes: Routes = [
   {
@@ -33,13 +34,19 @@ const routes: Routes = [
         component: DashboardComponent
       }, {
         path: 'shared',
-        component: SharedComponent
+        component: DashboardComponent
       }, {
         path: 'recent',
         component: RecentComponent
       }, {
         path: 'history',
         component: HistoryComponent
+      }, {
+        path: 'users',
+        component: UsersComponent
+      }, {
+        path: 'groups',
+        component: GroupsComponent
       }
     ],
     runGuardsAndResolvers: 'always'

@@ -21,7 +21,7 @@
         </ul>
       </div>
     </li>
-    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/shared','')">
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/dashboard','shared')">
       <i class="material-icons ws-list-item-icon">people_outline</i>
       <span class="ws-list-item-text">Shared with me</span>
     </li>
@@ -32,6 +32,16 @@
     <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/history','')">
       <i class="material-icons ws-list-item-icon">history</i>
       <span class="ws-list-item-text">History</span>
+    </li>
+    <hr>
+    <span><b>Adminitrator</b></span>
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/users','')">
+      <i class="material-icons ws-list-item-icon">people_outline</i>
+      <span class="ws-list-item-text">Users</span>
+    </li>
+    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/groups','')">
+      <i class="material-icons ws-list-item-icon">people_outline</i>
+      <span class="ws-list-item-text">User Groups</span>
     </li>
   </ul>
 </div>

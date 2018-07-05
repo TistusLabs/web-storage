@@ -154,32 +154,35 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private populateItems(items) {
     this.allFilesFolders = [];
-    for (const folder of items.folders) {
-      folder.id = folder.folderId;
-      folder.name = folder.folderName;
-      folder.category = 'folder';
-      folder.icon = 'folder';
-      folder.added_date = '20 May 2018';
-      folder.size = 1000;
-      this.allFilesFolders.push(folder);
-    }
-    for (const file of items.files) {
-      file.id = file.id;
-      file.name = file.filename;
-      file.category = 'image';
-      file.icon = 'image';
-      file.added_date = '21 May 2018';
-      file.size = 1000;
-      this.allFilesFolders.push(file);
-    }
-    for (const sharedfile of items.sharedFiles) {
-      sharedfile.id = sharedfile.id;
-      sharedfile.name = sharedfile.filename;
-      sharedfile.category = 'shared';
-      sharedfile.icon = 'shared';
-      sharedfile.added_date = '21 May 2018';
-      sharedfile.size = 1000;
-      this.allFilesFolders.push(sharedfile);
+    if (this.pageID == "shared") {
+      for (const sharedfile of items.sharedFiles) {
+        sharedfile.id = sharedfile.id;
+        sharedfile.name = sharedfile.filename;
+        sharedfile.category = 'shared';
+        sharedfile.icon = 'shared';
+        sharedfile.added_date = '21 May 2018';
+        sharedfile.size = 1000;
+        this.allFilesFolders.push(sharedfile);
+      }
+    } else {
+      for (const folder of items.folders) {
+        folder.id = folder.folderId;
+        folder.name = folder.folderName;
+        folder.category = 'folder';
+        folder.icon = 'folder';
+        folder.added_date = '20 May 2018';
+        folder.size = 1000;
+        this.allFilesFolders.push(folder);
+      }
+      for (const file of items.files) {
+        file.id = file.id;
+        file.name = file.filename;
+        file.category = 'image';
+        file.icon = 'image';
+        file.added_date = '21 May 2018';
+        file.size = 1000;
+        this.allFilesFolders.push(file);
+      }
     }
     this.content = this.allFilesFolders;
     this.itemLoading = '';
@@ -238,7 +241,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         f = new File([this.imageToShow.split(',')[1]], 'file', {});
         const img = new Image;
         img.src = this.imageToShow;
-        this.getImageDim(img, (w, h) => this.setItemInfo(f, {h : h, w : w}));
+        this.getImageDim(img, (w, h) => this.setItemInfo(f, { h: h, w: w }));
       } else {
         f = new File([this.imageToShow.split(',')[1]], 'file', {});
         this.setItemInfo(f, null);

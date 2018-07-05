@@ -19,11 +19,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthComponent } from './auth/auth.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { WsComponent } from './ws/ws.component';
-import { SharedComponent } from './shared/shared.component';
 import { RecentComponent } from './recent/recent.component';
 import { HistoryComponent } from './history/history.component';
 import { SignupComponent } from './signup/signup.component';
 import { PreloaderLineDirective } from './directives/preloader-line.directive';
+import { UsersComponent } from './users/users.component';
+import { GroupsComponent } from './groups/groups.component';
 
 @NgModule({
   declarations: [
@@ -33,11 +34,12 @@ import { PreloaderLineDirective } from './directives/preloader-line.directive';
     AuthComponent,
     DashboardComponent,
     WsComponent,
-    SharedComponent,
     RecentComponent,
     HistoryComponent,
     SignupComponent,
-    PreloaderLineDirective
+    PreloaderLineDirective,
+    UsersComponent,
+    GroupsComponent
   ],
   imports: [
     BrowserModule,
