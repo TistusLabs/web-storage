@@ -105,7 +105,7 @@ export class TopbarComponent implements OnInit {
 
         // debugger
         const uploadData = new FormData();
-        uploadData.append('filename', this.newFileData.filename);
+        uploadData.append('filename', this.newFileData.upfile.name);
         uploadData.append('upfile', this.newFileData.upfile);
         uploadData.append('folderName', this.myContentService.getCurrenFolder());
         uploadData.append('userId', this.authService.getUserID());

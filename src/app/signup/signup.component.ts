@@ -15,12 +15,19 @@ export class SignupComponent implements OnInit {
     username: "",
     password: ""
   }
+  private userpermission;
 
   ngOnInit() {
   }
 
   signupUser() {
-    this.authService.signUpUser(this.newUserDetails)
+    this.userpermission = {};
+    this.userpermission.canEdit = 0;
+    this.userpermission.canView = 0;
+    this.userpermission.canDownload = 0;
+    this.userpermission.canAdd = 0;
+    this.userpermission.canDelete = 0;
+    this.authService.signUpUser({ "user": this.newUserDetails, "permissions": this.userpermission })
       .subscribe(data => {
         alert("new user was created");
         this.navigatePage();

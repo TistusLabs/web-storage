@@ -1,3 +1,89 @@
-<p>
-  users works!
-</p>
+<h4>Users</h4>
+<p>Here you can add new user with given permissions to them. Bellow all the system users are displayed where could edit their details as you need.</p>
+<div>
+  <form (ngSubmit)="addNewUser()" #newUserForm="ngForm">
+
+    <div class="row">
+      <div class="form-group">
+        <label for="fname">First Name</label>
+        <input [(ngModel)]="newUser.firstName" type="text" class="form-control" id="fname" name="fname" required #fname="ngModel">
+        <div [hidden]="fname.valid || fname.pristine" class="alert alert-danger">
+          First name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lname">Last Name</label>
+        <input [(ngModel)]="newUser.lasttName" type="text" class="form-control" id="lname" name="lname" required #lname="ngModel">
+        <div [hidden]="lname.valid || lname.pristine" class="alert alert-danger">
+          Last name is required
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input [(ngModel)]="newUser.username" type="text" class="form-control" id="username" name="username" required #username="ngModel">
+        <div [hidden]="username.valid || username.pristine" class="alert alert-danger">
+          Username is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input [(ngModel)]="newUser.password" type="password" class="form-control" id="password" name="password" required #password="ngModel">
+        <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+          Password is required
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input [(ngModel)]="newUser.email" type="email" class="form-control" id="email" name="email" required #email="ngModel">
+        <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+          Email is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="image">Image URL</label>
+        <input [(ngModel)]="newUser.imageUrl" type="text" class="form-control" id="imageUrl">
+      </div>
+    </div>
+
+    <div class="row">
+      <h5>Permissions</h5>
+      <label>
+        <input type="checkbox" name="canEdit" [(ngModel)]="userpermission.canEdit"> Enable Editing files
+      </label>
+      <label>
+        <input type="checkbox" name="canView" [(ngModel)]="userpermission.canView"> Enable Viewing files
+      </label>
+      <label>
+        <input type="checkbox" name="canDownload" [(ngModel)]="userpermission.canDownload"> Enable Download files
+      </label>
+      <label>
+        <input type="checkbox" name="canAdd" [(ngModel)]="userpermission.canAdd"> Enable uploading new files
+      </label>
+      <label>
+        <input type="checkbox" name="canDelete" [(ngModel)]="userpermission.canDelete"> Enable Deleting files
+      </label>
+    </div>
+
+
+    <button type="submit" [disabled]="!newUserForm.form.valid" class="btn btn-success">Add New User</button>
+
+  </form>
+</div>
+
+<div>
+  <h4>All Users</h4>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let user of allusers">
+      {{ user.username}}
+    </li>
+  </ul>
+</div>

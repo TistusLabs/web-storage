@@ -87,16 +87,16 @@ export class AuthService {
     };
 
     this.newUserDetails = {};
-    this.newUserDetails.username = userdata.username;
-    this.newUserDetails.password = userdata.password;
+    this.newUserDetails.username = userdata.user.username;
+    this.newUserDetails.password = userdata.user.password;
     this.newUserDetails.userType = 1;
 
     this.newUserPermissions = {};
-    this.newUserPermissions.canEdit = 0;
-    this.newUserPermissions.canView = 0;
-    this.newUserPermissions.canDownload = 0;
-    this.newUserPermissions.canAdd = 0;
-    this.newUserPermissions.canDelete = 0;
+    this.newUserPermissions.canEdit = userdata.permissions.canEdit;
+    this.newUserPermissions.canView  = userdata.permissions.canView;
+    this.newUserPermissions.canDownload  = userdata.permissions.canDownload;
+    this.newUserPermissions.canAdd  = userdata.permissions.canAdd;
+    this.newUserPermissions.canDelete  = userdata.permissions.canDelete;
 
     this.newUserObject = {};
     this.newUserObject.user = this.newUserDetails;
