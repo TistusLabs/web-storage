@@ -4,6 +4,7 @@ import { MyContentService } from '../services/mycontent.service';
 import { AuthService } from '../services/auth.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { UIHelperService } from '../services/uihelper.service';
+import { AuditTrailService } from '../services/audittrail.service';
 
 @Component({
     selector: 'app-topbar',
@@ -32,7 +33,9 @@ export class TopbarComponent implements OnInit {
         public myContentService: MyContentService,
         private authService: AuthService,
         private router: Router,
-        public uiHelperService: UIHelperService ) {
+        public uiHelperService: UIHelperService,
+        private auditTrailService: AuditTrailService
+    ) {
     }
     fileReady = false;
     itemsLayout = 'grid';
@@ -61,6 +64,8 @@ export class TopbarComponent implements OnInit {
 
         this.myContentService.addNewFolder(this.newFolderData)
             .subscribe(newFolderinfo => {
+                debugger
+                this.auditTrailService.addAudiTrailLog("Created new folder file '"+this.newFolderData.name+"'");
                 this.newFolderData.name = "";
                 $("#initNewFolder").modal('hide');
                 this.reloadPage();
@@ -117,6 +122,8 @@ export class TopbarComponent implements OnInit {
         // debugger
         this.myContentService.addNewFile(uploadData)
             .subscribe(event => {
+                debugger
+                this.auditTrailService.addAudiTrailLog("Uploaded file '"+this.newFileData.upfile.name+"'");
                 console.log(event);
                 this.newFileData.filename = "";
                 this.newFileData.upfile = {};

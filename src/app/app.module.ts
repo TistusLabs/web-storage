@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MyContentService } from './services/mycontent.service';
 import { AuthService } from './services/auth.service';
 import { UIHelperService } from './services/uihelper.service';
+import { AuditTrailService } from './services/audittrail.service';
 
 import { AuthGuard } from './auth.guard';
 // TypeScript syntax configuration
@@ -56,7 +57,8 @@ import { AudittrailComponent } from './audittrail/audittrail.component';
     MyContentService,
     UIHelperService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    AuditTrailService
   ],
   entryComponents: [
     AppComponent,

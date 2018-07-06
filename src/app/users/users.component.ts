@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { userObject, userPermissionObject } from '../filemanager';
 import { AuthService } from '../services/auth.service';
+import { AuditTrailService } from '../services/audittrail.service';
 
 @Component({
 	selector: 'app-users',
@@ -9,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class UsersComponent implements OnInit {
 
-	constructor(private authService: AuthService) { }
+	constructor(private authService: AuthService, private auditTrailService: AuditTrailService) { }
 
 	userpermission;
 	newUser;
@@ -70,6 +71,7 @@ export class UsersComponent implements OnInit {
 		let userobj = this.getPermissionObject();
 		this.authService.signUpUser({ "user": this.newUser, "permissions": userobj })
 			.subscribe(data => {
+				this.auditTrailService.addAudiTrailLog("User '"+this.newUser.username+"' was created.");
 				alert("new user was created");
 				this.loadAllUsers();
 				this.resetNewUser();

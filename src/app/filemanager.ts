@@ -2,7 +2,7 @@ export interface FileTemplate {
     folderId: string,
     folderName: string,
     uniqueName: string,
-    uniqueFileName:string,
+    uniqueFileName: string,
     parentFolder: string,
     userId: string,
     fileInfo: {
@@ -32,14 +32,14 @@ export interface NewUserTemplate {
 }
 
 export class userObject {
-    userId:number;
+    userId: number;
     username: string;
     password: string;
     userType: number;
     firstName: string;
     lastName: string;
-    email:string;
-    imageUrl : string;
+    email: string;
+    imageUrl: string;
 }
 
 export class userPermissionObject {
@@ -54,4 +54,12 @@ export interface loginResponse {
     status: boolean,
     data: string,
     error: string
+}
+
+export class AuditLog {
+    id: number;
+    userId: number;
+    userRole: number;
+    logs: string;
+    createdDate: string;
 }

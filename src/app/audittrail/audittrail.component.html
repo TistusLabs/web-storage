@@ -6,15 +6,19 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th>Username</th>
-      <th>User type</th>
+      <th>User ID</th>
+      <th>User Role</th>
+      <th>Log</th>
+      <th>Date Time</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let person of persons">
-      <td>{{ person.userId }}</td>
-      <td>{{ person.username }}</td>
-      <td>{{ person.userType }}</td>
+    <tr *ngFor="let log of auditlogs">
+      <td>{{ log.id }}</td>
+      <td>{{ log.userId }}</td>
+      <td>{{ log.userRole }}</td>
+      <td>{{ log.logs }}</td>
+      <td>{{ log.createdDate }}</td>
     </tr>
   </tbody>
 </table>
