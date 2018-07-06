@@ -90,6 +90,11 @@ body {
       right: 5px;
       top: 5px;
     }
+    &.ws-abs-button-left {
+      position: absolute;
+      left: 5px;
+      top: 5px;
+    }
   }
 
   .clickable {
