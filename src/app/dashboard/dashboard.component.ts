@@ -167,12 +167,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.selectedContentItem.category == 'image') {
       this.myContentService.renameFile(this.newfilename, this.selectedContentItem.uniqueFileName).subscribe(data => {
         this.getcontentforPage(this.pageID);
-        this.auditTrailService.addAudiTrailLog("Renamed file to '" + this.newfilename + "'.");
+        this.auditTrailService.addAudiTrailLog("Renamed file from '" + this.selectedContentItem.name + "' to '" + this.newfilename + "'.");
         alert("File rename successfull.");
       });
     }
     if (this.selectedContentItem.category == 'folder') {
-      debugger
+      this.myContentService.renameFolder(this.newfilename, this.selectedContentItem.uniqueName).subscribe(data => {
+        this.auditTrailService.addAudiTrailLog("Renamed folder from '" + this.selectedContentItem.folderName + "' to '" + this.newfilename + "'.");
+        this.getcontentforPage(this.pageID);
+        alert("Folder rename successfull.");
+      });
     }
   }
 
