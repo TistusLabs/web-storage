@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MyContentService } from './services/mycontent.service';
@@ -11,6 +11,7 @@ import { AuthGuard } from './auth.guard';
 // TypeScript syntax configuration
 import * as $ from 'jquery';
 import * as bootstrap from "bootstrap";
+import { DataTablesModule } from 'angular-datatables';
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -48,7 +49,8 @@ import { AudittrailComponent } from './audittrail/audittrail.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DataTablesModule
   ],
   providers: [
     MyContentService,

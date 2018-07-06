@@ -2,3 +2,19 @@
 <p>
   Here you are able to see all the transactions that has been done by the system users.
 </p>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>User type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let person of persons">
+      <td>{{ person.userId }}</td>
+      <td>{{ person.username }}</td>
+      <td>{{ person.userType }}</td>
+    </tr>
+  </tbody>
+</table>
