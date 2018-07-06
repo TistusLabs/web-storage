@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@an
 import { AuthService } from '../services/auth.service';
 import * as moment from 'moment';
 import { UIHelperService } from '../services/uihelper.service';
+import { AuditTrailService } from '../services/audittrail.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   layout = 'carded';
   isContentItemFull = false;
   fullViewPos = '';
-  selectedContentItem = null;
+  selectedContentItem = new FileTemplate();
   selectedItemFull = {
     addedDate: null,
     lastModifiedDate: null,
@@ -32,6 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     width: null,
     height: null
   };
+  newfilename = "";
   imageToShow: any;
   itemLoading = '';
   itemsLoading = false;
@@ -46,7 +48,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private actrouter: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private uiHelperService: UIHelperService
+    private uiHelperService: UIHelperService,
+    private auditTrailService: AuditTrailService
   ) {
     this.authService.getAllUsers().subscribe(userdetails => {
       this.allusers = new Array<userObject>();
@@ -147,6 +150,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   setcurrentItem(item) {
     this.selectedContentItem = item;
+    this.newfilename = null;
   }
 
   sharefile(item) {
@@ -157,6 +161,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log(selectedOrderIds);
     let userIDs = this.getUserIDs(selectedOrderIds);
     this.addPermissionToUser(userIDs, 0, this.selectedContentItem.uniqueFileName);
+  }
+
+  renameDocument() {
+    if (this.selectedContentItem.category == 'image') {
+      this.myContentService.renameFile(this.newfilename, this.selectedContentItem.uniqueFileName).subscribe(data => {
+        this.getcontentforPage(this.pageID);
+        this.auditTrailService.addAudiTrailLog("Renamed file to '" + this.newfilename + "'.");
+        alert("File rename successfull.");
+      });
+    }
+    if (this.selectedContentItem.category == 'folder') {
+      debugger
+    }
   }
 
   private getcontentforPage = function (page) {

@@ -25,6 +25,7 @@ export class MyContentService {
     private _url_getfilenew = "http://104.196.2.1/filemanagement/filemanager/filemanager/getFile";
     private _url_sharefile = "http://104.196.2.1/filemanagement/filemanager/filemanager/sharefile";
     private _url_searchfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/searchByName";
+    private _url_updatefile = "http://104.196.2.1/filemanagement/filemanager/filemanager/updateFileName";
     //private _url_uploadfile = "https://f7c89f2a.ngrok.io/filemanager/uploadfile";
     // private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI";
     private _headers = {
@@ -178,5 +179,25 @@ export class MyContentService {
             headers: new HttpHeaders(this._headers)
         };
         return this.http.get<IFilemanager>(this._url_searchfile, this.requestOptions);
+    }
+
+    public renameFile(newfilename: string, uniqueName: string) {
+
+        this.requestParams = new HttpParams()
+            .set('uniqueName', uniqueName)
+            .set('newname', newfilename);
+
+        this.requestOptions = {
+            params: this.requestParams,
+            headers: new HttpHeaders(this._headers)
+        };
+
+        let emptyObj = {};
+
+        return this.http.post<FileTemplate>(this._url_updatefile, emptyObj, this.requestOptions)
+            .pipe(
+                retry(3),
+                catchError(this.handleError)
+            );
     }
 }

@@ -6,10 +6,8 @@
       <div class="ws-preloader-bar"></div>
     </div>
   </div>
-  <div class="clickable" 
- [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
-    *ngFor="let item of allFilesFolders" 
-    (click)="openContentItem(item, $event)">
+  <div class="clickable" [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
+    *ngFor="let item of allFilesFolders" (click)="openContentItem(item, $event)">
     <div class="ws-preloader-line" *ngIf="itemLoading == item.id">
       <div class="ws-preloader-load-bar">
         <div class="ws-preloader-bar"></div>
@@ -17,8 +15,8 @@
         <div class="ws-preloader-bar"></div>
       </div>
     </div>
-    <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" id="moreOptions-{{item.id}}" role="button" data-toggle="dropdown"
-      aria-haspopup="true" aria-expanded="false">
+    <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" id="moreOptions-{{item.id}}" role="button"
+      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="ws-overhead-btn ws-content-more-ops material-icons">more_vert</i>
     </button>
     <div class="ws-shadow-full dropdown-menu dropdown-menu-right" attr.aria-labelledby="moreOptions-{{item.id}}">
@@ -27,9 +25,15 @@
           <i class="ws-overhead-btn material-icons ws-list-item-icon">link</i>
           <span class="ws-overhead-btn ws-list-item-text">Get a link</span>
         </li>
-        <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)" data-toggle="modal" data-target="#initShareFile">
+        <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
+          data-toggle="modal" data-target="#initShareFile">
           <i class="ws-overhead-btn material-icons ws-list-item-icon">share</i>
           <span class="ws-overhead-btn ws-list-item-text">Share</span>
+        </li>
+        <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
+          data-toggle="modal" data-target="#initRenameFile">
+          <i class="ws-overhead-btn material-icons ws-list-item-icon">text_format</i>
+          <span class="ws-overhead-btn ws-list-item-text">Rename</span>
         </li>
         <li class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary">
           <i class="ws-overhead-btn material-icons ws-list-item-icon">delete</i>
@@ -41,7 +45,8 @@
       <i class="material-icons">{{ item.icon }}</i>
     </div>
     <div class="ws-content-item-info {{content.layout}}">
-      <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (item.name | slice:0:18) : itemsLayout==='list' ? (item.name | slice:0:50) : null }} {{item.name.length >= 18 && itemsLayout==='grid' ? '...' : item.name.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
+      <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (item.name | slice:0:18) : itemsLayout==='list' ? (item.name | slice:0:50) : null }} {{item.name.length
+        >= 18 && itemsLayout==='grid' ? '...' : item.name.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
       <div class="ws-info-text-sub">
         Size : {{ item.size }}</div>
       <i class="ws-info-text-sub">{{ item.added_date }}</i>
@@ -69,6 +74,33 @@
           </div>
           <div class="modal-footer">
             <button [disabled]="!form.valid" type="submit" class="ws-button-flat" (click)="sharefile()" data-dismiss="modal">Share</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--Share file initialization - ENDS -->
+
+  <!--Share file initialization-->
+  <div class="modal fade" id="initRenameFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content ws-card">
+        <div class="modal-header ws-card-header">
+          <h5 *ngIf="selectedContentItem.category == 'image'" class="modal-title" id="exampleModalLongTitle">Rename File</h5>
+          <h5 *ngIf="selectedContentItem.category == 'folder'" class="modal-title" id="exampleModalLongTitle">Rename Folder</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form #renameForm="ngForm">
+          <div class="modal-body">
+            <p>Please enter the new name for the {{selectedContentItem.category}}</p>
+            <div class="form-group">
+              <input name="newfilename" type="text" class="fill-width" placeholder="New Name" [(ngModel)]="newfilename" required />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button [disabled]="!renameForm.valid" type="submit" class="ws-button-flat" (click)="renameDocument()" data-dismiss="modal">Rename</button>
           </div>
         </form>
       </div>

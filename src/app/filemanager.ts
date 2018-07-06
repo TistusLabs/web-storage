@@ -1,10 +1,12 @@
-export interface FileTemplate {
-    folderId: string,
-    folderName: string,
-    uniqueName: string,
-    uniqueFileName: string,
-    parentFolder: string,
-    userId: string,
+export class FileTemplate {
+    folderId: string;
+    folderName: string;
+    filename: string;
+    uniqueName: string;
+    uniqueFileName: string;
+    parentFolder: string;
+    category: string;
+    userId: string;
     fileInfo: {
         addedDate: string,
         lastModifiedDate: string,
