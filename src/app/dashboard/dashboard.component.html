@@ -35,7 +35,7 @@
           <i class="ws-overhead-btn material-icons ws-list-item-icon">text_format</i>
           <span class="ws-overhead-btn ws-list-item-text">Rename</span>
         </li>
-        <li class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary">
+        <li class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item);deleteContent()">
           <i class="ws-overhead-btn material-icons ws-list-item-icon">delete</i>
           <span class="ws-overhead-btn ws-list-item-text">Delete</span>
         </li>
@@ -51,6 +51,10 @@
         Size : {{ item.size }}</div>
       <i class="ws-info-text-sub">{{ item.added_date }}</i>
     </div>
+  </div>
+
+  <div *ngIf="allFilesFolders.length == 0">
+    <h4 class="center">No files available</h4>
   </div>
 
   <!--Share file initialization-->

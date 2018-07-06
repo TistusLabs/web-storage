@@ -120,6 +120,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.myContentService.searchItems(query)
       .subscribe(data => {
         this.populateItems(data);
+        this.auditTrailService.addAudiTrailLog("Searched files for the query '" + query + "'");
       });
   }
 
@@ -177,6 +178,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getcontentforPage(this.pageID);
         alert("Folder rename successfull.");
       });
+    }
+  }
+
+  deleteContent() {
+    if (confirm("Are you sure you want to delete this " + this.selectedContentItem.category + "?")) {
+      debugger
+      if (this.selectedContentItem.category == 'image') {
+        this.myContentService.deleteFile(this.selectedContentItem.uniqueFileName).subscribe(data => {
+          this.auditTrailService.addAudiTrailLog("Deleted file '" + this.selectedContentItem.name + "'.");
+          this.getcontentforPage(this.pageID);
+          alert("File deleted successfull.");
+        });
+      }
+      if (this.selectedContentItem.category == 'folder') {
+        this.myContentService.deleteFolder(this.selectedContentItem.uniqueName).subscribe(data => {
+          this.auditTrailService.addAudiTrailLog("Deleted folder '" + this.selectedContentItem.folderName + "'.");
+          this.getcontentforPage(this.pageID);
+          alert("Folder deleted successfull.");
+        });
+      }
     }
   }
 
