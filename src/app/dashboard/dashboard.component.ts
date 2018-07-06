@@ -84,28 +84,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.initialiseInvites();
       }
     });
-    this.actrouter.queryParams.subscribe(params => {
-      this.itemsLoading = true;
-      this.pageID = params.page;
-      this.getcontentforPage(this.pageID);
-    });
+    this.getcontent();
 
     this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
       this.itemsLayout = il;
     });
   }
 
-  initialiseInvites() {
+  getcontent() {
     this.actrouter.queryParams.subscribe(params => {
-      this.pageID = params.page;
-      this.getcontentforPage(this.pageID);
+      if (params.page != undefined) {
+        this.pageID = params.page;
+        this.getcontentforPage(this.pageID);
+      } else if (params.search != undefined) {
+        this.pageID = "search";
+        this.searchContent(params.search);
+      }
     });
+  }
+
+  initialiseInvites() {
+    this.getcontent();
   }
 
   ngOnDestroy() {
     if (this.navigationSubscription) {
       this.navigationSubscription.unsubscribe();
     }
+  }
+
+  private searchContent(query) {
+    this.myContentService.searchItems(query)
+      .subscribe(data => {
+        this.populateItems(data);
+      });
   }
 
   private getUserIDs(selectedUsers) {
@@ -163,6 +175,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         sharedfile.added_date = '21 May 2018';
         sharedfile.size = 1000;
         this.allFilesFolders.push(sharedfile);
+      }
+    } else if (this.pageID == "search") {
+      for (const file of items) {
+        file.id = file.id;
+        file.name = file.filename;
+        file.category = 'image';
+        file.icon = 'image';
+        file.added_date = '21 May 2018';
+        file.size = 1000;
+        this.allFilesFolders.push(file);
       }
     } else {
       for (const folder of items.folders) {

@@ -8,9 +8,10 @@
 
     <div class="nav collapse navbar-collapse" id="navbarSupportedContent">
       <div class="ws-main-search mr-auto">
-        <form action="">
+        <form>
           <i class="material-icons">search</i>
-          <input class="ws-text-field" type="text" placeholder="Search">
+          <input name="searchtext" class="ws-text-field" [(ngModel)]="searchtext" type="text" placeholder="Search file...">
+          <button class="ws-button-primary" (click)="executeSearch()">Search</button>
         </form>
       </div>
       <div class="justify-content-end">

@@ -28,6 +28,7 @@ export class TopbarComponent implements OnInit {
     };
 
     tempFileSize = 0;
+    searchtext = "";
 
     constructor(
         public myContentService: MyContentService,
@@ -65,12 +66,19 @@ export class TopbarComponent implements OnInit {
         this.myContentService.addNewFolder(this.newFolderData)
             .subscribe(newFolderinfo => {
                 debugger
-                this.auditTrailService.addAudiTrailLog("Created new folder file '"+this.newFolderData.name+"'");
+                this.auditTrailService.addAudiTrailLog("Created new folder '" + this.newFolderData.name + "'");
                 this.newFolderData.name = "";
                 $("#initNewFolder").modal('hide');
                 this.reloadPage();
             });
     };
+
+    executeSearch = function () {
+        let navigationExtras: NavigationExtras = {
+            queryParams: { 'search': this.searchtext }
+        };
+        this.router.navigate(['ws/dashboard'], navigationExtras);
+    }
 
     browseFileInit() {
         $('#upFile').click();
@@ -101,7 +109,7 @@ export class TopbarComponent implements OnInit {
         this.fileReady = true;
     }
 
-    reloadPage = function(){
+    reloadPage = function () {
         this.goToRoute(this.myContentService.getCurrenFolder());
     }
 
@@ -123,7 +131,7 @@ export class TopbarComponent implements OnInit {
         this.myContentService.addNewFile(uploadData)
             .subscribe(event => {
                 debugger
-                this.auditTrailService.addAudiTrailLog("Uploaded file '"+this.newFileData.upfile.name+"'");
+                this.auditTrailService.addAudiTrailLog("Uploaded file '" + this.newFileData.upfile.name + "'");
                 console.log(event);
                 this.newFileData.filename = "";
                 this.newFileData.upfile = {};
