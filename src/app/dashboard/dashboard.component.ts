@@ -181,6 +181,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  starfile(item) {
+    this.myContentService.starFile(item.id).subscribe(data => {
+      this.auditTrailService.addAudiTrailLog("File '" + item.name + "' marked as favorite.");
+      this.getcontentforPage(this.pageID);
+    });
+  }
+
+  unstartfile(item){
+    this.myContentService.unstarFile(item.id).subscribe(data => {
+      this.auditTrailService.addAudiTrailLog("File '" + item.name + "' unmarked as favorite.");
+      this.getcontentforPage(this.pageID);
+    });
+  }
+
   deleteContent() {
     if (confirm("Are you sure you want to delete this " + this.selectedContentItem.category + "?")) {
       debugger
@@ -212,6 +226,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       for (const sharedfile of items.sharedFiles) {
         sharedfile.id = sharedfile.id;
         sharedfile.name = sharedfile.filename;
+        sharedfile.starred = sharedfile.starred;
         sharedfile.category = 'shared';
         sharedfile.icon = 'shared';
         sharedfile.added_date = '21 May 2018';
@@ -222,6 +237,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       for (const file of items) {
         file.id = file.id;
         file.name = file.filename;
+        file.starred = file.starred;
         file.category = 'image';
         file.icon = 'image';
         file.added_date = '21 May 2018';
@@ -232,6 +248,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       for (const folder of items.folders) {
         folder.id = folder.folderId;
         folder.name = folder.folderName;
+        folder.starred = folder.starred;
         folder.category = 'folder';
         folder.icon = 'folder';
         folder.added_date = '20 May 2018';
@@ -241,6 +258,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       for (const file of items.files) {
         file.id = file.id;
         file.name = file.filename;
+        file.starred = file.starred;
         file.category = 'image';
         file.icon = 'image';
         file.added_date = '21 May 2018';

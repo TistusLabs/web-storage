@@ -8,6 +8,7 @@ export class FileTemplate {
     parentFolder: string;
     category: string;
     userId: string;
+    starred: Boolean;
     fileInfo: {
         addedDate: string,
         lastModifiedDate: string,

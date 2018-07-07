@@ -15,9 +15,13 @@
         <div class="ws-preloader-bar"></div>
       </div>
     </div>
-    <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left" role="button" aria-haspopup="true"
-      aria-expanded="false">
+    <button *ngIf="item.starred == false || item.starred == null" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left"
+      (click)="starfile(item)" role="button" aria-haspopup="true" aria-expanded="false">
       <i class="ws-overhead-btn ws-content-more-ops material-icons">star_border</i>
+    </button>
+    <button *ngIf="item.starred == true" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left"
+      (click)="unstartfile(item)" role="button" aria-haspopup="true" aria-expanded="false">
+      <i class="ws-overhead-btn ws-content-more-ops material-icons">star</i>
     </button>
     <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" id="moreOptions-{{item.id}}" role="button"
       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
