@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { NewUserTemplate, loginResponse, userObject } from '../filemanager';
 import { retry, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router, NavigationExtras } from '@angular/router';
 
 interface myData {
   obj: Object
@@ -12,7 +13,7 @@ interface myData {
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   // user = User;
   private url: string = '/assets/data/dummy.json';
@@ -47,6 +48,15 @@ export class AuthService {
 
   public getAuthObject() {
     return this.authObject;
+  }
+
+  public logoutUser() {
+    this.authToken = "";
+    this.authObject = {};
+    let navigationExtras: NavigationExtras = {
+      queryParams: {}
+    };
+    this.router.navigate(['auth'], navigationExtras);
   }
 
   public getUserID() {
@@ -93,10 +103,10 @@ export class AuthService {
 
     this.newUserPermissions = {};
     this.newUserPermissions.canEdit = userdata.permissions.canEdit;
-    this.newUserPermissions.canView  = userdata.permissions.canView;
-    this.newUserPermissions.canDownload  = userdata.permissions.canDownload;
-    this.newUserPermissions.canAdd  = userdata.permissions.canAdd;
-    this.newUserPermissions.canDelete  = userdata.permissions.canDelete;
+    this.newUserPermissions.canView = userdata.permissions.canView;
+    this.newUserPermissions.canDownload = userdata.permissions.canDownload;
+    this.newUserPermissions.canAdd = userdata.permissions.canAdd;
+    this.newUserPermissions.canDelete = userdata.permissions.canDelete;
 
     this.newUserObject = {};
     this.newUserObject.user = this.newUserDetails;
@@ -141,11 +151,11 @@ export class AuthService {
     return this.http.get<userObject>(this._url_getAllusers, this.requestOptions);
   }
 
-  public setUsers(users){
+  public setUsers(users) {
     this.allUsers = users;
   }
 
-  public getUsers(){
+  public getUsers() {
     return this.allUsers;
   }
 }

@@ -140,4 +140,10 @@ export class TopbarComponent implements OnInit {
             });
     }
 
+    logoutUser = function () {
+        if (confirm("Are you sure you want to logout?")) {
+            this.authService.logoutUser();
+        }
+    }
+
 }
