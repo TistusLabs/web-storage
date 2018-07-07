@@ -177,7 +177,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.myContentService.downloadContent([filedetails], []).subscribe(data => {
         debugger
         this.downloadFileFromBlob(data);
-        // this.auditTrailService.addAudiTrailLog("Renamed file from '" + this.selectedContentItem.name + "' to '" + this.newfilename + "'.");
+        this.auditTrailService.addAudiTrailLog("File downloaded '" + item.name + "'.");
       });
     }
     // download any folder
@@ -186,7 +186,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.myContentService.downloadContent([], [item.uniqueName]).subscribe(data => {
         debugger
         this.downloadFileFromBlob(data);
-        // this.auditTrailService.addAudiTrailLog("Renamed file from '" + this.selectedContentItem.name + "' to '" + this.newfilename + "'.");
+        this.auditTrailService.addAudiTrailLog("Folder downloaded '" + item.name + "'.");
       });
     }
   }

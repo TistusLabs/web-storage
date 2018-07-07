@@ -1,0 +1,16 @@
+<h4>Trashed Items</h4>
+<p>
+  Here you are able to see all the deleted files by the other users of the system.
+</p>
+<div>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let file of alldeletedFilesFolders">
+      <i *ngIf="file.category == 'folder'" class="material-icons">folder</i>
+      <i *ngIf="file.category != 'folder'" class="material-icons">image</i>
+      {{ file.name}}
+      <button (click)="permanentDelete(file)">
+        <i class="material-icons">delete</i>
+      </button>
+    </li>
+  </ul>
+</div>

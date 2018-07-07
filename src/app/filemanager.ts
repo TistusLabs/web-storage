@@ -17,7 +17,7 @@ export class FileTemplate {
     }
 }
 
-export interface IFilemanager {
+export class IFilemanager {
     files: Array<FileTemplate>,
     folders: Array<FileTemplate>,
     sharedFiles: Array<FileTemplate>

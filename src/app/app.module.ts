@@ -28,6 +28,7 @@ import { PreloaderLineDirective } from './directives/preloader-line.directive';
 import { UsersComponent } from './users/users.component';
 import { GroupsComponent } from './groups/groups.component';
 import { AudittrailComponent } from './audittrail/audittrail.component';
+import { TrashComponent } from './trash/trash.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AudittrailComponent } from './audittrail/audittrail.component';
     PreloaderLineDirective,
     UsersComponent,
     GroupsComponent,
-    AudittrailComponent
+    AudittrailComponent,
+    TrashComponent
   ],
   imports: [
     BrowserModule,

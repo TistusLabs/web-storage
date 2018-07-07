@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { UsersComponent } from './users/users.component';
 import { GroupsComponent } from './groups/groups.component';
 import { AudittrailComponent } from './audittrail/audittrail.component';
+import { TrashComponent } from './trash/trash.component'
 
 const routes: Routes = [
   {
@@ -51,6 +52,9 @@ const routes: Routes = [
       }, {
         path: 'audit-trail',
         component: AudittrailComponent
+      }, {
+        path: 'trash',
+        component: TrashComponent
       }
     ],
     runGuardsAndResolvers: 'always'
