@@ -18,9 +18,9 @@ export class FileTemplate {
 }
 
 export class IFilemanager {
-    files: Array<FileTemplate>,
-    folders: Array<FileTemplate>,
-    sharedFiles: Array<FileTemplate>
+    files: Array<FileTemplate>;
+    folders: Array<FileTemplate>;
+    sharedFiles: Array<FileTemplate>;
 }
 
 export interface UploadTemplate {

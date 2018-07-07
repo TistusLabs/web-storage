@@ -14,37 +14,41 @@ export class TrashComponent implements OnInit {
 
   constructor(private myContentService: MyContentService, private auditTrailService: AuditTrailService) { }
 
-  alldeletedFilesFolders = new Array<IFilemanager>;
+  alldeletedFilesFolders = new Array<IFilemanager>();
 
 
   ngOnInit() {
     this.getDeletedItems();
   }
 
+  populateitems(data) {
+    for (const folder of data.folders) {
+      folder.id = folder.folderId;
+      folder.name = folder.folderName;
+      folder.starred = folder.starred;
+      folder.category = 'folder';
+      folder.icon = 'folder';
+      folder.added_date = '20 May 2018';
+      folder.size = 1000;
+      this.alldeletedFilesFolders.push(folder);
+    }
+    for (const file of data.files) {
+      file.id = file.id;
+      file.name = file.filename;
+      file.starred = file.starred;
+      file.category = 'image';
+      file.icon = 'image';
+      file.added_date = '21 May 2018';
+      file.size = 1000;
+      this.alldeletedFilesFolders.push(file);
+    }
+  }
+
   private getDeletedItems() {
-    this.alldeletedFilesFolders = new Array<IFilemanager>;
+    this.alldeletedFilesFolders = new Array<IFilemanager>();
     this.myContentService.getDeletedItems()
       .subscribe(data => {
-        for (const folder of data.folders) {
-          folder.id = folder.folderId;
-          folder.name = folder.folderName;
-          folder.starred = folder.starred;
-          folder.category = 'folder';
-          folder.icon = 'folder';
-          folder.added_date = '20 May 2018';
-          folder.size = 1000;
-          this.alldeletedFilesFolders.push(folder);
-        }
-        for (const file of data.files) {
-          file.id = file.id;
-          file.name = file.filename;
-          file.starred = file.starred;
-          file.category = 'image';
-          file.icon = 'image';
-          file.added_date = '21 May 2018';
-          file.size = 1000;
-          this.alldeletedFilesFolders.push(file);
-        }
+        this.populateitems(data);
       });
   }
 
