@@ -151,7 +151,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   setcurrentItem(item) {
     this.selectedContentItem = item;
-    this.newfilename = null;
+    if(item.category != "folder"){
+      this.newfilename = item.filename;
+    }
+    if(item.category == "folder"){
+      this.newfilename = item.folderName;
+    }
   }
 
   sharefile(item) {
@@ -162,6 +167,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
     console.log(selectedOrderIds);
     let userIDs = this.getUserIDs(selectedOrderIds);
     this.addPermissionToUser(userIDs, 0, this.selectedContentItem.uniqueFileName);
+  }
+
+  downloadFile(item) {
+    // download any file
+    if (item.category != 'folder') {
+      let filedetails = { "filename": item.filename, "uniqueFileName": item.uniqueFileName };
+
+      this.myContentService.downloadContent([filedetails], []).subscribe(data => {
+        debugger
+        // this.auditTrailService.addAudiTrailLog("Renamed file from '" + this.selectedContentItem.name + "' to '" + this.newfilename + "'.");
+      });
+    }
+    // download any folder
+    if (item.category == 'folder') {
+      debugger
+      this.myContentService.downloadContent([], [item.uniqueName]).subscribe(data => {
+        debugger
+        // this.auditTrailService.addAudiTrailLog("Renamed file from '" + this.selectedContentItem.name + "' to '" + this.newfilename + "'.");
+      });
+    }
   }
 
   renameDocument() {
@@ -188,7 +213,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  unstartfile(item){
+  unstartfile(item) {
     this.myContentService.unstarFile(item.id).subscribe(data => {
       this.auditTrailService.addAudiTrailLog("File '" + item.name + "' unmarked as favorite.");
       this.getcontentforPage(this.pageID);
