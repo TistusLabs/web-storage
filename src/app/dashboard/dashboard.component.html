@@ -15,7 +15,7 @@
         <div class="ws-preloader-bar"></div>
       </div>
     </div>
-    <button *ngIf="item.starred == false || item.starred == null" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left"
+    <button *ngIf="item.starred == false || item.starred == null && item.category != 'folder'" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left"
       (click)="starfile(item)" role="button" aria-haspopup="true" aria-expanded="false">
       <i class="ws-overhead-btn ws-content-more-ops material-icons">star_border</i>
     </button>
