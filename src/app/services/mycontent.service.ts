@@ -300,14 +300,15 @@ export class MyContentService {
     public downloadContent(files: Array<{ "filename": string, "uniqueFileName": string }>, foldernames: string[]) {
 
         this.requestOptions = {
-            headers: new HttpHeaders(this._headers)
+            headers: new HttpHeaders(this._headers),
+            responseType: 'blob'
         };
 
         let sendObj = { "fileNames": files, "folderNames": foldernames, "currentFolder": "", "userId": "" };
         sendObj.currentFolder = this.getCurrenFolder();
         sendObj.userId = this.authService.getUserID();
 
-        return this.http.post<FileTemplate>(this._url_downloadcontent, sendObj, this.requestOptions)
+        return this.http.post<Blob>(this._url_downloadcontent, sendObj, this.requestOptions)
             .pipe(
                 retry(1),
                 catchError(this.handleError)

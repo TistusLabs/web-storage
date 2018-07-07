@@ -151,10 +151,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   setcurrentItem(item) {
     this.selectedContentItem = item;
-    if(item.category != "folder"){
+    if (item.category != "folder") {
       this.newfilename = item.filename;
     }
-    if(item.category == "folder"){
+    if (item.category == "folder") {
       this.newfilename = item.folderName;
     }
   }
@@ -176,6 +176,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       this.myContentService.downloadContent([filedetails], []).subscribe(data => {
         debugger
+        this.downloadFileFromBlob(data);
         // this.auditTrailService.addAudiTrailLog("Renamed file from '" + this.selectedContentItem.name + "' to '" + this.newfilename + "'.");
       });
     }
@@ -184,9 +185,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       debugger
       this.myContentService.downloadContent([], [item.uniqueName]).subscribe(data => {
         debugger
+        this.downloadFileFromBlob(data);
         // this.auditTrailService.addAudiTrailLog("Renamed file from '" + this.selectedContentItem.name + "' to '" + this.newfilename + "'.");
       });
     }
+  }
+
+  downloadFileFromBlob(data: HttpEvent<Blob>) {
+    var blob = new Blob([data], { type: 'application/zip' });
+    var url = window.URL.createObjectURL(blob);
+    window.open(url);
   }
 
   renameDocument() {
