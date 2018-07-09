@@ -10,6 +10,12 @@ import { Router, NavigationExtras } from '@angular/router';
 export class SidenavComponent implements OnInit {
   constructor(public myContentService: MyContentService, private router: Router) { }
   myFolders = null;
+  xsBreadcrumbInfo = {
+    selectedSection : 'Choose sections here',
+    selectedFolder : '',
+    icon : ''
+  };
+  xsSidenavState = false;
 
   ngOnInit() {
     this.myContentService.getAllFolders()
@@ -33,9 +39,15 @@ export class SidenavComponent implements OnInit {
       let navigationExtras: NavigationExtras = {
         queryParams: { 'page': advance }
       };
+      this.xsBreadcrumbInfo.selectedSection = advance;
       this.router.navigate([route], navigationExtras);
     } else {
       this.router.navigate([route]);
     }
+  }
+
+  toggleBreadcrumb () {
+    this.xsSidenavState = !this.xsSidenavState;
+    this.xsSidenavState ? $(".ws-sidenav-wrap").css('height', '300px') : $(".ws-sidenav-wrap").css('height', '40px');
   }
 }

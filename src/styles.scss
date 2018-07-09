@@ -95,6 +95,15 @@ body {
       left: 5px;
       top: 5px;
     }
+    .ws-text-icon {
+      span:first-child {
+        font-size: 20px;
+        font-weight: 700;
+        display: inline-block;
+        line-height: 0;
+        margin-right: 5px;
+      }
+    }
   }
 
   .clickable {
@@ -421,6 +430,7 @@ body {
   //************** MODAL **************
   .ws-modal-large {
     width: $ws-card-medium;
+    max-width: $ws-card-medium;
   }
   //. . . . . . . . . . . . . . . . . . .
 
@@ -489,3 +499,56 @@ body {
   //. . . . . . . . . . . . . . . . . . .
 }
  
+@media (max-width: 576px) {
+  body {
+    .ws-main {
+      height: auto;
+    }
+    .ws-modal-large {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0;
+      padding: 10px;
+    }
+    .ws-content-item {
+      width: 100%;
+    }
+    .ws-content-item-preview {
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .ws-sidenav-wrap {
+      height: 40px;
+      padding: 5px 15px;
+      // background: $ws-hover-background-secondary;
+      transition: height $ws-transition-time;
+      .ws-xs-breadcrumb {
+        position: absolute;
+        height: 40px;
+        padding: 10px;
+        width: 100%;
+        left: 0;
+        top: 0;
+        background: $ws-hover-background-secondary;
+        z-index: 1;
+      }
+    }
+    .ws-card{
+      &.ws-card-small {
+        width: auto;
+        margin: auto 10px;
+      }
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .ws-sidenav-wrap {
+    height: auto!important;
+    .ws-xs-breadcrumb {
+      display: none;
+    }
+  }
+}

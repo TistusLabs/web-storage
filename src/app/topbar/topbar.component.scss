@@ -13,7 +13,12 @@
   .ws-main-search {
     position: relative;
     color: #aaa;
-    i.material-icons {
+    display: inline-block;
+    width: 100%;
+    form {
+      display: flex;
+    }
+    &>i.material-icons {
       position: absolute;
       color: #aaa;
       font-size: 18px;
@@ -25,8 +30,9 @@
     }
     input {
       padding: 7px 10px 7px 40px;
-      max-width: 600px;
-      width: 600px;
+      width: calc(100% - 30px);
+      // max-width: 600px;
+      // width: 600px;
     }
   }
   .ws-topbar-user-icon {
@@ -40,10 +46,17 @@
     }
   }
   .navbar-brand {
-    width: 200px;
+    margin: 0;
+    padding: 10px 20px;
+  }
+  .navbar-collapse {
+    justify-content: flex-end;
   }
   nav {
     background: #fff!important;
+  }
+  .ws-topbar-fixed-elems-wrap {
+    display: flex;
   }
   .ws-topbar-filters {
     padding: 20px 20px 0 20px;
@@ -55,15 +68,89 @@
       }
     }
   }
-
   #initNewFolder {
     width: 240px;
     padding: 5px;
   }
   #initNewFile {
     .modal-dialog {
-      max-width: 600px;
-      width: 600px;
+      // max-width: 600px;
+      // width: 600px;
     }
+  }
+  .ws-addbtn-wrap,
+  .ws-filters-wrap {
+    padding: 0!important;
+  }
+}
+@media (max-width: 576px) {
+  .ws-topbar {
+    .ws-main-search {
+      width: 40px;
+      input {
+        width: 0px;
+        padding: 0;
+        border: none;
+      }
+    }
+    .navbar-brand {
+      width: auto;
+      margin-right: auto;
+      font-size: 16px;
+      padding: 5px 0;
+    }
+    .ws-addbtn-wrap {
+      margin: 0;
+      width: auto;
+    }
+    #addNewDropdown{
+      padding: 5px;
+      width: 40px;
+      height: 40px;
+      line-height: 0;
+      &.ws-text-icon {
+        span:first-child {
+          font-size: 30px;
+        }
+        span:last-child {
+          display: none;
+        }
+      }
+    }
+    .ws-topbar-filters {
+      padding: 10px 20px !important;
+    }
+    .ws-filters-wrap {
+      .ws-list-horizontal {
+        .nav-item {
+          margin-left: 20px;
+          text-align: center; 
+        }
+      }
+    }
+    .ws-topbar-fixed-elems-wrap {
+      width: auto;
+      padding: 0;
+      justify-content: flex-end;
+    }
+    #initNewFolder {
+      width: auto;
+    }
+  }
+}
+@media (min-width: 576px) {
+  .navbar {
+    padding: 0;
+  }
+  .navbar-brand {
+    width: auto;
+    margin-right: auto;
+  }
+  .ws-addbtn-wrap {
+    margin-right: auto;
+    width: 120px;
+  }
+  .ws-homebtn-wrap {
+    margin-right: auto;
   }
 }

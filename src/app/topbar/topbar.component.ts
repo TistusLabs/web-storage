@@ -36,8 +36,7 @@ export class TopbarComponent implements OnInit {
         private router: Router,
         public uiHelperService: UIHelperService,
         private auditTrailService: AuditTrailService
-    ) {
-    }
+    ) {}
     fileReady = false;
     itemsLayout = 'grid';
     ngOnInit() {
@@ -135,6 +134,8 @@ export class TopbarComponent implements OnInit {
                 console.log(event);
                 this.newFileData.filename = "";
                 this.newFileData.upfile = {};
+                this.fileReady = false;
+                const test = $("#initNewFile");
                 $("#initNewFile").modal('hide');
                 this.reloadPage();
             });

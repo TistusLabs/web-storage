@@ -1,3 +1,7 @@
+<div class="ws-xs-breadcrumb" (click)="toggleBreadcrumb()">
+  <span class="ws-bc-selected-section">{{xsBreadcrumbInfo.selectedSection}}</span>
+  <button class="ws-abs-button"><i class="material-icons">{{xsSidenavState ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i></button>
+</div>
 <div class="ws-sidenav">
   <ul class="ws-list ws-iconed-list">
     <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary">

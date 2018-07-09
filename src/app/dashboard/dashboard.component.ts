@@ -80,9 +80,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // this.myContentService.setCurrentFolder(this.pageID);
     // // this.getAllItems();
     // this.getAllItemsForPage(this.pageID);
-
+    this.itemsLoading = true;
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
+      this.itemsLoading = true;
       if (e instanceof NavigationEnd) {
         this.initialiseInvites();
       }
@@ -336,7 +337,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.selectedItemFull.lastModifiedDate = moment(f.lastModifiedDate).format('DD MMMM YYYY');
     this.selectedItemFull.size = this.uiHelperService.formatBytes(f.size, null);
     this.selectedItemFull.name = this.selectedContentItem.filename;
-    if (dim) {
+    if (dim && $(window).width() > 576) {
       this.selectedItemFull.width = dim.w;
       this.selectedItemFull.height = dim.h;
       const maxh = $('.ws-content-item-full-body').height();

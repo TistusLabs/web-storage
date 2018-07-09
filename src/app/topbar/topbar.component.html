@@ -1,19 +1,21 @@
 <div class="ws-topbar">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Web Storage</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="nav collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="ws-main-search mr-auto">
+    <a class="navbar-brand col-md-3 col-sm-4 col-4" href="#">Web Storage</a>
+    <div class="ws-topbar-fixed-elems-wrap col-md-7 col-sm-8 col-8">
+      <div class="ws-main-search">
         <form>
-          <i class="material-icons">search</i>
           <input name="searchtext" class="ws-text-field" [(ngModel)]="searchtext" type="text" placeholder="Search file...">
-          <button class="ws-button-primary" (click)="executeSearch()">Search</button>
+          <button class="ws-button-flat iconed" (click)="executeSearch()">
+            <i class="material-icons">search</i>
+          </button>
         </form>
       </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <div class="nav collapse navbar-collapse col-md-2 col-sm-12 col-12" id="navbarSupportedContent">
       <div class="justify-content-end">
         <ul class="navbar-nav">
           <li class="ws-topbar-user-icon">
@@ -35,8 +37,8 @@
     </div>
   </nav>
   <div class="nav ws-topbar-filters">
-    <div class="ws-addbtn-wrap mr-auto" style="width: 210px">
-      <button class="ws-button-primary" id="addNewDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">+ ADD</button>
+    <div class="ws-addbtn-wrap mr-auto col-md-3 col-sm-4 col-2">
+      <button class="ws-button-primary ws-text-icon" id="addNewDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>+</span><span>ADD</span></button>
       <div class="dropdown-menu dropdown-menu-left" aria-labelledby="addNewDropdown">
         <ul class="ws-list ws-iconed-list">
           <li class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initNewFolder">
@@ -50,8 +52,8 @@
         </ul>
       </div>
     </div>
-    <div class="justify-content-end nav" style="width: calc(100% - 210px)">
-      <div class="mr-auto">
+    <div class="ws-filters-wrap justify-content-end nav col-md-9 col-sm-8 col-10">
+      <div class="ws-homebtn-wrap">
         <ul class="nav ws-list-horizontal">
           <li class="nav-item" (click)="goToRoute('')">
             <button class="ws-button-flat iconed">
@@ -113,7 +115,7 @@
 
   <!--New file initialization-->
   <div class="modal fade" id="initNewFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered ws-modal-large" role="document">
       <div class="modal-content ws-card">
         <div class="modal-header ws-card-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Upload New File</h5>
