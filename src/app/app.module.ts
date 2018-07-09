@@ -12,7 +12,7 @@ import { AuthGuard } from './auth.guard';
 // TypeScript syntax configuration
 import * as $ from 'jquery';
 import * as bootstrap from "bootstrap";
-// import { DataTablesModule } from 'angular-datatables';
+import { DataTablesModule } from 'angular-datatables';
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -27,7 +27,7 @@ import { SignupComponent } from './signup/signup.component';
 import { PreloaderLineDirective } from './directives/preloader-line.directive';
 import { UsersComponent } from './users/users.component';
 import { GroupsComponent } from './groups/groups.component';
-// import { AudittrailComponent } from './audittrail/audittrail.component';
+import { AudittrailComponent } from './audittrail/audittrail.component';
 import { TrashComponent } from './trash/trash.component';
 
 @NgModule({
@@ -44,7 +44,7 @@ import { TrashComponent } from './trash/trash.component';
     PreloaderLineDirective,
     UsersComponent,
     GroupsComponent,
-    // AudittrailComponent,
+    AudittrailComponent,
     TrashComponent
   ],
   imports: [
@@ -52,8 +52,8 @@ import { TrashComponent } from './trash/trash.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
-    // DataTablesModule
+    AppRoutingModule,
+    DataTablesModule
   ],
   providers: [
     MyContentService,
