@@ -111,7 +111,7 @@ export class AuthService {
     this.newUserDetails = {};
     this.newUserDetails.username = userdata.user.username;
     this.newUserDetails.password = userdata.user.password;
-    this.newUserDetails.userType = userdata.user.usertype;
+    this.newUserDetails.userType = userdata.user.userType;
 
     this.newUserPermissions = {};
     this.newUserPermissions.canEdit = userdata.permissions.canEdit;
