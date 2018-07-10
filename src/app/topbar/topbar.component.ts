@@ -29,6 +29,7 @@ export class TopbarComponent implements OnInit {
 
     tempFileSize = 0;
     searchtext = "";
+    authPermissions = {};
 
     constructor(
         public myContentService: MyContentService,
@@ -45,6 +46,7 @@ export class TopbarComponent implements OnInit {
         });
         let auth = this.authService.getAuthObject();
         this.user.name = auth.unique_name;
+        this.authPermissions = this.authService.getAuthPermissions();
     }
 
     // Update items layout

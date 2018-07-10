@@ -1,6 +1,8 @@
 <div class="ws-xs-breadcrumb" (click)="toggleBreadcrumb()">
   <span class="ws-bc-selected-section">{{xsBreadcrumbInfo.selectedSection}}</span>
-  <button class="ws-abs-button"><i class="material-icons">{{xsSidenavState ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i></button>
+  <button class="ws-abs-button">
+    <i class="material-icons">{{xsSidenavState ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
+  </button>
 </div>
 <div class="ws-sidenav">
   <ul class="ws-list ws-iconed-list">
@@ -38,18 +40,18 @@
       <span class="ws-list-item-text">History</span>
     </li>
     <hr>
-    <span>
+    <span *ngIf="authPermissions.role == 'admin'">
       <b>Administration</b>
     </span>
-    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/users','')">
+    <li *ngIf="authPermissions.role == 'admin'" class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/users','')">
       <i class="material-icons ws-list-item-icon">people_outline</i>
       <span class="ws-list-item-text">Users</span>
     </li>
-    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/trash','')">
+    <li *ngIf="authPermissions.role == 'admin'" class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/trash','')">
       <i class="material-icons ws-list-item-icon">delete</i>
       <span class="ws-list-item-text">Trashed Items</span>
     </li>
-    <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/audit-trail','')">
+    <li *ngIf="authPermissions.role == 'admin'" class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/audit-trail','')">
       <i class="material-icons ws-list-item-icon">list</i>
       <span class="ws-list-item-text">Audit Trail</span>
     </li>

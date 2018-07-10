@@ -1,4 +1,4 @@
-<div class="ws-dashboard">
+<div class="ws-dashboard" *ngIf="authPermissions.canView">
   <div class="ws-preloader-line" *ngIf="itemsLoading && itemLoading===''">
     <div class="ws-preloader-load-bar">
       <div class="ws-preloader-bar"></div>
@@ -29,7 +29,7 @@
     </button>
     <div class="ws-shadow-full dropdown-menu dropdown-menu-right" attr.aria-labelledby="moreOptions-{{item.id}}">
       <ul class="ws-list ws-iconed-list">
-        <li class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="downloadFile(item)">
+        <li *ngIf="authPermissions.canDownload" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="downloadFile(item)">
           <i class="ws-overhead-btn material-icons ws-list-item-icon">cloud_download</i>
           <span class="ws-overhead-btn ws-list-item-text">Download {{item.category}}</span>
         </li>
@@ -48,7 +48,7 @@
           <i class="ws-overhead-btn material-icons ws-list-item-icon">text_format</i>
           <span class="ws-overhead-btn ws-list-item-text">Rename</span>
         </li>
-        <li class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item);deleteContent()">
+        <li *ngIf="authPermissions.canDelete" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item);deleteContent()">
           <i class="ws-overhead-btn material-icons ws-list-item-icon">delete</i>
           <span class="ws-overhead-btn ws-list-item-text">Delete</span>
         </li>
@@ -166,7 +166,7 @@
               <i class="material-icons ws-color-white">share</i>
             </button>
           </li>
-          <li class="nav-item">
+          <li *ngIf="authPermissions.canDelete" class="nav-item">
             <button class="ws-button-flat iconed">
               <i class="material-icons ws-color-white">delete</i>
             </button>

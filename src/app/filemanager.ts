@@ -52,6 +52,7 @@ export class userPermissionObject {
     canDownload: number;
     canAdd: number;
     canDelete: number;
+    createFolder: number;
 }
 
 export interface loginResponse {

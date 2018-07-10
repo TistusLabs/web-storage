@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MyContentService } from '../services/mycontent.service';
 import { Router, NavigationExtras } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -8,14 +9,15 @@ import { Router, NavigationExtras } from '@angular/router';
   styleUrls: ['sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
-  constructor(public myContentService: MyContentService, private router: Router) { }
+  constructor(public myContentService: MyContentService, private router: Router, private authService: AuthService) { }
   myFolders = null;
   xsBreadcrumbInfo = {
-    selectedSection : 'Choose sections here',
-    selectedFolder : '',
-    icon : ''
+    selectedSection: 'Choose sections here',
+    selectedFolder: '',
+    icon: ''
   };
   xsSidenavState = false;
+  authPermissions = {};
 
   ngOnInit() {
     this.myContentService.getAllFolders()
@@ -24,6 +26,7 @@ export class SidenavComponent implements OnInit {
         // console.log(this.myFolders);
       });
     // this.myFolders = this.myContentService.getAllFolders();
+    this.authPermissions = this.authService.getAuthPermissions();
   }
 
   getFolders = function () {
@@ -46,7 +49,7 @@ export class SidenavComponent implements OnInit {
     }
   }
 
-  toggleBreadcrumb () {
+  toggleBreadcrumb() {
     this.xsSidenavState = !this.xsSidenavState;
     this.xsSidenavState ? $(".ws-sidenav-wrap").css('height', '300px') : $(".ws-sidenav-wrap").css('height', '40px');
   }

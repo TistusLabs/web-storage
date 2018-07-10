@@ -72,6 +72,9 @@
               <input type="checkbox" name="canAdd" [(ngModel)]="userpermission.canAdd"> Enable uploading new files
             </label>
             <label>
+              <input type="checkbox" name="createFolder" [(ngModel)]="userpermission.createFolder"> Enable Creating Folders
+            </label>
+            <label>
               <input type="checkbox" name="canDelete" [(ngModel)]="userpermission.canDelete"> Enable Deleting files
             </label>
           </div>
@@ -86,7 +89,10 @@
   <div class="ws-page-title clearfix row">
     <h2 class="col-md-6 col-sm-6 col-6">Users</h2>
     <div class="col-md-6 col-sm-6 col-6 text-right">
-      <button class="ws-button-primary ws-text-icon" role="button" data-toggle="modal" data-target="#initNewUser"><span>+</span><span>ADD USER</span></button>
+      <button class="ws-button-primary ws-text-icon" role="button" data-toggle="modal" data-target="#initNewUser">
+        <span>+</span>
+        <span>ADD USER</span>
+      </button>
     </div>
   </div>
   <ul class="ws-list row">

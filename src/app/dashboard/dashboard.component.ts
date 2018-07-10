@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pageID = "";
   form: FormGroup;
   allusers: Array<userObject>;
+  authPermissions = {};
 
   constructor(
     private myContentService: MyContentService,
@@ -94,6 +95,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
       this.itemsLayout = il;
     });
+
+    // set auth permission object
+    this.authPermissions = this.authService.getAuthPermissions();
   }
 
   getcontent() {

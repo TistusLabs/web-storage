@@ -44,6 +44,7 @@ export class UsersComponent implements OnInit {
 		this.userpermission.canDownload = false;
 		this.userpermission.canAdd = false;
 		this.userpermission.canDelete = false;
+		this.userpermission.createFolder = false;
 	}
 
 	private getPermissionObject() {
@@ -63,6 +64,9 @@ export class UsersComponent implements OnInit {
 		if (this.userpermission.canDelete) {
 			this.newPermission.canDelete = 1;
 		}
+		if (this.userpermission.createFolder) {
+			this.newPermission.createFolder = 1;
+		}
 		return this.newPermission;
 	}
 
@@ -71,7 +75,7 @@ export class UsersComponent implements OnInit {
 		let userobj = this.getPermissionObject();
 		this.authService.signUpUser({ "user": this.newUser, "permissions": userobj })
 			.subscribe(data => {
-				this.auditTrailService.addAudiTrailLog("User '"+this.newUser.username+"' was created.");
+				this.auditTrailService.addAudiTrailLog("User '" + this.newUser.username + "' was created.");
 				alert("new user was created");
 				this.loadAllUsers();
 				this.resetNewUser();
