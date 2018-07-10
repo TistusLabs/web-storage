@@ -16,3 +16,21 @@
         }
     }
 }
+
+
+.ws-alert {
+    &.ws-alert-danger {
+      color: $ws-danger;
+    }
+    &.ws-alert-success {
+      color: $ws-success;
+    }
+}
+
+.ws-form-alerted {
+    .ws-alert {
+        position: absolute;
+        padding: 5px;
+        font-size: $ws-font-size-secondary;
+    }
+}

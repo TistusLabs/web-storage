@@ -2,8 +2,26 @@
 @import "variables";
 
 .ws-page-title {
-  margin-bottom: $ws-padding-outer;
+  margin-bottom: $ws-margin-secondary;
   h2 {
     font-size: 20px;
+  }
+}
+.ws-page-subtitle {
+  margin-top: $ws-margin-primary;
+  margin-bottom: $ws-margin-secondary;
+  h3 {
+    font-size: 15px;
+  }
+}
+.ws-body-hints {
+  border: solid 1px $ws-color-primary;
+  border-radius: $ws-border-radius-primary;
+  padding: 3px $ws-padding-inner-secondray;
+  background: $ws-color-primary-lighter;
+  color: $ws-color-primary-dark;
+  margin-bottom: $ws-margin-secondary;
+  p {
+    margin: 0;
   }
 }

@@ -2,6 +2,7 @@
 @import "variables";
 @import "helpers";
 @import "typography";
+@import "messages";
 
 html,
 body {
@@ -24,7 +25,6 @@ body {
     color: $ws-color-white!important;
   }
 
-  
   .ws-body-wrap {
     width: calc(100% - 250px);
   }
@@ -181,12 +181,117 @@ body {
   }
 
   //Form elements
+  .ws-form-alerted {
+    padding-bottom: $ws-padding-outer;
+  }
+  .ng-valid[required],
+  .ng-valid.required {
+    border: 1px solid $ws-success;
+  }
+  .ng-invalid:not(form) {
+    border: 1px solid $ws-danger;
+  }
   input {
     padding: 5px;
     border: solid 1px #ddd;
     border-radius: 3px;
     width: auto;
     color: #555;
+  }
+  input[type="radio"]:checked,
+  input[type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+  }
+  input[type="radio"]:checked+label,
+  input[type="radio"]:not(:checked)+label {
+    position: relative;
+    padding-left: 40px;
+    cursor: pointer;
+    line-height: 25px;
+    display: inline-block; //color: #666;
+  }
+  input[type="radio"]:checked+label:before,
+  input[type="radio"]:not(:checked)+label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px; //border: 2px solid #aaa;
+    border-radius: 100%;
+    background: #aaa;
+  }
+  input[type="radio"]:checked+label:after,
+  input[type="radio"]:not(:checked)+label:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+  }
+  input[type="radio"]:not(:checked)+label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  input[type="radio"]:checked+label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  input[type="checkbox"]:checked,
+  input[type="checkbox"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+  }
+  input[type="checkbox"]:checked+label,
+  input[type="checkbox"]:not(:checked)+label {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    display: inline-block;
+  }
+  input[type="checkbox"]:checked+label:before,
+  input[type="checkbox"]:not(:checked)+label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px; //border: 2px solid #aaa;
+    border-radius: $ws-border-radius-secondary;
+    background: #fff;
+    border: solid 1px $ws-border-color-primary;
+  }
+  input[type="checkbox"]:checked+label:after,
+  input[type="checkbox"]:not(:checked)+label:after {
+    content: '';
+    width: 12px;
+    height: 8px;
+    background: #fff;
+    position: absolute;
+    top: 0px;
+    left: 4px;
+    box-shadow: -3px 3px 0 #2b9fff;
+    transform: rotate(-51deg);
+    transition: all 0.2s ease;
+  }
+  input[type="checkbox"]:not(:checked)+label:after {
+    opacity: 0;
+    // -webkit-transform: scale(0);
+    // transform: scale(0);
+  }
+  input[type="checkbox"]:checked+label:after {
+    opacity: 1;
+    // -webkit-transform: scale(1);
+    // transform: scale(1);
   }
 
   //Cards

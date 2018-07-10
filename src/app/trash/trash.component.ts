@@ -4,6 +4,7 @@ import { IFilemanager } from '../filemanager';
 import { HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuditTrailService } from '../services/audittrail.service';
+import { UIHelperService } from '../services/uihelper.service';
 
 @Component({
   selector: 'app-trash',
@@ -12,13 +13,20 @@ import { AuditTrailService } from '../services/audittrail.service';
 })
 export class TrashComponent implements OnInit {
 
-  constructor(private myContentService: MyContentService, private auditTrailService: AuditTrailService) { }
+  constructor(
+    private myContentService: MyContentService,
+    private auditTrailService: AuditTrailService,
+    private uiHelperService: UIHelperService) { }
 
   alldeletedFilesFolders = new Array<IFilemanager>();
-
+  itemsLoading = false;
+  itemsLayout = 'grid';
 
   ngOnInit() {
     this.getDeletedItems();
+    this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
+      this.itemsLayout = il;
+    });
   }
 
   populateitems(data) {
@@ -42,9 +50,11 @@ export class TrashComponent implements OnInit {
       file.size = 1000;
       this.alldeletedFilesFolders.push(file);
     }
+    this.itemsLoading = false;
   }
 
   private getDeletedItems() {
+    this.itemsLoading = true;
     this.alldeletedFilesFolders = new Array<IFilemanager>();
     this.myContentService.getDeletedItems()
       .subscribe(data => {
