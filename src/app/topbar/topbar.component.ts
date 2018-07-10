@@ -29,6 +29,7 @@ export class TopbarComponent implements OnInit {
 
     tempFileSize = 0;
     searchtext = "";
+    authPermissions = {};
 
     constructor(
         public myContentService: MyContentService,
@@ -36,13 +37,16 @@ export class TopbarComponent implements OnInit {
         private router: Router,
         public uiHelperService: UIHelperService,
         private auditTrailService: AuditTrailService
-    ) {}
+    ) { }
     fileReady = false;
     itemsLayout = 'grid';
     ngOnInit() {
         this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
             this.itemsLayout = il;
         });
+        let auth = this.authService.getAuthObject();
+        this.user.name = auth.unique_name;
+        this.authPermissions = this.authService.getAuthPermissions();
     }
 
     // Update items layout

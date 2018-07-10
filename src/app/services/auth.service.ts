@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { User } from '../../assets/data/user';
 import { Observable, throwError } from 'rxjs';
-import { NewUserTemplate, loginResponse, userObject } from '../filemanager';
+import { NewUserTemplate, loginResponse, userObject, userPermissionObject } from '../filemanager';
 import { retry, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router, NavigationExtras } from '@angular/router';
@@ -25,6 +25,7 @@ export class AuthService {
   private authObject;
   private authToken;
   private allUsers;
+  private authPermissions;
 
   private _url_createuser = "http://104.196.2.1/filemanagement/user_management/users/registration";
   private _url_loginuser = "http://104.196.2.1/filemanagement/user_management/users/login/";
@@ -40,6 +41,17 @@ export class AuthService {
     this.authToken = token;
     const helper = new JwtHelperService();
     this.authObject = helper.decodeToken(token);
+    this.setAuthPermissions(this.authObject.permission);
+  }
+
+  private setAuthPermissions(stringJSON) {
+    let jsObj = JSON.parse(stringJSON);
+    this.authPermissions = jsObj;
+    this.authPermissions.role = this.authObject.role;
+  }
+
+  public getAuthPermissions() {
+    return this.authPermissions;
   }
 
   public getAuthToken() {
@@ -99,7 +111,7 @@ export class AuthService {
     this.newUserDetails = {};
     this.newUserDetails.username = userdata.user.username;
     this.newUserDetails.password = userdata.user.password;
-    this.newUserDetails.userType = 1;
+    this.newUserDetails.userType = userdata.user.userType;
 
     this.newUserPermissions = {};
     this.newUserPermissions.canEdit = userdata.permissions.canEdit;
@@ -107,6 +119,7 @@ export class AuthService {
     this.newUserPermissions.canDownload = userdata.permissions.canDownload;
     this.newUserPermissions.canAdd = userdata.permissions.canAdd;
     this.newUserPermissions.canDelete = userdata.permissions.canDelete;
+    this.newUserPermissions.createFolder = userdata.permissions.createFolder;
 
     this.newUserObject = {};
     this.newUserObject.user = this.newUserDetails;

@@ -34,6 +34,7 @@ export class MyContentService {
     private _url_downloadcontent = "http://104.196.2.1/filemanagement/filemanager/filemanager/multiDownload";
     private _url_deleteditems = "http://104.196.2.1/filemanagement/filemanager/Admin/getdeletedItems";
     private _url_permanentDelete = "http://104.196.2.1/filemanagement/filemanager/Admin/deleteItems";
+    private _url_sharebyemail = "http://104.196.2.1/filemanagement/filemanager/filemanager/sendByEmail";
     //private _url_uploadfile = "https://f7c89f2a.ngrok.io/filemanager/uploadfile";
     // private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI";
     private _headers = {
@@ -337,6 +338,21 @@ export class MyContentService {
         let sendObj = { "files": fileids, "folders": folderids };
 
         return this.http.post<FileTemplate>(this._url_permanentDelete, sendObj, this.requestOptions)
+            .pipe(
+                retry(1),
+                catchError(this.handleError)
+            );
+    }
+
+    public shareByEmail(subject: string, body: string, to: string[], cc: string[], filename: string) {
+
+        this.requestOptions = {
+            headers: new HttpHeaders(this._headers)
+        };
+
+        let sendObj = { "subject": subject, "body": body, "to": to, "cc": cc, "filename": filename };
+
+        return this.http.post(this._url_sharebyemail, sendObj, this.requestOptions)
             .pipe(
                 retry(1),
                 catchError(this.handleError)

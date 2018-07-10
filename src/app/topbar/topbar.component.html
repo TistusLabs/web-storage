@@ -38,14 +38,18 @@
   </nav>
   <div class="nav ws-topbar-filters">
     <div class="ws-addbtn-wrap mr-auto col-md-3 col-sm-4 col-2">
-      <button class="ws-button-primary ws-text-icon" id="addNewDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>+</span><span>ADD</span></button>
+      <button class="ws-button-primary ws-text-icon" id="addNewDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        <span>+</span>
+        <span>ADD</span>
+      </button>
       <div class="dropdown-menu dropdown-menu-left" aria-labelledby="addNewDropdown">
         <ul class="ws-list ws-iconed-list">
-          <li class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initNewFolder">
+          <li *ngIf="authPermissions.createFolder" class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initNewFolder">
             <i class="material-icons ws-list-item-icon">create_new_folder</i>
             <span class="ws-list-item-text">Folder</span>
           </li>
-          <li class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initNewFile">
+          <li *ngIf="authPermissions.canAdd" class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initNewFile">
             <i class="material-icons ws-list-item-icon">description</i>
             <span class="ws-list-item-text">File</span>
           </li>
@@ -144,7 +148,9 @@
               <div *ngIf="fileReady" class="ws-file">
                 <i class="material-icons ws-file-icon">{{newFileData.upfile.type.split('/')[0] === 'image' ? 'image' : 'document'}}</i>
                 <div class="ws-file-info">
-                  <div><b>{{newFileData.upfile.name}}</b></div>
+                  <div>
+                    <b>{{newFileData.upfile.name}}</b>
+                  </div>
                   <div>{{newFileData.upfile.type}}</div>
                   <div>{{tempFileSize}}</div>
                 </div>
@@ -152,11 +158,14 @@
 
               <div>Drag and Drop</div>
               <div style="margin-bottom: 5px">
-                <b><i>or</i></b>
+                <b>
+                  <i>or</i>
+                </b>
               </div>
               <div>
                 <button type="button" class="ws-button-primary ws-raised" (click)="browseFileInit()">Browse</button>
-                <input name="upfile" id="upFile" type="file" class="fill-width" placeholder="Select File" (change)="setFile($event)" style="display: none"/>
+                <input name="upfile" id="upFile" type="file" class="fill-width" placeholder="Select File" (change)="setFile($event)" style="display: none"
+                />
               </div>
             </div>
           </div>
