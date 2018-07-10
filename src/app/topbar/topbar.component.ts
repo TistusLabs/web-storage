@@ -36,13 +36,15 @@ export class TopbarComponent implements OnInit {
         private router: Router,
         public uiHelperService: UIHelperService,
         private auditTrailService: AuditTrailService
-    ) {}
+    ) { }
     fileReady = false;
     itemsLayout = 'grid';
     ngOnInit() {
         this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
             this.itemsLayout = il;
         });
+        let auth = this.authService.getAuthObject();
+        this.user.name = auth.unique_name;
     }
 
     // Update items layout

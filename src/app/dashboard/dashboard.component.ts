@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     height: null
   };
   newfilename = "";
+  shareemail = "";
   imageToShow: any;
   itemLoading = '';
   itemsLoading = false;
@@ -213,6 +214,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
         alert("Folder rename successfull.");
       });
     }
+  }
+
+  shareDocumentbyEmail() {
+    debugger
+    let authObjet = this.authService.getAuthObject();
+    let subject = authObjet.unique_name + " shared a file with you - Web-Storage";
+    let body = "Hi, " + authObjet.unique_name + " has shared a file with you.\nThankyou."
+    let to = [this.shareemail];
+    let cc = ["tistuslabs@gmail.com"];
+    let filename = this.selectedContentItem.uniqueFileName;
+    this.myContentService.shareByEmail(subject, body, to, cc, filename).subscribe(data => {
+      this.auditTrailService.addAudiTrailLog("Shared a file with " + to + ".");
+      this.getcontentforPage(this.pageID);
+      alert("File sharing successfull.");
+    });
   }
 
   starfile(item) {

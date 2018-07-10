@@ -33,14 +33,15 @@
           <i class="ws-overhead-btn material-icons ws-list-item-icon">cloud_download</i>
           <span class="ws-overhead-btn ws-list-item-text">Download {{item.category}}</span>
         </li>
-        <li class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary">
-          <i class="ws-overhead-btn material-icons ws-list-item-icon">link</i>
-          <span class="ws-overhead-btn ws-list-item-text">Get a link</span>
-        </li>
         <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
           data-toggle="modal" data-target="#initShareFile">
           <i class="ws-overhead-btn material-icons ws-list-item-icon">share</i>
           <span class="ws-overhead-btn ws-list-item-text">Share</span>
+        </li>
+        <li *ngIf="item.category != 'folder'" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
+          data-toggle="modal" data-target="#initShareByEmail">
+          <i class="ws-overhead-btn material-icons ws-list-item-icon">link</i>
+          <span class="ws-overhead-btn ws-list-item-text">Share by Email</span>
         </li>
         <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
           data-toggle="modal" data-target="#initRenameFile">
@@ -117,6 +118,33 @@
           </div>
           <div class="modal-footer">
             <button [disabled]="!renameForm.valid" type="submit" class="ws-button-flat" (click)="renameDocument()" data-dismiss="modal">Rename</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--Share file initialization - ENDS -->
+
+  <!--Share by email initialization-->
+  <div class="modal fade" id="initShareByEmail" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content ws-card">
+        <div class="modal-header ws-card-header">
+          <h5 *ngIf="selectedContentItem.category == 'image'" class="modal-title" id="exampleModalLongTitle">Share File by Email</h5>
+          <h5 *ngIf="selectedContentItem.category == 'folder'" class="modal-title" id="exampleModalLongTitle">Share Folder by Email</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form #sharebyemailForm="ngForm">
+          <div class="modal-body">
+            <p>Please enter the email address to send '{{selectedContentItem.name}}' to.</p>
+            <div class="form-group">
+              <input name="newfilename" type="email" class="fill-width" placeholder="Email Address" [(ngModel)]="shareemail" required />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button [disabled]="!sharebyemailForm.valid" type="submit" class="ws-button-flat" (click)="shareDocumentbyEmail()" data-dismiss="modal">Share</button>
           </div>
         </form>
       </div>
