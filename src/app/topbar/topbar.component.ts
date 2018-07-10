@@ -129,14 +129,12 @@ export class TopbarComponent implements OnInit {
         // debugger
         this.myContentService.addNewFile(uploadData)
             .subscribe(event => {
-                debugger
                 this.auditTrailService.addAudiTrailLog("Uploaded file '" + this.newFileData.upfile.name + "'");
                 console.log(event);
                 this.newFileData.filename = "";
                 this.newFileData.upfile = {};
                 this.fileReady = false;
-                const test = $("#initNewFile");
-                $("#initNewFile").modal('hide');
+                $('#initNewFile').modal('hide');
                 this.reloadPage();
             });
     }

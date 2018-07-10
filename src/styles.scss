@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables";
 @import "helpers";
+@import "typography";
 
 html,
 body {
@@ -22,6 +23,8 @@ body {
   .ws-color-white {
     color: $ws-color-white!important;
   }
+
+  
   .ws-body-wrap {
     width: calc(100% - 250px);
   }
@@ -34,11 +37,9 @@ body {
     padding: 0!important;
     margin: 0!important;
   }
-
   hr {
     margin: 10px 0 10px 0
   }
-
   button{
     background: transparent;
     border: none;
@@ -105,11 +106,9 @@ body {
       }
     }
   }
-
   .clickable {
     cursor: pointer;
   }
-
   .ws-hover-flat-primary:hover {
     background: $ws-hover-background-primary;
     -webkit-transition: background $ws-transition-time;
@@ -118,7 +117,6 @@ body {
     -o-transition: background $ws-transition-time;
     transition: background $ws-transition-time;
   }
-
   .ws-main {
     background: #eee;
     height: calc(100% - 120px);
@@ -169,7 +167,6 @@ body {
       }
     }
   }
-
   .ws-list-horizontal {
     li:not(:last-child) {
       margin-right: $ws-margin-primary;
@@ -497,6 +494,19 @@ body {
     }
   }
   //. . . . . . . . . . . . . . . . . . .
+
+  //************** IMAGES **************
+  .ws-images {
+    &.ws-image-small {
+      width: 40px;
+      height: 40px;
+    }
+    &.ws-image-circular {
+      border-radius: 100%;
+    }
+  }
+  //. . . . . . . . . . . . . . . . . . .
+  
 }
  
 @media (max-width: 576px) {

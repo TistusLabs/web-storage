@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+@import "variables";
+
+.ws-page-title {
+  margin-bottom: $ws-padding-outer;
+  h2 {
+    font-size: 20px;
+  }
+}
