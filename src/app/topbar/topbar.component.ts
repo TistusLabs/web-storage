@@ -125,6 +125,8 @@ export class TopbarComponent implements OnInit {
         uploadData.append('upfile', this.newFileData.upfile);
         uploadData.append('folderName', this.myContentService.getCurrenFolder());
         uploadData.append('userId', this.authService.getUserID());
+        uploadData.append('fileSize', this.newFileData.upfile.size);
+        uploadData.append('contentType', this.newFileData.upfile.type);
 
         // this.newFileDetails.filename = filedata.filename;
         // this.newFileDetails.folderName = this.getCurrenFolder(); // get from service

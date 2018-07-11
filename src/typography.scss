@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables";
-
+.ws-text-sub {
+  color: $ws-color-text-secondary;
+}
 .ws-page-title {
   margin-bottom: $ws-margin-secondary;
   h2 {

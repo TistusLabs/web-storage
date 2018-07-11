@@ -1,113 +1,122 @@
 <div class="modal fade" id="initNewUser" tabindex="-1" role="dialog" aria-labelledby="initNewUserCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered ws-modal-large" role="document">
-    <div class="modal-content ws-card">
-      <div class="modal-header ws-card-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">New User</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- <div class="ws-body-hints">
-            <p>Here you can add new user with given permissions to them. Bellow all the system users are displayed where could edit their details as you need.</p>
-          </div> -->
-        <form (ngSubmit)="addNewUser()" id="newUserForm" #newUserForm="ngForm">
-          <div class="row">
-            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-              <input [(ngModel)]="newUser.firstName" fill-width type="text" placeholder="First name" id="fname" name="fname" required #fname="ngModel">
-              <div [hidden]="fname.valid || fname.pristine" class="ws-alert ws-alert-danger">
-                First name is required
-              </div>
+    <div class="modal-dialog modal-dialog-centered ws-modal-large" role="document">
+        <div class="modal-content ws-card">
+            <div class="modal-header ws-card-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">New User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <!-- <div class="ws-body-hints">
+                    <p>Here you can add new user with given permissions to them. Bellow all the system users are displayed where could edit their details as you need.</p>
+                  </div> -->
+                <form (ngSubmit)="addNewUser()" id="newUserForm" #newUserForm="ngForm">
+                    <div class="row">
+                        <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                            <input [(ngModel)]="newUser.firstName" fill-width type="text" placeholder="First name" id="fname" name="fname" required #fname="ngModel">
+                            <div [hidden]="fname.valid || fname.pristine" class="ws-alert ws-alert-danger">
+                                First name is required
+                            </div>
+                        </div>
 
-            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-              <input [(ngModel)]="newUser.lasttName" fill-width type="text" placeholder="Last name" id="lname" name="lname" required #lname="ngModel">
-              <div [hidden]="lname.valid || lname.pristine" class="ws-alert ws-alert-danger">
-                Last name is required
-              </div>
-            </div>
-          </div>
+                        <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                            <input [(ngModel)]="newUser.lasttName" fill-width type="text" placeholder="Last name" id="lname" name="lname" required #lname="ngModel">
+                            <div [hidden]="lname.valid || lname.pristine" class="ws-alert ws-alert-danger">
+                                Last name is required
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="row">
-            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-              <input [(ngModel)]="newUser.username" fill-width type="text" placeholder="Username" id="username" name="username" required
-                #username="ngModel">
-              <div [hidden]="username.valid || username.pristine" class="ws-alert ws-alert-danger">
-                Username is required
-              </div>
-            </div>
+                    <div class="row">
+                        <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                            <input [(ngModel)]="newUser.username" fill-width type="text" placeholder="Username" id="username" name="username" required
+                                   #username="ngModel">
+                            <div [hidden]="username.valid || username.pristine" class="ws-alert ws-alert-danger">
+                                Username is required
+                            </div>
+                        </div>
 
-            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-              <input [(ngModel)]="newUser.password" fill-width type="password" placeholder="Password" id="password" name="password" required
-                #password="ngModel">
-              <div [hidden]="password.valid || password.pristine" class="ws-alert ws-alert-danger">
-                Password is required
-              </div>
-            </div>
-          </div>
+                        <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                            <input [(ngModel)]="newUser.password" fill-width type="password" placeholder="Password" id="password" name="password" required
+                                   #password="ngModel">
+                            <div [hidden]="password.valid || password.pristine" class="ws-alert ws-alert-danger">
+                                Password is required
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="row">
-            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-              <input [(ngModel)]="newUser.email" fill-width type="email" placeholder="Email" id="email" name="email" required #email="ngModel">
-              <div [hidden]="email.valid || email.pristine" class="ws-alert ws-alert-danger">
-                Email is required
-              </div>
-            </div>
+                    <div class="row">
+                        <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                            <input [(ngModel)]="newUser.email" fill-width type="email" placeholder="Email" id="email" name="email" required #email="ngModel">
+                            <div [hidden]="email.valid || email.pristine" class="ws-alert ws-alert-danger">
+                                Email is required
+                            </div>
+                        </div>
 
-            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-              <input [(ngModel)]="newUser.imageUrl" fill-width type="text" placeholder="Image URL" id="imageUrl">
-            </div>
-          </div>
+                        <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                            <input [(ngModel)]="newUser.imageUrl" fill-width type="text" placeholder="Image URL" id="imageUrl">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                            <label for="usertype"></label>
+                            <select fill-width id="usertype" name="usertype" [(ngModel)]="newUser.userType" required>
+                                <option value="1">Administrator</option>
+                                <option value="2">User</option>
+                            </select>
+                        </div>
+                    </div>
 
-          <div class="ws-page-subtitle">
-            <h3>Permissions</h3>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6 col-sm-12 col-12">
-              <input type="checkbox" id="canEdit" name="canEdit" [(ngModel)]="userpermission.canEdit"> <label for="canEdit">Enable Editing files</label>
+                    <div class="ws-page-subtitle">
+                        <h3>Permissions</h3>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 col-sm-12 col-12">
+                            <input type="checkbox" id="canEdit" name="canEdit" [(ngModel)]="userpermission.canEdit"> <label for="canEdit">Enable Editing files</label>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 col-12">
+                            <input type="checkbox" id="canView" name="canView" [(ngModel)]="userpermission.canView"> <label for="canView">Enable Viewing files</label>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 col-12">
+                            <input type="checkbox" id="canDownload" name="canDownload" [(ngModel)]="userpermission.canDownload"> <label for="canDownload">Enable Download files</label>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 col-12">
+                            <input type="checkbox" id="canAdd" name="canAdd" [(ngModel)]="userpermission.canAdd"> <label for="canAdd">Enable uploading new files</label>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 col-12">
+                            <input type="checkbox" id="canDelete" name="canDelete" [(ngModel)]="userpermission.canDelete"> <label for="canDelete">Enable Deleting files</label>
+                        </div>
+                    </div>
+                    <!-- <button type="submit" [disabled]="!newUserForm.form.valid" class="btn btn-success">Add New User</button> -->
+                </form>
             </div>
-            <div class="form-group col-md-6 col-sm-12 col-12">
-              <input type="checkbox" id="canView" name="canView" [(ngModel)]="userpermission.canView"> <label for="canView">Enable Viewing files</label>
+            <div class="modal-footer">
+                <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
+                <button type="submit" form="newUserForm" class="ws-button-primary ws-raised" [disabled]="!newUserForm.form.valid">Add</button>
             </div>
-            <div class="form-group col-md-6 col-sm-12 col-12">
-              <input type="checkbox" id="canDownload" name="canDownload" [(ngModel)]="userpermission.canDownload"> <label for="canDownload">Enable Download files</label>
-            </div>
-            <div class="form-group col-md-6 col-sm-12 col-12">
-              <input type="checkbox" id="canAdd" name="canAdd" [(ngModel)]="userpermission.canAdd"> <label for="canAdd">Enable uploading new files</label>
-            </div>
-            <div class="form-group col-md-6 col-sm-12 col-12">
-              <input type="checkbox" id="canDelete" name="canDelete" [(ngModel)]="userpermission.canDelete"> <label for="canDelete">Enable Deleting files</label>
-            </div>
-          </div>
-          <!-- <button type="submit" [disabled]="!newUserForm.form.valid" class="btn btn-success">Add New User</button> -->
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
-        <button type="submit" form="newUserForm" class="ws-button-primary ws-raised" [disabled]="!newUserForm.form.valid">Add</button>
-      </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div fill-width>
-  <div class="ws-page-title clearfix row">
-    <h2 class="col-md-6 col-sm-6 col-6">Users</h2>
-    <div class="col-md-6 col-sm-6 col-6 text-right">
-      <button class="ws-button-primary ws-text-icon" role="button" data-toggle="modal" data-target="#initNewUser">
-        <span>+</span>
-        <span>ADD USER</span>
-      </button>
+    <div class="ws-page-title clearfix row">
+        <h2 class="col-md-6 col-sm-6 col-6">Users</h2>
+        <div class="col-md-6 col-sm-6 col-6 text-right">
+            <button class="ws-button-primary ws-text-icon" role="button" data-toggle="modal" data-target="#initNewUser">
+                <span>+</span>
+                <span>ADD USER</span>
+            </button>
+        </div>
     </div>
-  </div>
-  <ul class="ws-list row">
-    <li class="ws-list-item col-md-6" *ngFor="let user of allusers">
+    <ul class="ws-list row">
+        <li class="ws-list-item col-md-6" *ngFor="let user of allusers">
       <span class="ws-userimg-wrap">
         <img src="assets/images/avatar.jpg" alt="{{ user.username}}" class="ws-images ws-image-small ws-image-circular">
       </span>
-      <span class="ws-username-wrap">
+            <span class="ws-username-wrap">
         {{ user.username}}
       </span>
-    </li>
-  </ul>
+        </li>
+    </ul>
 </div>

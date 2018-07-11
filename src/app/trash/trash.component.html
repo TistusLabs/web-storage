@@ -11,7 +11,7 @@
 <div class="ws-body-hints">
 <p>Here you are able to see all the deleted files by the other users of the system.</p>
 </div>
-<div class="clickable" [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
+<div [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
   *ngFor="let file of alldeletedFilesFolders">
   <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" (click)="permanentDelete(file)" role="button"
     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

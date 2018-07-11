@@ -13,6 +13,7 @@ import { AuthGuard } from './auth.guard';
 import * as $ from 'jquery';
 import * as bootstrap from "bootstrap";
 import { DataTablesModule } from 'angular-datatables';
+import { GroupByPipe } from "./groupby.pipe";
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -31,41 +32,43 @@ import { AudittrailComponent } from './audittrail/audittrail.component';
 import { TrashComponent } from './trash/trash.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TopbarComponent,
-    SidenavComponent,
-    AuthComponent,
-    DashboardComponent,
-    WsComponent,
-    RecentComponent,
-    HistoryComponent,
-    SignupComponent,
-    PreloaderLineDirective,
-    UsersComponent,
-    GroupsComponent,
-    AudittrailComponent,
-    TrashComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    DataTablesModule
-  ],
-  providers: [
-    MyContentService,
-    UIHelperService,
-    AuthService,
-    AuthGuard,
-    AuditTrailService
-  ],
-  entryComponents: [
-    AppComponent,
-    DashboardComponent
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        TopbarComponent,
+        SidenavComponent,
+        AuthComponent,
+        DashboardComponent,
+        WsComponent,
+        RecentComponent,
+        HistoryComponent,
+        SignupComponent,
+        PreloaderLineDirective,
+        UsersComponent,
+        GroupsComponent,
+        AudittrailComponent,
+        TrashComponent,
+        GroupByPipe
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        DataTablesModule
+    ],
+    providers: [
+        MyContentService,
+        UIHelperService,
+        AuthService,
+        AuthGuard,
+        AuditTrailService,
+        GroupByPipe
+    ],
+    entryComponents: [
+        AppComponent,
+        DashboardComponent
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

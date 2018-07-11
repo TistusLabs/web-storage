@@ -56,6 +56,9 @@ body {
       border-radius: $ws-border-radius-primary;
       padding:$ws-padding-inner-secondray 20px $ws-padding-inner-secondray 20px;
       font-weight: bold;
+      .material-icons {
+        color: $ws-color-primary;
+      }
       &:hover {
         background: $ws-color-primary-dark;
       }
@@ -151,10 +154,10 @@ body {
         color: $ws-color-text-secondary;
         font-size: 18px;
         margin-right: $ws-margin-primary;
-        vertical-align: top;
+        vertical-align: middle;
       }
       .ws-list-item-text {
-        vertical-align: top;
+        vertical-align: middle;
       }
       ul {
         padding: $ws-padding-inner-primary 0 0 0;
@@ -191,7 +194,7 @@ body {
   .ng-invalid:not(form) {
     border: 1px solid $ws-danger;
   }
-  input {
+  input, select {
     padding: 5px;
     border: solid 1px #ddd;
     border-radius: 3px;

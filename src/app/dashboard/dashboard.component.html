@@ -1,208 +1,223 @@
 <div class="ws-dashboard" *ngIf="authPermissions.canView">
-  <div class="ws-preloader-line" *ngIf="itemsLoading && itemLoading===''">
-    <div class="ws-preloader-load-bar">
-      <div class="ws-preloader-bar"></div>
-      <div class="ws-preloader-bar"></div>
-      <div class="ws-preloader-bar"></div>
-    </div>
-  </div>
-  <div class="clickable" [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
-    *ngFor="let item of allFilesFolders" (click)="openContentItem(item, $event)">
-    <div class="ws-preloader-line" *ngIf="itemLoading === item.id">
-      <div class="ws-preloader-load-bar">
-        <div class="ws-preloader-bar"></div>
-        <div class="ws-preloader-bar"></div>
-        <div class="ws-preloader-bar"></div>
-      </div>
-    </div>
-    <button *ngIf="item.starred == false || item.starred == null && item.category != 'folder'" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left"
-      (click)="starfile(item)" role="button" aria-haspopup="true" aria-expanded="false">
-      <i class="ws-overhead-btn ws-content-more-ops material-icons">star_border</i>
-    </button>
-    <button *ngIf="item.starred == true" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left"
-      (click)="unstartfile(item)" role="button" aria-haspopup="true" aria-expanded="false">
-      <i class="ws-overhead-btn ws-content-more-ops material-icons">star</i>
-    </button>
-    <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" id="moreOptions-{{item.id}}" role="button"
-      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <i class="ws-overhead-btn ws-content-more-ops material-icons">more_vert</i>
-    </button>
-    <div class="ws-shadow-full dropdown-menu dropdown-menu-right" attr.aria-labelledby="moreOptions-{{item.id}}">
-      <ul class="ws-list ws-iconed-list">
-        <li *ngIf="authPermissions.canDownload" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="downloadFile(item)">
-          <i class="ws-overhead-btn material-icons ws-list-item-icon">cloud_download</i>
-          <span class="ws-overhead-btn ws-list-item-text">Download {{item.category}}</span>
-        </li>
-        <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
-          data-toggle="modal" data-target="#initShareFile">
-          <i class="ws-overhead-btn material-icons ws-list-item-icon">share</i>
-          <span class="ws-overhead-btn ws-list-item-text">Share</span>
-        </li>
-        <li *ngIf="item.category != 'folder'" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
-          data-toggle="modal" data-target="#initShareByEmail">
-          <i class="ws-overhead-btn material-icons ws-list-item-icon">link</i>
-          <span class="ws-overhead-btn ws-list-item-text">Share by Email</span>
-        </li>
-        <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
-          data-toggle="modal" data-target="#initRenameFile">
-          <i class="ws-overhead-btn material-icons ws-list-item-icon">text_format</i>
-          <span class="ws-overhead-btn ws-list-item-text">Rename</span>
-        </li>
-        <li *ngIf="authPermissions.canDelete" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item);deleteContent()">
-          <i class="ws-overhead-btn material-icons ws-list-item-icon">delete</i>
-          <span class="ws-overhead-btn ws-list-item-text">Delete</span>
-        </li>
-      </ul>
-    </div>
-    <div class="ws-content-item-preview">
-      <i class="material-icons">{{ item.icon }}</i>
-    </div>
-    <div class="ws-content-item-info {{content.layout}}">
-      <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (item.name | slice:0:18) : itemsLayout==='list' ? (item.name | slice:0:50) : null }} {{item.name.length
-        >= 18 && itemsLayout==='grid' ? '...' : item.name.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
-      <div class="ws-info-text-sub">
-        Size : {{ item.size }}</div>
-      <i class="ws-info-text-sub">{{ item.added_date }}</i>
-    </div>
-  </div>
-
-  <div *ngIf="allFilesFolders.length == 0">
-    <h4 class="text-center">No files available</h4>
-  </div>
-
-  <!--Share file initialization-->
-  <div class="modal fade" id="initShareFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content ws-card">
-        <div class="modal-header ws-card-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Share File</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    <div class="ws-preloader-line" *ngIf="itemsLoading && itemLoading===''">
+        <div class="ws-preloader-load-bar">
+            <div class="ws-preloader-bar"></div>
+            <div class="ws-preloader-bar"></div>
+            <div class="ws-preloader-bar"></div>
         </div>
-        <form [formGroup]="form">
-          <div class="modal-body">
-            <p>Select the users below to set permission for this file:</p>
-            <label formArrayName="allusers" *ngFor="let user of form.controls.allusers.controls; let i = index">
-              <input type="checkbox" [formControlName]="i"> {{allusers[i].username}}
-              <br>
-            </label>
-            <div *ngIf="!form.valid">At least one user must be selected.</div>
-          </div>
-          <div class="modal-footer">
-            <button [disabled]="!form.valid" type="submit" class="ws-button-flat" (click)="sharefile()" data-dismiss="modal">Share</button>
-          </div>
-        </form>
-      </div>
     </div>
-  </div>
-  <!--Share file initialization - ENDS -->
+    <div *ngFor="let items of allFilesFolders | groupBy:'category'" class="clearfix">
+        <div class="ws-page-subtitle">
+            <h3>{{items.key | uppercase }}S</h3>
+        </div>
+        <div *ngFor="let starred of items.value | groupBy:'starred'" class="clearfix">
+            <div class="ws-page-subtitle ws-text-sub">
+                <h3>{{starred.key == 'true' ? 'Favs' : '' }}</h3>
+            </div>
+            <div class="clearfix">
+                <div class="clickable" [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
+                     *ngFor="let item of starred.value" (click)="openContentItem(item, $event)">
+                    <div class="ws-preloader-line" *ngIf="itemLoading === item.id">
+                        <div class="ws-preloader-load-bar">
+                            <div class="ws-preloader-bar"></div>
+                            <div class="ws-preloader-bar"></div>
+                            <div class="ws-preloader-bar"></div>
+                        </div>
+                    </div>
+                    <button *ngIf="item.starred == false && item.category != 'folder' || item.starred == null && item.category != 'folder'" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left"
+                            (click)="starfile(item)" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="ws-overhead-btn ws-content-more-ops material-icons">star_border</i>
+                    </button>
+                    <button *ngIf="item.starred == true" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left ws-button-primary"
+                            (click)="unstartfile(item)" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="ws-overhead-btn ws-content-more-ops material-icons">star</i>
+                    </button>
+                    <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" id="moreOptions-{{item.id}}" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="ws-overhead-btn ws-content-more-ops material-icons">more_vert</i>
+                    </button>
+                    <div class="ws-shadow-full dropdown-menu dropdown-menu-right" attr.aria-labelledby="moreOptions-{{item.id}}">
+                        <ul class="ws-list ws-iconed-list">
+                            <li *ngIf="authPermissions.canDownload" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="downloadFile(item)">
+                                <i class="ws-overhead-btn material-icons ws-list-item-icon">cloud_download</i>
+                                <span class="ws-overhead-btn ws-list-item-text">Download {{item.category}}</span>
+                            </li>
+                            <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
+                                data-toggle="modal" data-target="#initShareFile">
+                                <i class="ws-overhead-btn material-icons ws-list-item-icon">share</i>
+                                <span class="ws-overhead-btn ws-list-item-text">Share</span>
+                            </li>
+                            <li *ngIf="item.category != 'folder'" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
+                                data-toggle="modal" data-target="#initShareByEmail">
+                                <i class="ws-overhead-btn material-icons ws-list-item-icon">link</i>
+                                <span class="ws-overhead-btn ws-list-item-text">Share by Email</span>
+                            </li>
+                            <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
+                                data-toggle="modal" data-target="#initRenameFile">
+                                <i class="ws-overhead-btn material-icons ws-list-item-icon">text_format</i>
+                                <span class="ws-overhead-btn ws-list-item-text">Rename</span>
+                            </li>
+                            <li *ngIf="authPermissions.canDelete" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item);deleteContent()">
+                                <i class="ws-overhead-btn material-icons ws-list-item-icon">delete</i>
+                                <span class="ws-overhead-btn ws-list-item-text">Delete</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ws-content-item-preview">
+                        <i class="material-icons">{{ item.icon }}</i>
+                    </div>
+                    <div class="ws-content-item-info {{content.layout}}">
+                        <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (item.name | slice:0:18) : itemsLayout==='list' ? (item.name | slice:0:50) : null }} {{item.name.length
+                            >= 18 && itemsLayout==='grid' ? '...' : item.name.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
+                        <div class="ws-info-text-sub" *ngIf="item.category != 'folder'">
+                            Size : {{ item.fileSize }}</div>
+                        <div class="ws-info-text-sub">
+                            Added date : {{ item.addedDate | date: 'dd MMMM y' }}</div>
+                    </div>
+                </div>
+            </div>
+            <hr *ngIf="starred.key == 'true'">
+        </div>
+    </div>
 
-  <!--Share file initialization-->
-  <div class="modal fade" id="initRenameFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content ws-card">
-        <div class="modal-header ws-card-header">
-          <h5 *ngIf="selectedContentItem.category == 'image'" class="modal-title" id="exampleModalLongTitle">Rename File</h5>
-          <h5 *ngIf="selectedContentItem.category == 'folder'" class="modal-title" id="exampleModalLongTitle">Rename Folder</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form #renameForm="ngForm">
-          <div class="modal-body">
-            <p>Please enter the new name for the {{selectedContentItem.category}}</p>
-            <div class="form-group">
-              <input name="newfilename" type="text" class="fill-width" placeholder="New Name" [(ngModel)]="newfilename" required />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button [disabled]="!renameForm.valid" type="submit" class="ws-button-flat" (click)="renameDocument()" data-dismiss="modal">Rename</button>
-          </div>
-        </form>
-      </div>
+    <div *ngIf="allFilesFolders.length == 0 && !itemsLoading">
+        <h4 class="text-center">No files available</h4>
     </div>
-  </div>
-  <!--Share file initialization - ENDS -->
 
-  <!--Share by email initialization-->
-  <div class="modal fade" id="initShareByEmail" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content ws-card">
-        <div class="modal-header ws-card-header">
-          <h5 *ngIf="selectedContentItem.category == 'image'" class="modal-title" id="exampleModalLongTitle">Share File by Email</h5>
-          <h5 *ngIf="selectedContentItem.category == 'folder'" class="modal-title" id="exampleModalLongTitle">Share Folder by Email</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form #sharebyemailForm="ngForm">
-          <div class="modal-body">
-            <p>Please enter the email address to send '{{selectedContentItem.name}}' to.</p>
-            <div class="form-group">
-              <input name="newfilename" type="email" class="fill-width" placeholder="Email Address" [(ngModel)]="shareemail" required />
+    <!--Share file initialization-->
+    <div class="modal fade" id="initShareFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content ws-card">
+                <div class="modal-header ws-card-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Share File</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form [formGroup]="form">
+                    <div class="modal-body">
+                        <p>Select the users below to set permission for this file:</p>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-12" formArrayName="allusers" *ngFor="let user of form.controls.allusers.controls; let i = index">
+                                <input type="checkbox" id="{{allusers[i].username}}" [formControlName]="i"> <label for="{{allusers[i].username}}">{{allusers[i].username}}</label>
+                            </div>
+                        </div>
+                        <div *ngIf="!form.valid">At least one user must be selected.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button [disabled]="!form.valid" type="submit" class="ws-button-primary ws-raised" (click)="sharefile()" data-dismiss="modal">Share</button>
+                    </div>
+                </form>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button [disabled]="!sharebyemailForm.valid" type="submit" class="ws-button-flat" (click)="shareDocumentbyEmail()" data-dismiss="modal">Share</button>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-  <!--Share file initialization - ENDS -->
+    <!--Share file initialization - ENDS -->
 
-  <!--Full view-->
-  <div class="ws-content-item-full" *ngIf="isContentItemFull" [ngStyle]="isContentItemFull ? {'width':'100%' , 'height':'100%'} : {'width':'0' , 'height':'0'}">
-    <div class="ws-content-item-full-header clearfix row">
-      <div class="col-md-4 col-sm-6 col-6">
-        <h5>{{ selectedItemFull.folderName }}</h5>
-      </div>
-      <div class="col-md-4 col-sm-6 col-6"></div>
-      <div class="col-md-4 col-sm-6 col-6">
-        <ul class="nav ws-list-horizontal justify-content-end">
-          <li class="nav-item" data-toggle="modal" data-target="#initShareFile">
-            <button class="ws-button-flat iconed">
-              <i class="material-icons ws-color-white">share</i>
-            </button>
-          </li>
-          <li *ngIf="authPermissions.canDelete" class="nav-item">
-            <button class="ws-button-flat iconed">
-              <i class="material-icons ws-color-white">delete</i>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="ws-button-flat iconed" (click)="closeContentFull()">
-              <i class="material-icons">close</i>
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="ws-content-item-full-body-wrap">
-      <div class="ws-content-item-full-body">
-        <div class="ws-content-item-preview">
-          <!-- <i class="material-icons">{{selectedContentItem.icon}}</i> -->
-          <img [src]="imageToShow" alt="">
+    <!--Share file initialization-->
+    <div class="modal fade" id="initRenameFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content ws-card">
+                <div class="modal-header ws-card-header">
+                    <h5 *ngIf="selectedContentItem.category == 'image'" class="modal-title" id="exampleModalLongTitle">Rename File</h5>
+                    <h5 *ngIf="selectedContentItem.category == 'folder'" class="modal-title" id="exampleModalLongTitle">Rename Folder</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form #renameForm="ngForm">
+                    <div class="modal-body">
+                        <p>Please enter the new name for the {{selectedContentItem.category}}</p>
+                        <div class="form-group">
+                            <input name="newfilename" type="text" class="fill-width" placeholder="New Name" [(ngModel)]="newfilename" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button [disabled]="!renameForm.valid" type="submit" class="ws-button-flat" (click)="renameDocument()" data-dismiss="modal">Rename</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="row ws-content-item-details">
-          <div class="col-md-4 col-sm-4 col-4">
-            <div>Added date :
-              <b>{{selectedItemFull.addedDate}}</b>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-4">
-            <div>Last modified date :
-              <b>{{selectedItemFull.lastModifiedDate}}</b>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-4">
-            <div>Size :
-              <b>{{selectedItemFull.size}}</b>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+    <!--Share file initialization - ENDS -->
+
+    <!--Share by email initialization-->
+    <div class="modal fade" id="initShareByEmail" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content ws-card">
+                <div class="modal-header ws-card-header">
+                    <h5 *ngIf="selectedContentItem.category == 'image'" class="modal-title" id="exampleModalLongTitle">Share File by Email</h5>
+                    <h5 *ngIf="selectedContentItem.category == 'folder'" class="modal-title" id="exampleModalLongTitle">Share Folder by Email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form #sharebyemailForm="ngForm">
+                    <div class="modal-body">
+                        <p>Please enter the email address to send '{{selectedContentItem.name}}' to.</p>
+                        <div class="form-group">
+                            <input name="newfilename" type="email" class="fill-width" placeholder="Email Address" [(ngModel)]="shareemail" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button [disabled]="!sharebyemailForm.valid" type="submit" class="ws-button-flat" (click)="shareDocumentbyEmail()" data-dismiss="modal">Share</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Share file initialization - ENDS -->
+
+    <!--Full view-->
+    <div class="ws-content-item-full" *ngIf="isContentItemFull" [ngStyle]="isContentItemFull ? {'width':'100%' , 'height':'100%'} : {'width':'0' , 'height':'0'}">
+        <div class="ws-content-item-full-header clearfix row">
+            <div class="col-md-4 col-sm-6 col-6">
+                <h5>{{ selectedItemFull.folderName }}</h5>
+            </div>
+            <div class="col-md-4 col-sm-6 col-6"></div>
+            <div class="col-md-4 col-sm-6 col-6">
+                <ul class="nav ws-list-horizontal justify-content-end">
+                    <li class="nav-item" data-toggle="modal" data-target="#initShareFile">
+                        <button class="ws-button-flat iconed">
+                            <i class="material-icons ws-color-white">share</i>
+                        </button>
+                    </li>
+                    <li *ngIf="authPermissions.canDelete" class="nav-item">
+                        <button class="ws-button-flat iconed">
+                            <i class="material-icons ws-color-white">delete</i>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="ws-button-flat iconed" (click)="closeContentFull()">
+                            <i class="material-icons">close</i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="ws-content-item-full-body-wrap">
+            <div class="ws-content-item-full-body">
+                <div class="ws-content-item-preview">
+                    <!-- <i class="material-icons">{{selectedContentItem.icon}}</i> -->
+                    <img [src]="imageToShow" alt="">
+                </div>
+                <div class="row ws-content-item-details">
+                    <div class="col-md-4 col-sm-4 col-4">
+                        <div>Added date :
+                            <b>{{selectedItemFull.addedDate}}</b>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-4">
+                        <div>Last modified date :
+                            <b>{{selectedItemFull.lastModifiedDate}}</b>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-4">
+                        <div>Size :
+                            <b>{{selectedItemFull.size}}</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
