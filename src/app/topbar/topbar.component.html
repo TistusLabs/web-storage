@@ -1,183 +1,183 @@
 <div class="ws-topbar">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand col-md-3 col-sm-4 col-4" href="#">
-        <img src="assets/images/triotm-transparentbg.png" alt="OS TRIO">
-    </a>
-    <div class="ws-topbar-fixed-elems-wrap col-md-7 col-sm-8 col-8">
-      <div class="ws-main-search">
-        <form>
-          <input name="searchtext" class="ws-text-field" [(ngModel)]="searchtext" type="text" placeholder="Search file...">
-          <button class="ws-button-flat iconed" (click)="executeSearch()">
-            <i class="material-icons">search</i>
-          </button>
-        </form>
-      </div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
-    <div class="nav collapse navbar-collapse col-md-2 col-sm-12 col-12" id="navbarSupportedContent">
-      <div class="justify-content-end">
-        <ul class="navbar-nav">
-          <li class="ws-topbar-user-icon">
-            <img src="assets/images/avatar.jpg" alt="{{ user.name }}">
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              {{ user.name }}
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="javascript:void(0);">Profile</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="javascript:void(0);" (click)="logoutUser()">Logout</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand col-md-3 col-sm-4 col-4" href="#">
+            <img src="assets/images/triotm-transparentbg.png" alt="OS TRIO">
+        </a>
+        <div class="ws-topbar-fixed-elems-wrap col-md-7 col-sm-8 col-8">
+            <div class="ws-main-search">
+                <form>
+                    <input name="searchtext" class="ws-text-field" [(ngModel)]="searchtext" type="text" placeholder="Search file...">
+                    <button class="ws-button-flat iconed" (click)="executeSearch()">
+                        <i class="material-icons">search</i>
+                    </button>
+                </form>
             </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div class="nav ws-topbar-filters">
-    <div class="ws-addbtn-wrap mr-auto col-md-3 col-sm-4 col-2">
-      <button class="ws-button-primary ws-text-icon" id="addNewDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-        aria-expanded="false">
-        <span>+</span>
-        <span>ADD</span>
-      </button>
-      <div class="dropdown-menu dropdown-menu-left" aria-labelledby="addNewDropdown">
-        <ul class="ws-list ws-iconed-list">
-          <li *ngIf="authPermissions.createFolder" class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initNewFolder">
-            <i class="material-icons ws-list-item-icon">create_new_folder</i>
-            <span class="ws-list-item-text">Folder</span>
-          </li>
-          <li *ngIf="authPermissions.canAdd" class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initNewFile">
-            <i class="material-icons ws-list-item-icon">description</i>
-            <span class="ws-list-item-text">File</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="ws-filters-wrap justify-content-end nav col-md-9 col-sm-8 col-10">
-      <div class="ws-homebtn-wrap">
-        <ul class="nav ws-list-horizontal">
-          <li class="nav-item" (click)="goToRoute('')">
-            <button class="ws-button-flat iconed">
-              <i class="material-icons">home</i>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-          </li>
-        </ul>
-      </div>
-      <div class="justify-content-end">
-        <ul class="nav ws-list-horizontal">
-          <li class="nav-item">
-            <button class="ws-button-flat iconed" [ngClass]="{'active':itemsLayout==='list'}" (click)="toggleItemsLayout('list')">
-              <i class="material-icons">list</i>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="ws-button-flat iconed" [ngClass]="{'active':itemsLayout==='grid'}" (click)="toggleItemsLayout('grid')">
-              <i class="material-icons">apps</i>
-            </button>
-          </li>
-          <li class="nav-item dropdown">
-            <button class="ws-button-flat iconed" id="topbarFiltersDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              <i class="material-icons">more_vert</i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="topbarFiltersDropdown">
-              <a class="dropdown-item" href="javascript:void(0);">Filter</a>
-              <a class="dropdown-item" href="javascript:void(0);">Filter</a>
+        </div>
+        <div class="nav collapse navbar-collapse col-md-2 col-sm-12 col-12" id="navbarSupportedContent">
+            <div class="justify-content-end" fill-width-xs>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown" style="display: flex">
+                        <div class="ws-topbar-user-icon">
+                            <img src="assets/images/avatar.jpg" alt="{{ user.name }}">
+                        </div>
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            {{ user.name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="javascript:void(0);">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="logoutUser()">Logout</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <!--New folder initialization-->
-  <div class="modal fade" id="initNewFolder" tabindex="-1" role="dialog" aria-labelledby="initNewFolderCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content ws-card">
-        <div class="modal-header ws-card-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">New Folder</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" fill-width placeholder="New folder name" [(ngModel)]="newFolderData.name">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
-          <button type="button" class="ws-button-primary ws-raised" (click)="addNewFolder()">Add</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--New folder initialization - ENDS -->
-
-  <!--New file initialization-->
-  <div class="modal fade" id="initNewFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ws-modal-large" role="document">
-      <div class="modal-content ws-card">
-        <div class="modal-header ws-card-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Upload New File</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <!-- <div class="form-group">
-              <input type="text" class="fill-width" placeholder="New folder name" [(ngModel)]="newFolderData.name">
-          </div> -->
-          <!-- <div class="form-group">
-            <input name="filename" type="text" class="fill-width" placeholder="File Name" [(ngModel)]="newFileData.filename" />
-          </div> -->
-          <!-- <div class="form-group">
-                <input name="folderName" type="text" class="fill-width" placeholder="Folder Name" [(ngModel)]="newFileData.name" />
+    </nav>
+    <div class="nav ws-topbar-filters">
+        <div class="ws-addbtn-wrap mr-auto col-md-3 col-sm-4 col-2">
+            <button class="ws-button-primary ws-text-icon" id="addNewDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <span>+</span>
+                <span>ADD</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-left" aria-labelledby="addNewDropdown">
+                <ul class="ws-list ws-iconed-list">
+                    <li *ngIf="authPermissions.createFolder" class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initNewFolder">
+                        <i class="material-icons ws-list-item-icon">create_new_folder</i>
+                        <span class="ws-list-item-text">Folder</span>
+                    </li>
+                    <li *ngIf="authPermissions.canAdd" class="ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initNewFile">
+                        <i class="material-icons ws-list-item-icon">description</i>
+                        <span class="ws-list-item-text">File</span>
+                    </li>
+                </ul>
             </div>
-            <div class="form-group">
-                <input name="userId" type="text" class="fill-width" placeholder="User ID" [(ngModel)]="newFileData.name" />
-            </div> -->
+        </div>
+        <div class="ws-filters-wrap justify-content-end nav col-md-9 col-sm-8 col-10">
+            <div class="ws-homebtn-wrap">
+                <ul class="nav ws-list-horizontal">
+                    <li class="nav-item" (click)="goToRoute('')">
+                        <button class="ws-button-flat iconed">
+                            <i class="material-icons">home</i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="justify-content-end">
+                <ul class="nav ws-list-horizontal">
+                    <li class="nav-item">
+                        <button class="ws-button-flat iconed" [ngClass]="{'active':itemsLayout==='list'}" (click)="toggleItemsLayout('list')">
+                            <i class="material-icons">list</i>
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="ws-button-flat iconed" [ngClass]="{'active':itemsLayout==='grid'}" (click)="toggleItemsLayout('grid')">
+                            <i class="material-icons">apps</i>
+                        </button>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <button class="ws-button-flat iconed" id="topbarFiltersDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="topbarFiltersDropdown">
+                            <a class="dropdown-item" href="javascript:void(0);">Filter</a>
+                            <a class="dropdown-item" href="javascript:void(0);">Filter</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
-          <div class="ws-dragndrop-wrap" id="fileDragNDrop" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
-            <div class="ws-imaged-message ws-message">
-              <i class="material-icons ws-message-image" *ngIf="!fileReady">flip_to_front</i>
-
-              <div *ngIf="fileReady" class="ws-file">
-                <i class="material-icons ws-file-icon">{{newFileData.upfile.type.split('/')[0] === 'image' ? 'image' : 'document'}}</i>
-                <div class="ws-file-info">
-                  <div>
-                    <b>{{newFileData.upfile.name}}</b>
-                  </div>
-                  <div>{{newFileData.upfile.type}}</div>
-                  <div>{{tempFileSize}}</div>
+    <!--New folder initialization-->
+    <div class="modal fade" id="initNewFolder" tabindex="-1" role="dialog" aria-labelledby="initNewFolderCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content ws-card">
+                <div class="modal-header ws-card-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">New Folder</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-              </div>
-
-              <div>Drag and Drop</div>
-              <div style="margin-bottom: 5px">
-                <b>
-                  <i>or</i>
-                </b>
-              </div>
-              <div>
-                <button type="button" class="ws-button-primary ws-raised" (click)="browseFileInit()">Browse</button>
-                <input name="upfile" id="upFile" type="file" class="fill-width" placeholder="Select File" (change)="setFile($event)" style="display: none"
-                />
-              </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" fill-width placeholder="New folder name" [(ngModel)]="newFolderData.name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="ws-button-primary ws-raised" (click)="addNewFolder()">Add</button>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
-          <button type="button" class="ws-button-primary ws-raised" (click)="addNewFile()">Upload</button>
-        </div>
-      </div>
     </div>
-  </div>
-  <!--New file initialization - ENDS -->
+    <!--New folder initialization - ENDS -->
+
+    <!--New file initialization-->
+    <div class="modal fade" id="initNewFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ws-modal-large" role="document">
+            <div class="modal-content ws-card">
+                <div class="modal-header ws-card-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Upload New File</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- <div class="form-group">
+                        <input type="text" class="fill-width" placeholder="New folder name" [(ngModel)]="newFolderData.name">
+                    </div> -->
+                    <!-- <div class="form-group">
+                      <input name="filename" type="text" class="fill-width" placeholder="File Name" [(ngModel)]="newFileData.filename" />
+                    </div> -->
+                    <!-- <div class="form-group">
+                          <input name="folderName" type="text" class="fill-width" placeholder="Folder Name" [(ngModel)]="newFileData.name" />
+                      </div>
+                      <div class="form-group">
+                          <input name="userId" type="text" class="fill-width" placeholder="User ID" [(ngModel)]="newFileData.name" />
+                      </div> -->
+
+                    <div class="ws-dragndrop-wrap" id="fileDragNDrop" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+                        <div class="ws-imaged-message ws-message">
+                            <i class="material-icons ws-message-image" *ngIf="!fileReady">flip_to_front</i>
+
+                            <div *ngIf="fileReady" class="ws-file">
+                                <i class="material-icons ws-file-icon">{{newFileData.upfile.type.split('/')[0] === 'image' ? 'image' : 'document'}}</i>
+                                <div class="ws-file-info">
+                                    <div>
+                                        <b>{{newFileData.upfile.name}}</b>
+                                    </div>
+                                    <div>{{newFileData.upfile.type}}</div>
+                                    <div>{{tempFileSize}}</div>
+                                </div>
+                            </div>
+
+                            <div>Drag and Drop</div>
+                            <div style="margin-bottom: 5px">
+                                <b>
+                                    <i>or</i>
+                                </b>
+                            </div>
+                            <div>
+                                <button type="button" class="ws-button-primary ws-raised" (click)="browseFileInit()">Browse</button>
+                                <input name="upfile" id="upFile" type="file" class="fill-width" placeholder="Select File" (change)="setFile($event)" style="display: none"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="ws-button-primary ws-raised" (click)="addNewFile()">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--New file initialization - ENDS -->
 </div>

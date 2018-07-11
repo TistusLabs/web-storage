@@ -90,6 +90,7 @@
 }
 @media (max-width: 576px) {
   .ws-topbar {
+    height: auto;
     .ws-main-search {
       width: 40px;
       input {
@@ -103,6 +104,14 @@
       margin-right: auto;
       font-size: 16px;
       padding: 5px 0;
+    }
+    .navbar-nav {
+      .nav-item {
+        display: block!important;
+        .ws-topbar-user-icon {
+          float: left;
+        }
+      }
     }
     .ws-addbtn-wrap {
       margin: 0;

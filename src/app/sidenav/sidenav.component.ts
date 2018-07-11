@@ -51,6 +51,6 @@ export class SidenavComponent implements OnInit {
 
   toggleBreadcrumb() {
     this.xsSidenavState = !this.xsSidenavState;
-    this.xsSidenavState ? $(".ws-sidenav-wrap").css('height', '300px') : $(".ws-sidenav-wrap").css('height', '40px');
+    this.xsSidenavState ? $(".ws-sidenav-wrap").css({'height':'300px', 'overflow-y':'scroll'}) : $(".ws-sidenav-wrap").css({'height':'40px','overflow-y':'hidden'});
   }
 }

@@ -133,9 +133,9 @@ body {
       padding: $ws-padding-inner-secondray;
       border: solid $ws-border-color-primary $ws-border-width-primary;
       border-radius: $ws-border-radius-primary;
-       .iconed {
+      .iconed {
 
-       }
+      }
     }
   }
 
@@ -589,7 +589,7 @@ body {
     }
   }
   //. . . . . . . . . . . . . . . . . . .
-  
+
   //************** ANIMATIONS **************
   @keyframes loading {
     from {
@@ -620,10 +620,13 @@ body {
     }
   }
   //. . . . . . . . . . . . . . . . . . .
-  
+
 }
- 
+
 @media (max-width: 576px) {
+  [fill-width-xs] {
+    width: 100%;
+  }
   body {
     .ws-main {
       height: auto;
@@ -643,10 +646,20 @@ body {
         height: auto;
       }
     }
+    .ws-content-item-horizontal {
+      .ws-content-item-preview {
+        padding: $ws-padding-inner-secondray 0;
+      }
+      .ws-content-item-info {
+        .ws-info-text-sub{
+          display: none;
+        }
+      }
+    }
     .ws-sidenav-wrap {
       height: 40px;
       padding: 5px 15px;
-      // background: $ws-hover-background-secondary;
+      background: $ws-hover-background-secondary;
       transition: height $ws-transition-time;
       .ws-xs-breadcrumb {
         position: absolute;
