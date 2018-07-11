@@ -1,32 +1,33 @@
 <div class="ws-preloader-line" *ngIf="itemsLoading">
-  <div class="ws-preloader-load-bar">
-    <div class="ws-preloader-bar"></div>
-    <div class="ws-preloader-bar"></div>
-    <div class="ws-preloader-bar"></div>
-  </div>
+    <div class="ws-preloader-load-bar">
+        <div class="ws-preloader-bar"></div>
+        <div class="ws-preloader-bar"></div>
+        <div class="ws-preloader-bar"></div>
+    </div>
 </div>
 <div class="ws-page-title clearfix row">
-  <h2 class="col-md-6 col-sm-6 col-6">Trash</h2>
+    <h2 class="col-md-6 col-sm-6 col-6">Trash</h2>
 </div>
 <div class="ws-body-hints">
-<p>Here you are able to see all the deleted files by the other users of the system.</p>
+    <p>Here you are able to see all the deleted files by the other users of the system.</p>
 </div>
 <div [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
-  *ngFor="let file of alldeletedFilesFolders">
-  <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" (click)="permanentDelete(file)" role="button"
-    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="ws-overhead-btn ws-content-more-ops material-icons">delete</i>
-  </button>
-  <div class="ws-content-item-preview">
-    <i class="material-icons">{{ file.category == 'folder' ? 'folder' : 'image' }}</i>
-  </div>
-  <div class="ws-content-item-info">
-    <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (file.name | slice:0:18) : itemsLayout==='list' ? (file.name | slice:0:50) : null }} {{file.name.length
-      >= 18 && itemsLayout==='grid' ? '...' : file.name.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
-    <div class="ws-info-text-sub">
-      Size : {{ file.size }}</div>
-    <i class="ws-info-text-sub">{{ file.added_date }}</i>
-  </div>
+     *ngFor="let file of alldeletedFilesFolders">
+    <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" (click)="permanentDelete(file)" role="button"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="ws-overhead-btn ws-content-more-ops material-icons">delete</i>
+    </button>
+    <div class="ws-content-item-preview">
+        <i class="material-icons">{{ file.category == 'folder' ? 'folder' : 'image' }}</i>
+    </div>
+    <div class="ws-content-item-info">
+        <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (file.name | slice:0:18) : itemsLayout==='list' ? (file.name | slice:0:50) : null }} {{file.name.length
+            >= 18 && itemsLayout==='grid' ? '...' : file.name.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
+        <div class="ws-info-text-sub">
+            Size : {{ file.fileSize }}</div>
+        <div class="ws-info-text-sub">
+            Added date : {{ file.addedDate }}</div>
+    </div>
 </div>
 
 <!-- 
