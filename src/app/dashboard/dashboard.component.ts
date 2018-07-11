@@ -287,7 +287,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 sharedfile.name = sharedfile.filename;
                 sharedfile.starred = sharedfile.starred == null ? false : sharedfile.starred;
                 sharedfile.category = 'shared';
-                sharedfile.icon = 'shared';
+                sharedfile.icon = 'share';
                 sharedfile.fileSize = this.uiHelperService.formatBytes(sharedfile.fileSize, null);
                 this.allFilesFolders.push(sharedfile);
             }
