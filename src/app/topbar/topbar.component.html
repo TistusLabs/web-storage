@@ -4,7 +4,10 @@
             <img src="assets/images/triotm-transparentbg.png" alt="OS TRIO">
         </a>
         <div class="ws-topbar-fixed-elems-wrap col-md-7 col-sm-8 col-8">
-            <div class="ws-main-search">
+            <div class="ws-main-search" [ngClass]="{'ws-main-search-xs-active': xsSearchBar}">
+                <button id="xsCloseSearchBtn" class="ws-button-flat iconed" (click)="toggleXSSearch()" *ngIf="xsSearchBar">
+                    <i class="material-icons">close</i>
+                </button>
                 <form>
                     <input name="searchtext" class="ws-text-field" [(ngModel)]="searchtext" type="text" placeholder="Search file...">
                     <button class="ws-button-flat iconed" (click)="executeSearch()">
@@ -12,6 +15,9 @@
                     </button>
                 </form>
             </div>
+            <button id="xsToggleSearchBtn" class="ws-button-flat iconed" (click)="toggleXSSearch()">
+                <i class="material-icons">search</i>
+            </button>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

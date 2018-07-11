@@ -87,16 +87,47 @@
   .ws-filters-wrap {
     padding: 0!important;
   }
+  #xsToggleSearchBtn {
+    display: none;
+  }
+  #xsCloseSearchBtn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
 }
 @media (max-width: 576px) {
   .ws-topbar {
     height: auto;
+    #xsToggleSearchBtn {
+      display: block;
+    }
     .ws-main-search {
-      width: 40px;
+      width: 0px;
+      transition: all $ws-transition-time;
+      overflow: hidden;
       input {
         width: 0px;
         padding: 0;
+        border-radius: 0;
         border: none;
+        border-bottom: solid 1px $ws-border-color-primary;
+      }
+      &.ws-main-search-xs-active {
+        position: fixed;
+        background: #fff;
+        padding: 5px;
+        width: 100%;
+        left: 0;
+        top: 0;
+        box-shadow: 0 1px 5px #ddd;
+        input {
+          padding: 0 10px;
+          margin-left: 30px;
+          width: calc(100% - 70px);
+        }
       }
     }
     .navbar-brand {

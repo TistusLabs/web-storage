@@ -85,6 +85,9 @@
                             <input type="checkbox" id="canAdd" name="canAdd" [(ngModel)]="userpermission.canAdd"> <label for="canAdd">Enable uploading new files</label>
                         </div>
                         <div class="form-group col-md-6 col-sm-12 col-12">
+                            <input type="checkbox" name="createFolder" id="createFolder" [(ngModel)]="userpermission.createFolder"> <label for="createFolder">Enable Creating Folders</label>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12 col-12">
                             <input type="checkbox" id="canDelete" name="canDelete" [(ngModel)]="userpermission.canDelete"> <label for="canDelete">Enable Deleting files</label>
                         </div>
                     </div>

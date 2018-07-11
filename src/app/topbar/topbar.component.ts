@@ -30,6 +30,7 @@ export class TopbarComponent implements OnInit {
     tempFileSize = 0;
     searchtext = "";
     authPermissions = {};
+    xsSearchBar = false;
 
     constructor(
         public myContentService: MyContentService,
@@ -81,7 +82,11 @@ export class TopbarComponent implements OnInit {
             queryParams: { 'search': this.searchtext }
         };
         this.router.navigate(['ws/dashboard'], navigationExtras);
-    }
+    };
+
+    toggleXSSearch = function () {
+        this.xsSearchBar = !this.xsSearchBar;
+    };
 
     browseFileInit() {
         $('#upFile').click();
