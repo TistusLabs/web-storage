@@ -93,6 +93,9 @@ body {
       position: absolute;
       right: 5px;
       top: 5px;
+      &.ws-abs-button-extend {
+        right: 50px;
+      }
     }
     &.ws-abs-button-left {
       position: absolute;
@@ -402,7 +405,7 @@ body {
     }
     .ws-content-item-info {
       // background: #fafafa;
-      padding: ($ws-padding-inner-primary + 3) $ws-padding-inner-primary;
+      padding: ($ws-padding-inner-primary + 5) $ws-padding-inner-primary;
       border-radius: 0 0 $ws-border-radius-secondary $ws-border-radius-secondary;
       overflow: auto;
       .ws-info-text-title {
@@ -415,7 +418,10 @@ body {
         color: $ws-color-text-secondary;
         line-height: 18px;
         float: right;
-        margin-right: 50px;
+        margin-right: 30px;
+        &.ws-info-text-sub-extend {
+          margin-right: 100px;
+        }
         &.ws-info-text-sub-bold {
           font-weight: bold;
         }

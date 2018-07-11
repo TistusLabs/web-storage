@@ -245,7 +245,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     unstartfile(item) {
-        debugger;
+        // debugger;
         this.itemLoading = item.id;
         this.myContentService.unstarFile(item.id).subscribe(data => {
             this.auditTrailService.addAudiTrailLog("File '" + item.name + "' unmarked as favorite.");

@@ -24,11 +24,14 @@
                             <div class="ws-preloader-bar"></div>
                         </div>
                     </div>
-                    <button *ngIf="item.starred == false && item.category != 'folder' || item.starred == null && item.category != 'folder'" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left"
+                    <button *ngIf="item.starred == false && item.category != 'folder' || item.starred == null && item.category != 'folder'"
+                            class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left"
+                            [ngClass]="{'ws-abs-button-left': itemsLayout==='grid', 'ws-abs-button ws-abs-button-extend' : itemsLayout==='list'}"
                             (click)="starfile(item)" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="ws-overhead-btn ws-content-more-ops material-icons">star_border</i>
                     </button>
-                    <button *ngIf="item.starred == true" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button-left ws-button-primary"
+                    <button *ngIf="item.starred == true" class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-button-primary"
+                            [ngClass]="{'ws-abs-button-left': itemsLayout==='grid', 'ws-abs-button ws-abs-button-extend' : itemsLayout==='list'}"
                             (click)="unstartfile(item)" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="ws-overhead-btn ws-content-more-ops material-icons">star</i>
                     </button>
@@ -69,7 +72,7 @@
                     <div class="ws-content-item-info {{content.layout}}">
                         <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (item.name | slice:0:18) : itemsLayout==='list' ? (item.name | slice:0:50) : null }} {{item.name.length
                             >= 18 && itemsLayout==='grid' ? '...' : item.name.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
-                        <div class="ws-info-text-sub" *ngIf="item.category != 'folder'">
+                        <div class="ws-info-text-sub" *ngIf="item.category != 'folder'" [ngClass]="{'ws-info-text-sub-extend': itemsLayout==='list'}">
                             Size : {{ item.fileSize }}</div>
                         <div class="ws-info-text-sub">
                             Added date : {{ item.addedDate | date: 'dd MMMM y' }}</div>
