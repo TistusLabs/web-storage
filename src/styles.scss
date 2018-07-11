@@ -419,7 +419,7 @@ body {
         line-height: 18px;
         float: right;
         margin-right: 30px;
-        &.ws-info-text-sub-extend {
+        &:nth-child(2) {
           margin-right: 100px;
         }
         &.ws-info-text-sub-bold {

@@ -72,7 +72,7 @@
                     <div class="ws-content-item-info {{content.layout}}">
                         <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (item.name | slice:0:18) : itemsLayout==='list' ? (item.name | slice:0:50) : null }} {{item.name.length
                             >= 18 && itemsLayout==='grid' ? '...' : item.name.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
-                        <div class="ws-info-text-sub" *ngIf="item.category != 'folder'" [ngClass]="{'ws-info-text-sub-extend': itemsLayout==='list'}">
+                        <div class="ws-info-text-sub" *ngIf="item.category != 'folder'">
                             Size : {{ item.fileSize }}</div>
                         <div class="ws-info-text-sub">
                             Added date : {{ item.addedDate | date: 'dd MMMM y' }}</div>
