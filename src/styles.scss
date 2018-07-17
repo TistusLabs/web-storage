@@ -612,8 +612,17 @@ body {
   //************** IMAGES **************
   .ws-images {
     &.ws-image-small {
-      width: 40px;
-      height: 40px;
+      width: $ws-image-small;
+      height: $ws-image-small;
+    }
+    &.ws-image-medium {
+      width: $ws-image-medium;
+      height: $ws-image-medium;
+    }
+    &.ws-image-mw-medium {
+      width: 100%;
+      max-width: $ws-image-medium;
+      height: auto;
     }
     &.ws-image-circular {
       border-radius: 100%;

@@ -19,7 +19,6 @@ export class ProfileComponent implements OnInit {
 
   getprofileData() {
     this.authService.getProfile().subscribe(data => {
-      debugger
       if (typeof data == "string") {
         this.profileDetails = {};
       } else {
@@ -36,6 +35,10 @@ export class ProfileComponent implements OnInit {
       this.editContent = false;
       this.updateProfileDetails();
     }
+  }
+
+  cancelEdit() {
+      this.editContent = false;
   }
 
   private setFile = function (event, eventType) {
