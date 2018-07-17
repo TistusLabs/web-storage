@@ -46,6 +46,15 @@ export class userObject {
     imageUrl: string;
 }
 
+export class profileObject {
+    profileId: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    imageurl: string;
+    userId: number;
+}
+
 export class userPermissionObject {
     canEdit: number;
     canView: number;

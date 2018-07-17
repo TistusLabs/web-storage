@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { UIHelperService } from '../services/uihelper.service';
 import { AuditTrailService } from '../services/audittrail.service';
+import { profileObject } from '../filemanager';
 
 @Component({
     selector: 'app-topbar',
@@ -45,9 +46,14 @@ export class TopbarComponent implements OnInit {
         this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
             this.itemsLayout = il;
         });
-        let auth = this.authService.getAuthObject();
-        this.user.name = auth.unique_name;
+        this.authService.getProfile().subscribe(data => {
+            this.setProfileDetails(data);
+        })
         this.authPermissions = this.authService.getAuthPermissions();
+    }
+
+    setProfileDetails = function (data) {
+        this.user.name = data.firstName + " " + data.lastName;
     }
 
     // Update items layout
@@ -61,6 +67,10 @@ export class TopbarComponent implements OnInit {
             queryParams: { 'page': route }
         };
         this.router.navigate(['ws/dashboard'], navigationExtras);
+    }
+
+    gotoProfile = function () {
+        this.router.navigate(['ws/profile']);
     }
 
     addNewFolder = function () {

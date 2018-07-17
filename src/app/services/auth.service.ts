@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { User } from '../../assets/data/user';
 import { Observable, throwError } from 'rxjs';
-import { NewUserTemplate, loginResponse, userObject, userPermissionObject } from '../filemanager';
+import { NewUserTemplate, loginResponse, userObject, userPermissionObject, profileObject } from '../filemanager';
 import { retry, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router, NavigationExtras } from '@angular/router';
@@ -26,10 +26,13 @@ export class AuthService {
   private authToken;
   private allUsers;
   private authPermissions;
+  private profileDetails;
 
   private _url_createuser = "http://104.196.2.1/filemanagement/user_management/users/registration";
   private _url_loginuser = "http://104.196.2.1/filemanagement/user_management/users/login/";
   private _url_getAllusers = "http://104.196.2.1/filemanagement/user_management/users/getAll/";
+  private _url_saveProfile = "http://104.196.2.1/filemanagement/user_management/profile/saveProfile";
+  private _url_getProfile = "http://104.196.2.1/filemanagement/user_management/profile/getProfile";
 
   private _headers = {
     'Content-Type': 'application/json',
@@ -42,6 +45,9 @@ export class AuthService {
     const helper = new JwtHelperService();
     this.authObject = helper.decodeToken(token);
     this.setAuthPermissions(this.authObject.permission);
+    this.getProfile().subscribe(data => {
+      this.profileDetails = data;
+    });
   }
 
   private setAuthPermissions(stringJSON) {
@@ -60,6 +66,10 @@ export class AuthService {
 
   public getAuthObject() {
     return this.authObject;
+  }
+
+  public getProfileData() {
+    return this.profileDetails;
   }
 
   public logoutUser() {
@@ -125,13 +135,33 @@ export class AuthService {
     this.newUserObject.user = this.newUserDetails;
     this.newUserObject.permission = this.newUserPermissions;
 
-    debugger
-
     return this.http.post<NewUserTemplate>(this._url_createuser, this.newUserObject, this.requestOptions)
       .pipe(
         retry(3),
         catchError(this.handleError)
       );
+  }
+
+  public saveProfile(formData: FormData) {
+
+    formData.append('authorize', this.getAuthToken());
+
+    return this.http.post(this._url_saveProfile, formData)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  public getProfile() {
+    const headers = {
+      'Authorization': "Bearer " + this.getAuthToken()
+    };
+
+    this.requestOptions = {
+      headers: new HttpHeaders(headers)
+    };
+    return this.http.get<profileObject>(this._url_getProfile, this.requestOptions);
   }
 
   public loginUser(userdata: any): Observable<HttpEvent<loginResponse>> {

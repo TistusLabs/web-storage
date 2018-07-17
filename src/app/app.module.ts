@@ -30,6 +30,7 @@ import { UsersComponent } from './users/users.component';
 import { GroupsComponent } from './groups/groups.component';
 import { AudittrailComponent } from './audittrail/audittrail.component';
 import { TrashComponent } from './trash/trash.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     declarations: [
@@ -47,7 +48,8 @@ import { TrashComponent } from './trash/trash.component';
         GroupsComponent,
         AudittrailComponent,
         TrashComponent,
-        GroupByPipe
+        GroupByPipe,
+        ProfileComponent
     ],
     imports: [
         BrowserModule,

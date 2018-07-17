@@ -47,6 +47,30 @@ export class UsersComponent implements OnInit {
 		this.userpermission.createFolder = false;
 	}
 
+	private setFile = function (event, eventType) {
+		if (eventType === 'dnd') {
+			this.newUser.upfile = event.dataTransfer.files[0];
+		} else {
+			this.newUser.upfile = event.target.files[0];
+		}
+	}
+
+	private addNewProfile(user) {
+		debugger
+		const uploadData = new FormData();
+		uploadData.append('profileId', null);
+		uploadData.append('firstName', user.firstName);
+		uploadData.append('lastName', user.lastName);
+		uploadData.append('email', user.email);
+		uploadData.append('upfile', user.upfile);
+
+		this.authService.saveProfile(uploadData)
+			.subscribe(event => {
+				debugger
+				this.auditTrailService.addAudiTrailLog("Created new profile for user '" + user.firstName + " " + user.lastName + "'");
+			});
+	}
+
 	private getPermissionObject() {
 		this.newPermission = new userPermissionObject();
 		if (this.userpermission.canEdit) {
@@ -75,6 +99,7 @@ export class UsersComponent implements OnInit {
 		let userobj = this.getPermissionObject();
 		this.authService.signUpUser({ "user": this.newUser, "permissions": userobj })
 			.subscribe(data => {
+				this.addNewProfile(this.newUser);
 				this.auditTrailService.addAudiTrailLog("User '" + this.newUser.username + "' was created.");
 				alert("new user was created");
 				this.loadAllUsers();

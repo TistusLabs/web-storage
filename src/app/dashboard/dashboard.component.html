@@ -12,7 +12,7 @@
         </div>
         <div *ngFor="let starred of items.value | groupBy:'starred'" class="clearfix">
             <div class="ws-page-subtitle ws-text-sub">
-                <h3>{{starred.key == 'true' ? 'Favs' : '' }}</h3>
+                <h3>{{starred.key == 'true' ? 'Favorites' : '' }}</h3>
             </div>
             <div class="clearfix">
                 <div class="clickable" [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"

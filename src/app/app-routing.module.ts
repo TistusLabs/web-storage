@@ -14,6 +14,7 @@ import { UsersComponent } from './users/users.component';
 import { GroupsComponent } from './groups/groups.component';
 import { AudittrailComponent } from './audittrail/audittrail.component';
 import { TrashComponent } from './trash/trash.component'
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,9 @@ const routes: Routes = [
       }, {
         path: 'trash',
         component: TrashComponent
+      }, {
+        path: 'profile',
+        component: ProfileComponent
       }
     ],
     runGuardsAndResolvers: 'always'
