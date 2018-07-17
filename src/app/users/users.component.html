@@ -12,7 +12,7 @@
                     <p>Here you can add new user with given permissions to them. Bellow all the system users are displayed where could edit their details as you need.</p>
                   </div> -->
                 <form (ngSubmit)="addNewUser()" id="newUserForm" #newUserForm="ngForm">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
                             <input [(ngModel)]="newUser.firstName" fill-width type="text" placeholder="First name" id="fname" name="fname" required #fname="ngModel">
                             <div [hidden]="fname.valid || fname.pristine" class="ws-alert ws-alert-danger">
@@ -26,7 +26,7 @@
                                 Last name is required
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="row">
                         <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
@@ -46,7 +46,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
                             <input [(ngModel)]="newUser.email" fill-width type="email" placeholder="Email" id="email" name="email" required #email="ngModel">
                             <div [hidden]="email.valid || email.pristine" class="ws-alert ws-alert-danger">
@@ -55,11 +55,10 @@
                         </div>
 
                         <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                            <!-- <input [(ngModel)]="newUser.imageUrl" fill-width type="text" placeholder="Image URL" id="imageUrl"> -->
                             <input name="upfile" id="upFile" type="file" accept="image/*" (change)="setFile($event)" fill-width placeholder="Select Profile Image"
                             />
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
                             <label for="usertype"></label>
@@ -105,7 +104,7 @@
             <div class="modal-footer">
                 <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
                 <button type="submit" form="newUserForm" class="ws-button-primary ws-raised" [disabled]="!newUserForm.form.valid">Add</button>
-                <!-- <button type="button" class="ws-button-flat" (click)="addNewProfile(newUser)">New Profile</button> -->
+                <button type="button" class="ws-button-flat" (click)="addNewProfile(newUser)">New Profile</button>
             </div>
         </div>
     </div>

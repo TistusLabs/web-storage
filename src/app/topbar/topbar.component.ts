@@ -53,7 +53,14 @@ export class TopbarComponent implements OnInit {
     }
 
     setProfileDetails = function (data) {
-        this.user.name = data.firstName + " " + data.lastName;
+        debugger
+        if (typeof data != "string") {
+            this.user.name = data.firstName + " " + data.lastName;
+            this.user.image = data.imageurl == "" || data.imageurl == null ? "assets/images/avatar.png" : "http://104.196.2.1" + data.imageurl;
+        } else {
+            this.user.name = "Username";
+            this.user.image = "assets/images/avatar.png";
+        }
     }
 
     // Update items layout

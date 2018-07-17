@@ -1,3 +1,25 @@
-<p>
-  profile works!
-</p>
+<button *ngIf="editContent == false" (click)="editFile(true)">
+  Edit</button>
+<button *ngIf="editContent == true" (click)="editFile(false)">Done Editing</button>
+<br>
+
+<!-- this is the profile display area -->
+<div *ngIf="editContent == false">
+    <img [src]="profileDetails.imageurl" alt="">
+  <p>First Name: {{profileDetails.firstName}}</p>
+  <p>Last Name: {{profileDetails.lastName}}</p>
+  <p>Email: {{profileDetails.email}}</p>
+</div>
+
+<!-- this is the profile editing area -->
+
+<div *ngIf="editContent == true">
+  <label for="firstName">First Name</label>
+  <input type="text" name="firstName" id="firstName" placeholder="First Name" [(ngModel)]="profileDetails.firstName" />
+  <label for="lastName">Last Name</label>
+  <input type="text" name="lastName" id="lastName" placeholder="Last Name" [(ngModel)]="profileDetails.lastName" />
+  <label for="email">Email Address</label>
+  <input type="text" name="email" id="email" placeholder="Email Address" [(ngModel)]="profileDetails.email" />
+  <label for="upFile">Profile Image</label>
+  <input name="upfile" id="upFile" type="file" accept="image/*" (change)="setFile($event)" fill-width placeholder="Select Profile Image" />
+</div>
