@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../assets/data/user';
 import { MyContentService } from '../services/mycontent.service';
 import { AuthService } from '../services/auth.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { UIHelperService } from '../services/uihelper.service';
 import { AuditTrailService } from '../services/audittrail.service';
-import { profileObject } from '../filemanager';
+import { profileObject, FileTemplate } from '../filemanager';
+import { BroadcasterService } from 'ng-broadcaster';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-topbar',
     templateUrl: './topbar.component.html',
     styleUrls: ['topbar.component.scss']
 })
-export class TopbarComponent implements OnInit {
+
+export class TopbarComponent implements OnInit, OnDestroy {
     user: User = {
         name: 'Username',
         type: 'admin',
@@ -32,13 +35,16 @@ export class TopbarComponent implements OnInit {
     searchtext = "";
     authPermissions = {};
     xsSearchBar = false;
+    private subscription: Subscription;
+    fileTypes = [];
 
     constructor(
         public myContentService: MyContentService,
         private authService: AuthService,
         private router: Router,
         public uiHelperService: UIHelperService,
-        private auditTrailService: AuditTrailService
+        private auditTrailService: AuditTrailService,
+        private broadcaster: BroadcasterService
     ) { }
     fileReady = false;
     itemsLayout = 'grid';
@@ -50,10 +56,41 @@ export class TopbarComponent implements OnInit {
             this.setProfileDetails(data);
         })
         this.authPermissions = this.authService.getAuthPermissions();
+        this.subscription = this.broadcaster.on<FileTemplate[]>('itemsPopulated').subscribe(
+            data => {
+                this.fileTypes = [];
+                this.fileTypes.push("all");
+                for (const file of data) {
+
+                    if (file.contentType != undefined) {
+                        if (!this.fileTypeAlreadyExisits(file.contentType)) {
+                            this.fileTypes.push(file.contentType);
+                        }
+                    }
+                }
+            }
+        );
     }
 
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+
+    fileTypeAlreadyExisits = function (type) {
+        let flag = false;
+        for (const ftype of this.fileTypes) {
+            if (ftype == type) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    executeFilter = function (type) {
+        this.broadcaster.broadcast('filterItems', type);
+    };
+
     setProfileDetails = function (data) {
-        debugger
         if (typeof data != "string") {
             this.user.name = data.firstName + " " + data.lastName;
             this.user.image = data.imageurl == "" || data.imageurl == null ? "assets/images/avatar.png" : "http://104.196.2.1" + data.imageurl;

@@ -4,6 +4,7 @@ export class FileTemplate {
     filename: string;
     uniqueName: string;
     uniqueFileName: string;
+    contentType:string;
     name: string;
     parentFolder: string;
     category: string;

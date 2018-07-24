@@ -7,6 +7,7 @@ import { MyContentService } from './services/mycontent.service';
 import { AuthService } from './services/auth.service';
 import { UIHelperService } from './services/uihelper.service';
 import { AuditTrailService } from './services/audittrail.service';
+import { BroadcasterService } from "ng-broadcaster";
 
 import { AuthGuard } from './auth.guard';
 // TypeScript syntax configuration
@@ -14,6 +15,7 @@ import * as $ from 'jquery';
 import * as bootstrap from "bootstrap";
 import { DataTablesModule } from 'angular-datatables';
 import { GroupByPipe } from "./groupby.pipe";
+import { FilterSearchPipe } from "./filtersearch.pipe";
 
 import { AppComponent } from './app.component';
 import { TopbarComponent } from './topbar/topbar.component';
@@ -49,7 +51,8 @@ import { ProfileComponent } from './profile/profile.component';
         AudittrailComponent,
         TrashComponent,
         GroupByPipe,
-        ProfileComponent
+        ProfileComponent,
+        FilterSearchPipe
     ],
     imports: [
         BrowserModule,
@@ -65,7 +68,8 @@ import { ProfileComponent } from './profile/profile.component';
         AuthService,
         AuthGuard,
         AuditTrailService,
-        GroupByPipe
+        GroupByPipe,
+        BroadcasterService
     ],
     entryComponents: [
         AppComponent,

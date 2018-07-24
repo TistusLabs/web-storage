@@ -6,7 +6,7 @@
             <div class="ws-preloader-bar"></div>
         </div>
     </div>
-    <div *ngFor="let items of allFilesFolders | groupBy:'category'" class="clearfix">
+    <div *ngFor="let items of allFilesFolders | groupBy:'category' | filtersearch : filterByType" class="clearfix">
         <div class="ws-page-subtitle">
             <h3>{{items.key | uppercase }}S</h3>
         </div>

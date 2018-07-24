@@ -19,7 +19,7 @@
                 <i class="material-icons">search</i>
             </button>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
@@ -31,7 +31,7 @@
                             <img [src]="user.image" alt="">
                         </div>
                         <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">
+                            aria-expanded="false">
                             {{ user.name }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -47,7 +47,7 @@
     <div class="nav ws-topbar-filters">
         <div class="ws-addbtn-wrap mr-auto col-md-3 col-sm-4 col-2">
             <button class="ws-button-primary ws-text-icon" id="addNewDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+                aria-expanded="false">
                 <span>+</span>
                 <span>ADD</span>
             </button>
@@ -88,12 +88,11 @@
                     </li>
                     <li class="nav-item dropdown">
                         <button class="ws-button-flat iconed" id="topbarFiltersDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                            aria-expanded="false">
                             <i class="material-icons">more_vert</i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="topbarFiltersDropdown">
-                            <a class="dropdown-item" href="javascript:void(0);">Filter</a>
-                            <a class="dropdown-item" href="javascript:void(0);">Filter</a>
+                            <a *ngFor="let type of fileTypes" class="dropdown-item" (click)="executeFilter(type)">{{type}}</a>
                         </div>
                     </li>
                 </ul>

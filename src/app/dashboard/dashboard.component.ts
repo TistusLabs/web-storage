@@ -4,13 +4,14 @@ import { MyContentService } from '../services/mycontent.service';
 import { Router, ActivatedRoute, NavigationExtras, NavigationEnd } from '@angular/router';
 import { IFilemanager, userObject, FileTemplate } from '../filemanager';
 import { HttpParams, HttpResponse, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import * as moment from 'moment';
 import { UIHelperService } from '../services/uihelper.service';
 import { AuditTrailService } from '../services/audittrail.service';
+import { BroadcasterService } from 'ng-broadcaster';
 
 @Component({
     selector: 'app-dashboard',
@@ -43,6 +44,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     form: FormGroup;
     allusers: Array<userObject>;
     authPermissions = {};
+    private subscription: Subscription;
+    filterByType = "";
 
     constructor(
         private myContentService: MyContentService,
@@ -51,7 +54,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private router: Router,
         private fb: FormBuilder,
         private uiHelperService: UIHelperService,
-        private auditTrailService: AuditTrailService
+        private auditTrailService: AuditTrailService,
+        private broadcaster: BroadcasterService
     ) {
         this.authService.getAllUsers().subscribe(userdetails => {
             this.allusers = new Array<userObject>();
@@ -98,9 +102,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         // set auth permission object
         this.authPermissions = this.authService.getAuthPermissions();
+
+        this.subscription = this.broadcaster.on<string>('filterItems').subscribe(
+            data => {
+                this.filterByType = data;
+            }
+        );
     }
 
     getcontent() {
+        this.filterByType = "";
         this.actrouter.queryParams.subscribe(params => {
             if (params.page != undefined) {
                 this.pageID = params.page;
@@ -324,6 +335,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.content = this.allFilesFolders;
         this.itemLoading = '';
         this.itemsLoading = false;
+        this.broadcaster.broadcast('itemsPopulated', this.allFilesFolders);
         // console.log(this.allFilesFolders);
     }
 
