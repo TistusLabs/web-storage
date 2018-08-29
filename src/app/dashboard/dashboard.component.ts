@@ -156,7 +156,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     private addPermissionToUser(userIDs, index, uniqueFileName) {
         debugger;
-        this.myContentService.shareFileWithUser(uniqueFileName, userIDs[index])
+        this.myContentService.shareWithUser(uniqueFileName, userIDs[index], this.selectedContentItem.category)
             .subscribe(data => {
                 //this.populateItems(data);
                 if (userIDs.length > ++index) {
@@ -185,7 +185,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             .filter(v => v !== null);
         console.log(selectedOrderIds);
         let userIDs = this.getUserIDs(selectedOrderIds);
-        this.addPermissionToUser(userIDs, 0, this.selectedContentItem.uniqueFileName);
+        let uniqueName = '';
+        this.selectedContentItem.uniqueFileName != undefined ? uniqueName = this.selectedContentItem.uniqueFileName : uniqueName = this.selectedContentItem.uniqueName;
+        this.addPermissionToUser(userIDs, 0, uniqueName);
     }
 
     downloadFile(item) {

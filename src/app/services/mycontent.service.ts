@@ -24,6 +24,7 @@ export class MyContentService {
     private _url_getfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/showfile";
     private _url_getfilenew = "http://104.196.2.1/filemanagement/filemanager/filemanager/getFile";
     private _url_sharefile = "http://104.196.2.1/filemanagement/filemanager/filemanager/sharefile";
+    private _url_sharefolder = "http://localhost:56690/filemanager/shareFolder";
     private _url_searchfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/searchByName";
     private _url_updatefile = "http://104.196.2.1/filemanagement/filemanager/filemanager/updateFileName";
     private _url_updateFolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/updateFolderName";
@@ -162,7 +163,9 @@ export class MyContentService {
         return this.http.get<Blob>(this._url_getfilenew, this.requestOptions);
     }
 
-    public shareFileWithUser(uniqueFilename: string, userID: string) {
+    public shareWithUser(uniqueFilename: string, userID: string, category: string) {
+        let _url = '';
+        category == 'folder' ? _url = this._url_sharefolder : _url = this._url_sharefile;
 
         const headers = {
             'Authorization': "Bearer " + this.authService.getAuthToken()
@@ -176,7 +179,7 @@ export class MyContentService {
             params: this.requestParams,
             headers: new HttpHeaders(headers)
         };
-        return this.http.get(this._url_sharefile, this.requestOptions);
+        return this.http.get(_url, this.requestOptions);
     }
 
     public searchItems(query): Observable<HttpEvent<IFilemanager>> {
