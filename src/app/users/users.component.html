@@ -82,17 +82,17 @@
                         </div>
 
                         <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                            <input name="upfile" id="upFile" type="file" accept="image/*" (change)="setFile($event)" fill-width placeholder="Select Profile Image"
-                            />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
                             <label for="usertype"></label>
                             <select fill-width id="usertype" name="usertype" [(ngModel)]="newUser.userType" required>
                                 <option value="1">Administrator</option>
                                 <option value="2">User</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                        <input name="upfile" id="upFile" type="file" accept="image/*" (change)="setFile($event)" fill-width placeholder="Select Profile Image"
+                        />
                         </div>
                     </div>
 
@@ -112,10 +112,10 @@
                             <input type="checkbox" id="canDownload" name="canDownload" [(ngModel)]="userpermission.canDownload">
                             <label for="canDownload">Enable Download files</label>
                         </div>
-                        <!--<div class="form-group col-md-6 col-sm-12 col-12">-->
-                            <!--<input type="checkbox" id="canAdd" name="canAdd" [(ngModel)]="userpermission.canAdd">-->
-                            <!--<label for="canAdd">Enable uploading new files</label>-->
-                        <!--</div>-->
+                        <div class="form-group col-md-6 col-sm-12 col-12">
+                            <input type="checkbox" id="canAdd" name="canAdd" [(ngModel)]="userpermission.canAdd">
+                            <label for="canAdd">Enable uploading new files</label>
+                        </div>
                         <div class="form-group col-md-6 col-sm-12 col-12">
                             <input type="checkbox" name="createFolder" id="createFolder" [(ngModel)]="userpermission.createFolder">
                             <label for="createFolder">Enable Creating Folders</label>

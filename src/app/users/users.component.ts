@@ -63,7 +63,6 @@ export class UsersComponent implements OnInit {
     }
 
     private addNewProfile(user) {
-        debugger
         const uploadData = new FormData();
         uploadData.append('profileId', null);
         uploadData.append('firstName', user.firstName);
@@ -73,8 +72,16 @@ export class UsersComponent implements OnInit {
 
         this.authService.saveProfile(uploadData)
             .subscribe(_data => {
-                debugger
+                debugger;
                 this.auditTrailService.addAudiTrailLog("Created new profile for user '" + user.firstName + " " + user.lastName + "'");
+
+                /* Username + Password setup */
+                this.authService.updateUser(_data.userId, user.username, user.password)
+                    .subscribe(date => {
+                        alert("New user has been created");
+                        $("#initNewUser").modal('hide');
+                    });
+
                 /* Sharing selected content */
                 let toShare = [];
                 function takeShared(c) {
@@ -90,11 +97,10 @@ export class UsersComponent implements OnInit {
                     }
                 }
                 takeShared(this.shareContent);
-                debugger;
                 this.myContentService.shareFileWithUser(toShare, _data.userId)
                     .subscribe(data => {
-                        //this.populateItems(data);
                         alert("Shared file with the selected Users.");
+                        
                         // if (userIDs.length > ++index) {
                         //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
                         // } else {
@@ -129,13 +135,12 @@ export class UsersComponent implements OnInit {
     }
 
     private addNewUser() {
-        debugger
         let userobj = this.getPermissionObject();
         this.authService.signUpUser({ "user": this.newUser, "permissions": userobj })
             .subscribe(data => {
                 this.addNewProfile(this.newUser);
                 this.auditTrailService.addAudiTrailLog("User '" + this.newUser.username + "' was created.");
-                alert("new user was created");
+                // alert("new user was created");
                 this.loadAllUsers();
                 this.resetNewUser();
             });
