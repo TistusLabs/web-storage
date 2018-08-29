@@ -173,6 +173,55 @@ body {
       }
     }
   }
+  .ws-collap-list {
+    li {
+      line-height: 30px;
+      padding-left: 20px;
+      position: relative;
+      .ws-collap-list-toggle {
+        position: absolute;
+        font-size: 22px;
+        top: 4px;
+        color: $ws-color-text-third;
+        cursor: pointer;
+        left: -1px;
+      }
+      a {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+        i.material-icons {
+          color: $ws-color-text-secondary;
+          font-size: 17px;
+          display: inline-block;
+          position: relative;
+          top: 4px;
+          margin-left: 5px;
+          margin-right: 1px;
+          &.ws-collap-list-item-chk {
+            font-size: 20px;
+            color: $ws-color-primary;
+            top: 5px;
+            margin-left: 0;
+          }
+        }
+        input[type="checkbox"]:checked + label:before,
+        input[type="checkbox"]:not(:checked) + label:before {
+          top: 5px;
+          left: 5px;
+          margin-bottom: 0;
+        }
+        input[type="checkbox"]:checked + label:after,
+        input[type="checkbox"]:not(:checked) + label:after {
+          top: 7px;
+          left: 10px;
+        }
+      }
+      ul {
+        //padding-left: 40px;
+      }
+    }
+  }
   .ws-list-horizontal {
     li:not(:last-child) {
       margin-right: $ws-margin-primary;
@@ -280,9 +329,12 @@ body {
     top: 0;
     width: 20px;
     height: 20px; //border: 2px solid #aaa;
-    border-radius: $ws-border-radius-secondary;
+    border-radius: 3px;
     background: #fff;
-    border: solid 1px $ws-border-color-primary;
+    border: solid 1px #aaa;
+  }
+  input[type="checkbox"]:checked+label:before {
+    border: solid 2px $ws-color-primary;
   }
   input[type="checkbox"]:checked+label:after,
   input[type="checkbox"]:not(:checked)+label:after {
@@ -307,13 +359,9 @@ body {
   }
   input[type="checkbox"]:not(:checked)+label:after {
     opacity: 0;
-    // -webkit-transform: scale(0);
-    // transform: scale(0);
   }
   input[type="checkbox"]:checked+label:after {
     opacity: 1;
-    // -webkit-transform: scale(1);
-    // transform: scale(1);
   }
 
   //Cards

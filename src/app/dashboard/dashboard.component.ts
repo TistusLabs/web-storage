@@ -155,6 +155,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private addPermissionToUser(userIDs, index, uniqueFileName) {
+        debugger;
         this.myContentService.shareFileWithUser(uniqueFileName, userIDs[index])
             .subscribe(data => {
                 //this.populateItems(data);
@@ -177,6 +178,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     sharefile(item) {
+        debugger;
         // alert("now you may share");
         const selectedOrderIds = this.form.value.allusers
             .map((v, i) => v ? this.allusers[i].username : null)
