@@ -10,6 +10,12 @@ body {
   margin: 0;
 }
 
+h3.ws-sub-header {
+  font-size: 16px;
+  color: $ws-color-text-third;
+  margin-bottom: $ws-margin-secondary;
+}
+
 body {
   font-size: 14px;
 
@@ -38,7 +44,7 @@ body {
     margin: 0!important;
   }
   hr {
-    margin: 10px 0 10px 0
+    margin: 15px 0 10px 0;
   }
   button{
     background: transparent;
@@ -603,10 +609,16 @@ body {
   //. . . . . . . . . . . . . . . . . . .
 
   //************** MODAL **************
+  //#initNewUser.modal {
+  //  z-index: 10001!important;
+  //}
   .ws-modal-large {
     width: $ws-card-medium;
     max-width: $ws-card-medium;
   }
+  //.modal-backdrop {
+  //  z-index: 10000;
+  //}
   //. . . . . . . . . . . . . . . . . . .
 
   //************** FILE **************

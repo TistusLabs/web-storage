@@ -41,7 +41,7 @@
     </li>
     <hr>
     <span *ngIf="authPermissions.role == 'admin'">
-      <b>Administration</b>
+      <h3 class="ws-sub-header">Administration</h3>
     </span>
     <li *ngIf="authPermissions.role == 'admin'" class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/users','')">
       <i class="material-icons ws-list-item-icon">people_outline</i>

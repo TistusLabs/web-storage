@@ -78,3 +78,12 @@ export class AuditLog {
     logs: string;
     createdDate: string;
 }
+
+export interface UpdatedUser {
+    email: string,
+    firstName: string,
+    imageurl: string,
+    lastName: string,
+    profileId: number,
+    userId: string
+}

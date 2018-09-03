@@ -9,7 +9,7 @@
         </div>
     </div>
     <ul class="ws-list row">
-        <li class="ws-list-item col-md-6" *ngFor="let user of allusers">
+        <li class="ws-list-item col-md-4 col-sm-6 col-12" *ngFor="let user of allusers">
             <span class="ws-userimg-wrap">
                 <img src="assets/images/avatar.png" alt="{{ user.username}}" class="ws-images ws-image-small ws-image-circular">
             </span>
@@ -19,7 +19,6 @@
         </li>
     </ul>
 </div>
-
 
 <!--New User-->
 <div class="modal fade" id="initNewUser" tabindex="-1" role="dialog" aria-labelledby="initNewUserCenterTitle" aria-hidden="true">

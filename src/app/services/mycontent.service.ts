@@ -24,7 +24,7 @@ export class MyContentService {
     private _url_getfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/showfile";
     private _url_getfilenew = "http://104.196.2.1/filemanagement/filemanager/filemanager/getFile";
     private _url_sharefile = "http://104.196.2.1/filemanagement/filemanager/filemanager/sharefile";
-    private _url_sharefolder = "http://localhost:56690/filemanager/shareFolder";
+    private _url_sharefolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/shareFolder";
     private _url_searchfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/searchByName";
     private _url_updatefile = "http://104.196.2.1/filemanagement/filemanager/filemanager/updateFileName";
     private _url_updateFolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/updateFolderName";

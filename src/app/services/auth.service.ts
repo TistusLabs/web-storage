@@ -8,7 +8,8 @@ import {
     userObject,
     userPermissionObject,
     profileObject,
-    FileTemplate
+    FileTemplate,
+    UpdatedUser
 } from '../filemanager';
 import { retry, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -155,7 +156,7 @@ export class AuthService {
 
         formData.append('authorize', this.getAuthToken());
 
-        return this.http.post(this._url_saveProfile, formData)
+        return this.http.post<UpdatedUser>(this._url_saveProfile, formData)
             .pipe(
                 retry(3),
                 catchError(this.handleError)

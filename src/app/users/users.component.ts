@@ -97,16 +97,16 @@ export class UsersComponent implements OnInit {
                     }
                 }
                 takeShared(this.shareContent);
-                this.myContentService.shareFileWithUser(toShare, _data.userId)
-                    .subscribe(data => {
-                        alert("Shared file with the selected Users.");
-                        
-                        // if (userIDs.length > ++index) {
-                        //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
-                        // } else {
-                        //     alert("Shared file with the selected Users.");
-                        // }
-                    });
+                // this.myContentService.shareWithUser(toShare, _data.userId, 'folder')
+                //     .subscribe(data => {
+                //         alert("Shared file with the selected Users.");
+                //
+                //         // if (userIDs.length > ++index) {
+                //         //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
+                //         // } else {
+                //         //     alert("Shared file with the selected Users.");
+                //         // }
+                //     });
 
             });
     }
