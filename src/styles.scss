@@ -408,12 +408,17 @@ body {
     -ms-transition: box-shadow $ws-transition-time-secondary;
     -o-transition: box-shadow $ws-transition-time-secondary;
     transition: box-shadow $ws-transition-time-secondary;
-
+    &.item-compact {
+      height: 110px;
+    }
     .ws-content-item-preview {
       height: 95px;
       text-align: center;
       padding: $ws-padding-inner-primary;
       border-radius: $ws-border-radius-secondary $ws-border-radius-secondary 0 0;
+      &.item-preview-compact {
+        height: 65px;
+      }
       i.material-icons {
         font-size: 80px;
         color: $ws-color-primary;

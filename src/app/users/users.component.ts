@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { AuditTrailService } from '../services/audittrail.service';
 import { MyContentService } from '../services/mycontent.service';
 import {HttpEvent} from "@angular/common/http";
+import { UIHelperService } from '../services/uihelper.service';
 
 @Component({
     selector: 'app-users',
@@ -15,6 +16,7 @@ export class UsersComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private myContentService: MyContentService,
+        private uiHelperService: UIHelperService,
         private auditTrailService: AuditTrailService) { }
 
     userpermission;
@@ -22,11 +24,17 @@ export class UsersComponent implements OnInit {
     newPermission;
     allusers = new Array<userObject>();
     shareContent = [];
+    itemsLayout = 'grid';
+    shareOnUserCreateCounter = 0;
 
     ngOnInit() {
         this.resetNewUser();
         this.loadAllUsers();
         this.getAllContent();
+
+        this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
+            this.itemsLayout = il;
+        });
     }
 
     private loadAllUsers() {
@@ -87,7 +95,7 @@ export class UsersComponent implements OnInit {
                 function takeShared(c) {
                     for (const s of c) {
                         if (s.isChecked) {
-                            toShare.push(s.uniqueFileName);
+                            toShare.push({un: s.uniqueFileName, ty: s.type});
                         }
                         if (s.children){
                             if (s.children.length > 0) {
@@ -97,16 +105,23 @@ export class UsersComponent implements OnInit {
                     }
                 }
                 takeShared(this.shareContent);
-                // this.myContentService.shareWithUser(toShare, _data.userId, 'folder')
-                //     .subscribe(data => {
-                //         alert("Shared file with the selected Users.");
-                //
-                //         // if (userIDs.length > ++index) {
-                //         //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
-                //         // } else {
-                //         //     alert("Shared file with the selected Users.");
-                //         // }
-                //     });
+                for (let s=0;s<toShare.length;s++) {
+                    this.myContentService.shareWithUser(toShare[s].un, _data.userId, toShare[s].ty.toLowerCase())
+                        .subscribe(data => {
+                            this.shareOnUserCreateCounter++;
+                            if(this.shareOnUserCreateCounter == toShare.length){
+                                alert("Shared file with the selected Users.");
+                                this.shareOnUserCreateCounter = 0;
+                                $("#initNewUser").modal('hide');
+                            };
+
+                            // if (userIDs.length > ++index) {
+                            //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
+                            // } else {
+                            //     alert("Shared file with the selected Users.");
+                            // }
+                        });
+                }
 
             });
     }

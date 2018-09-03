@@ -8,15 +8,36 @@
             </button>
         </div>
     </div>
+    <div class="clearfix">
+        <div class="item-compact" [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
+             *ngFor="let user of allusers">
+            <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" role="button">
+                <i class="ws-overhead-btn ws-content-more-ops material-icons">edit</i>
+            </button>
+            <div class="ws-content-item-preview item-preview-compact">
+                <span class="ws-userimg-wrap">
+                    <img src="assets/images/avatar.png" alt="{{ user.username}}" class="ws-images ws-image-small ws-image-circular">
+                </span>
+            </div>
+            <div class="ws-content-item-info">
+                <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (user.username | slice:0:18) : itemsLayout==='list' ? (user.username | slice:0:50) : null }} {{user.username.length
+                    >= 18 && itemsLayout==='grid' ? '...' : user.username.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
+                <!--<div class="ws-info-text-sub">-->
+                    <!--Size : {{ user.username }}</div>-->
+                <!--<div class="ws-info-text-sub">-->
+                    <!--Added date : {{ user.username }}</div>-->
+            </div>
+        </div>
+    </div>
     <ul class="ws-list row">
-        <li class="ws-list-item col-md-4 col-sm-6 col-12" *ngFor="let user of allusers">
-            <span class="ws-userimg-wrap">
-                <img src="assets/images/avatar.png" alt="{{ user.username}}" class="ws-images ws-image-small ws-image-circular">
-            </span>
-            <span class="ws-username-wrap">
-                {{ user.username}}
-            </span>
-        </li>
+        <!--<li class="ws-list-item col-md-4 col-sm-6 col-12" *ngFor="let user of allusers">-->
+            <!--<span class="ws-userimg-wrap">-->
+                <!--<img src="assets/images/avatar.png" alt="{{ user.username}}" class="ws-images ws-image-small ws-image-circular">-->
+            <!--</span>-->
+            <!--<span class="ws-username-wrap">-->
+                <!--{{ user.username}}-->
+            <!--</span>-->
+        <!--</li>-->
     </ul>
 </div>
 
