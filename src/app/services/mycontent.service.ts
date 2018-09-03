@@ -24,7 +24,7 @@ export class MyContentService {
     private _url_getfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/showfile";
     private _url_getfilenew = "http://104.196.2.1/filemanagement/filemanager/filemanager/getFile";
     private _url_sharefile = "http://104.196.2.1/filemanagement/filemanager/filemanager/sharefile";
-    private _url_sharefolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/shareFolder";
+    private _url_sharefolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/shareFolders";
     private _url_searchfile = "http://104.196.2.1/filemanagement/filemanager/filemanager/searchByName";
     private _url_updatefile = "http://104.196.2.1/filemanagement/filemanager/filemanager/updateFileName";
     private _url_updateFolder = "http://104.196.2.1/filemanagement/filemanager/filemanager/updateFolderName";
@@ -165,15 +165,27 @@ export class MyContentService {
 
     public shareWithUser(uniqueFilename: string, userID: string, category: string) {
         let _url = '';
-        category == 'folder' ? _url = this._url_sharefolder : _url = this._url_sharefile;
-
         const headers = {
-            'Authorization': "Bearer " + this.authService.getAuthToken()
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + this.authService.getAuthToken()
         };
 
         this.requestParams = new HttpParams()
-            .set('shardeUserId', userID)
-            .set('uniqueFileName', uniqueFilename);
+            .set('shardeUserId', userID);
+
+        if (category == 'folder') {
+            _url = this._url_sharefolder;
+            this.requestParams = new HttpParams()
+                .set('shardeUserId', userID)
+                .set('uniqueFolderName', uniqueFilename);
+        } else {
+            _url = this._url_sharefile;
+            this.requestParams = new HttpParams()
+                .set('shardeUserId', userID)
+                .set('uniqueFileName', uniqueFilename);
+        }
 
         this.requestOptions = {
             params: this.requestParams,
