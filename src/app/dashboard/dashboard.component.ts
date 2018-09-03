@@ -301,7 +301,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 sharedfile.id = sharedfile.id;
                 sharedfile.name = sharedfile.filename;
                 sharedfile.starred = sharedfile.starred == null ? false : sharedfile.starred;
-                sharedfile.category = 'shared';
+                sharedfile.category = 'file';
                 sharedfile.icon = 'add_photo_alternate';
                 sharedfile.fileSize = this.uiHelperService.formatBytes(sharedfile.fileSize, null);
                 this.allFilesFolders.push(sharedfile);
@@ -310,7 +310,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 sharedFolder.id = sharedFolder.folderId;
                 sharedFolder.name = sharedFolder.folderName;
                 sharedFolder.starred = false;
-                sharedFolder.category = 'shared';
+                sharedFolder.category = 'folder';
                 sharedFolder.icon = 'folder_shared';
                 sharedFolder.fileSize = "";
                 this.allFilesFolders.push(sharedFolder);
