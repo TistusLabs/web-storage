@@ -8,8 +8,7 @@ import {
     userObject,
     userPermissionObject,
     profileObject,
-    FileTemplate,
-    UpdatedUser
+    FileTemplate
 } from '../filemanager';
 import { retry, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -39,7 +38,8 @@ export class AuthService {
 
     private _url_createuser = "http://104.196.2.1/filemanagement/user_management/users/registration";
     private _url_loginuser = "http://104.196.2.1/filemanagement/user_management/users/login/";
-    private _url_getAllusers = "http://104.196.2.1/filemanagement/user_management/users/getAll/";
+    private _url_getAllusers = "http://104.196.2.1/filemanagement/user_management/profile/getAllProfile";
+    private _url_getAllUsersSub = "http://104.196.2.1/filemanagement/user_management/users/getAll/";
     private _url_saveProfile = "http://104.196.2.1/filemanagement/user_management/profile/saveProfile";
     private _url_getProfile = "http://104.196.2.1/filemanagement/user_management/profile/getProfile";
     private _url_updateUser = "http://104.196.2.1/filemanagement/user_management/users/updateUser";
@@ -156,7 +156,7 @@ export class AuthService {
 
         formData.append('authorize', this.getAuthToken());
 
-        return this.http.post<UpdatedUser>(this._url_saveProfile, formData)
+        return this.http.post<profileObject>(this._url_saveProfile, formData)
             .pipe(
                 retry(3),
                 catchError(this.handleError)
@@ -204,6 +204,19 @@ export class AuthService {
         return this.http.get<userObject>(this._url_getAllusers, this.requestOptions);
     }
 
+    public getAllUsersSub() {
+
+        const headers = {
+            'Authorization': "Bearer " + this.getAuthToken()
+        };
+
+        this.requestOptions = {
+            headers: new HttpHeaders(headers)
+        };
+        return this.http.get(this._url_getAllUsersSub, this.requestOptions);
+    }
+
+
     public setUsers(users) {
         this.allUsers = users;
     }
@@ -235,6 +248,29 @@ export class AuthService {
         };
 
         return this.http.put<Blob>(this._url_updateUser, sendObj, this.requestOptions)
+            .pipe(
+                retry(3),
+                catchError(this.handleError)
+            );
+    }
+
+    public getProfileInfo(userid: string) {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': "Bearer " + this.getAuthToken()
+        };
+
+        this.requestParams = new HttpParams()
+            .set('userId', userid);
+
+        this.requestOptions = {
+            params: this.requestParams,
+            headers: new HttpHeaders(headers)
+        };
+
+        return this.http.get<profileObject>(this._url_getProfile, this.requestOptions)
             .pipe(
                 retry(3),
                 catchError(this.handleError)

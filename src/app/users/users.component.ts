@@ -5,6 +5,8 @@ import { AuditTrailService } from '../services/audittrail.service';
 import { MyContentService } from '../services/mycontent.service';
 import {HttpEvent} from "@angular/common/http";
 import { UIHelperService } from '../services/uihelper.service';
+import {debug} from "util";
+import {NgForm} from "@angular/forms";
 
 @Component({
     selector: 'app-users',
@@ -26,6 +28,13 @@ export class UsersComponent implements OnInit {
     shareContent = [];
     itemsLayout = 'grid';
     shareOnUserCreateCounter = 0;
+    userLoading = false;
+    userToUpdateContent = {
+        files: [],
+        folders: [],
+        sharedFiles: [],
+        sharedFolders: []
+    };
 
     ngOnInit() {
         this.resetNewUser();
@@ -37,14 +46,35 @@ export class UsersComponent implements OnInit {
         });
     }
 
+    toShare = [];
+    takeShared(c) {
+        for (const s of c) {
+            if (s.isChecked) {
+                this.toShare.push({un: s.uniqueFileName, ty: s.type});
+            }
+            if (s.children) {
+                if (s.children.length > 0) {
+                    this.takeShared(s.children);
+                }
+            }
+        }
+    }
+
+    clearUserForm(newUserForm: NgForm) {
+        this.newUser = {};
+        newUserForm.reset();
+    }
+
     private loadAllUsers() {
         this.authService.getAllUsers().subscribe(userdetails => {
             this.allusers = new Array<userObject>();
             for (const user of Object.keys(userdetails)) {
                 let newuser = <userObject>{};
                 newuser.userId = userdetails[user].userId;
-                newuser.username = userdetails[user].username;
-                newuser.userType = userdetails[user].userType;
+                newuser.firstName = userdetails[user].firstName;
+                newuser.lastName = userdetails[user].lastName;
+                newuser.email = userdetails[user].email;
+                newuser.imageUrl = userdetails[user].imageurl;
                 this.allusers.push(newuser);
             }
         });
@@ -84,45 +114,28 @@ export class UsersComponent implements OnInit {
                 this.auditTrailService.addAudiTrailLog("Created new profile for user '" + user.firstName + " " + user.lastName + "'");
 
                 /* Username + Password setup */
-                this.authService.updateUser(_data.userId, user.username, user.password)
-                    .subscribe(date => {
-                        alert("New user has been created");
-                        $("#initNewUser").modal('hide');
+                this.authService.updateUser(_data.userId.toString(), user.username, user.password)
+                    .subscribe(d => {
+                        /* Sharing selected content */
+                        this.takeShared(this.shareContent);
+                        for (let s=0;s<this.toShare.length;s++) {
+                            this.myContentService.shareWithUser(this.toShare[s].un, _data.userId.toString(), this.toShare[s].ty.toLowerCase())
+                                .subscribe(data => {
+                                    this.shareOnUserCreateCounter++;
+                                    if(this.shareOnUserCreateCounter == this.toShare.length){
+                                        alert("Shared file with the selected Users.");
+                                        this.shareOnUserCreateCounter = 0;
+                                        $("#initNewUser").modal('hide');
+                                    };
+
+                                    // if (userIDs.length > ++index) {
+                                    //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
+                                    // } else {
+                                    //     alert("Shared file with the selected Users.");
+                                    // }
+                                });
+                        }
                     });
-
-                /* Sharing selected content */
-                let toShare = [];
-                function takeShared(c) {
-                    for (const s of c) {
-                        if (s.isChecked) {
-                            toShare.push({un: s.uniqueFileName, ty: s.type});
-                        }
-                        if (s.children){
-                            if (s.children.length > 0) {
-                                takeShared(s.children);
-                            }
-                        }
-                    }
-                }
-                takeShared(this.shareContent);
-                for (let s=0;s<toShare.length;s++) {
-                    this.myContentService.shareWithUser(toShare[s].un, _data.userId, toShare[s].ty.toLowerCase())
-                        .subscribe(data => {
-                            this.shareOnUserCreateCounter++;
-                            if(this.shareOnUserCreateCounter == toShare.length){
-                                alert("Shared file with the selected Users.");
-                                this.shareOnUserCreateCounter = 0;
-                                $("#initNewUser").modal('hide');
-                            };
-
-                            // if (userIDs.length > ++index) {
-                            //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
-                            // } else {
-                            //     alert("Shared file with the selected Users.");
-                            // }
-                        });
-                }
-
             });
     }
 
@@ -188,7 +201,7 @@ export class UsersComponent implements OnInit {
             });
     }
 
-    getFolderItems(f) {
+    getFolderItems(f, setShared) {
         f.isFOpen = !f.isFOpen;
         if (!f.visited) {
             this.myContentService.getItemsInFolder(f.uniqueFileName)
@@ -198,12 +211,65 @@ export class UsersComponent implements OnInit {
                     ul.setAttribute('id', f.uniqueFileName+'collap');
                     ul.setAttribute('class', 'collapse show');
                     for (const fi of folderItems) {
+                        if(fi.type == 'Folder') {
+                            for(const sfo of this.userToUpdateContent.sharedFolders) {
+                                if(sfo.uniqueName == fi.uniqueFileName) {
+                                    fi.isChecked = true;
+                                }
+                            }
+                        }else if(fi.type == 'File') {
+                            for(const sfi of this.userToUpdateContent.sharedFiles) {
+                                if(sfi.uniqueFileName == fi.uniqueFileName) {
+                                    fi.isChecked = true;
+                                }
+                            }
+                        }
                         f.children.push(fi);
                     }
-                    $('#share'+f.uniqueFileName).append(ul);
+                    // $('#share'+f.uniqueFileName).append(ul);
                     f.visited = true;
                 });
         }
     };
+
+    updateUser(id) {
+        this.userLoading = true;
+        this.authService.getProfileInfo(id)
+            .subscribe(data => {
+                this.newUser = data;
+                this.authService.getAllUsersSub()
+                    .subscribe(_data => {
+                        for(const p of Object.keys(_data)) {
+                            if(_data[p].userId == id) {
+                                this.newUser.password = _data[p].password;
+                                this.newUser.username = _data[p].username;
+                                this.newUser.userType = _data[p].userType;
+                            }
+                        }
+                        this.shareContent == [];
+                        this.getAllContent();
+                        this.myContentService.getItemsInFolder(id)
+                            .subscribe( (usercont:any) => {
+                                this.userToUpdateContent = usercont;
+                                for(const sc of this.shareContent) {
+                                    if(sc.type == 'Folder') {
+                                        for(const sfo of usercont.sharedFolders) {
+                                            if(sfo.uniqueName == sc.uniqueFileName) {
+                                                sc.isChecked = true;
+                                            }
+                                        }
+                                    }else if(sc.type == 'File') {
+                                        for(const sfi of usercont.sharedFiles) {
+                                            if(sfi.uniqueFileName == sc.uniqueFileName) {
+                                                sc.isChecked = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                this.userLoading = false;
+                            });
+                    });
+            });
+    }
 
 }

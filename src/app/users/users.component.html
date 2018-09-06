@@ -11,21 +11,20 @@
     <div class="clearfix">
         <div class="item-compact" [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
              *ngFor="let user of allusers">
-            <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" role="button">
+            <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" role="button" data-toggle="modal" data-target="#initNewUser" (click)="updateUser(user.userId)">
                 <i class="ws-overhead-btn ws-content-more-ops material-icons">edit</i>
             </button>
             <div class="ws-content-item-preview item-preview-compact">
                 <span class="ws-userimg-wrap">
-                    <img src="assets/images/avatar.png" alt="{{ user.username}}" class="ws-images ws-image-small ws-image-circular">
+                    <img src="{{user.imageUrl}}" alt="{{ user.firstName}}" class="ws-images ws-image-small ws-image-circular">
                 </span>
             </div>
             <div class="ws-content-item-info">
-                <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (user.username | slice:0:18) : itemsLayout==='list' ? (user.username | slice:0:50) : null }} {{user.username.length
-                    >= 18 && itemsLayout==='grid' ? '...' : user.username.length >= 50 && itemsLayout==='list' ? '...' : null}}</h3>
+                <h3 class="ws-info-text-title">{{user.firstName + ' ' + user.lastName}}</h3>
                 <!--<div class="ws-info-text-sub">-->
-                    <!--Size : {{ user.username }}</div>-->
-                <!--<div class="ws-info-text-sub">-->
-                    <!--Added date : {{ user.username }}</div>-->
+                    <!--{{ user.username }}</div>-->
+                <div class="ws-info-text-sub">
+                    {{ user.email }}</div>
             </div>
         </div>
     </div>
@@ -47,15 +46,22 @@
         <div class="modal-content ws-card">
             <div class="modal-header ws-card-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">New User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" form="newUserForm" (click)="clearUserForm()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <div class="ws-preloader-line" *ngIf="userLoading">
+                    <div class="ws-preloader-load-bar">
+                        <div class="ws-preloader-bar"></div>
+                        <div class="ws-preloader-bar"></div>
+                        <div class="ws-preloader-bar"></div>
+                    </div>
+                </div>
                 <!-- <div class="ws-body-hints">
                     <p>Here you can add new user with given permissions to them. Bellow all the system users are displayed where could edit their details as you need.</p>
                   </div> -->
-                <form (ngSubmit)="addNewUser()" id="newUserForm" #newUserForm="ngForm">
+                <form *ngIf="!userLoading" (ngSubmit)="addNewUser()" id="newUserForm" #newUserForm="ngForm">
                     <div class="ws-page-subtitle">
                         <h3>General</h3>
                     </div>

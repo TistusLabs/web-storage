@@ -22,6 +22,7 @@ export class IFilemanager {
     files: Array<FileTemplate>;
     folders: Array<FileTemplate>;
     sharedFiles: Array<FileTemplate>;
+    sharedFolders: Array<FileTemplate>;
 }
 
 export interface UploadTemplate {
@@ -77,13 +78,4 @@ export class AuditLog {
     userRole: number;
     logs: string;
     createdDate: string;
-}
-
-export interface UpdatedUser {
-    email: string,
-    firstName: string,
-    imageurl: string,
-    lastName: string,
-    profileId: number,
-    userId: string
 }
