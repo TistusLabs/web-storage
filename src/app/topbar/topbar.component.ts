@@ -52,7 +52,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
         this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
             this.itemsLayout = il;
         });
-        this.authService.getProfile().subscribe(data => {
+        const jwt = this.authService.extractToken();
+        this.authService.getProfile(jwt.nameid).subscribe(data => {
             this.setProfileDetails(data);
         })
         this.authPermissions = this.authService.getAuthPermissions();

@@ -43,6 +43,7 @@ export class AuthService {
     private _url_saveProfile = "http://104.196.2.1/filemanagement/user_management/profile/saveProfile";
     private _url_getProfile = "http://104.196.2.1/filemanagement/user_management/profile/getProfile";
     private _url_updateUser = "http://104.196.2.1/filemanagement/user_management/users/updateUser";
+    private _url_getUserPremission = "http://104.196.2.1/filemanagement/user_management/permission/getPermission";
 
     private _headers = {
         'Content-Type': 'application/json',
@@ -55,7 +56,7 @@ export class AuthService {
         const helper = new JwtHelperService();
         this.authObject = helper.decodeToken(token);
         this.setAuthPermissions(this.authObject.permission);
-        this.getProfile().subscribe(data => {
+        this.getProfile(this.authObject.nameid).subscribe(data => {
             this.profileDetails = data;
         });
     }
@@ -155,22 +156,30 @@ export class AuthService {
     public saveProfile(formData: FormData) {
 
         formData.append('authorize', this.getAuthToken());
-
-        return this.http.post<profileObject>(this._url_saveProfile, formData)
+        const jwt = this.extractToken();
+        return this.http.post<profileObject>(this._url_saveProfile + '?userId=' + jwt.nameid, formData)
             .pipe(
                 retry(3),
                 catchError(this.handleError)
             );
     }
 
-    public getProfile() {
+    public getProfile(userid) {
         const headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
             'Authorization': "Bearer " + this.getAuthToken()
         };
 
+        this.requestParams = new HttpParams()
+            .set('userId', userid);
+
         this.requestOptions = {
+            params: this.requestParams,
             headers: new HttpHeaders(headers)
         };
+
         return this.http.get<profileObject>(this._url_getProfile, this.requestOptions);
     }
 
@@ -244,7 +253,8 @@ export class AuthService {
         let sendObj = {
             "username": username,
             "password": password,
-            "userType":1
+            "userType":1,
+            "userId":userid
         };
 
         return this.http.put<Blob>(this._url_updateUser, sendObj, this.requestOptions)
@@ -271,6 +281,35 @@ export class AuthService {
         };
 
         return this.http.get<profileObject>(this._url_getProfile, this.requestOptions)
+            .pipe(
+                retry(3),
+                catchError(this.handleError)
+            );
+    }
+
+    public extractToken() {
+        const token = this.getAuthToken();
+        const helper = new JwtHelperService();
+        return helper.decodeToken(token);
+    }
+
+    public getUserPermission(userid: string) {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': "Bearer " + this.getAuthToken()
+        };
+
+        this.requestParams = new HttpParams()
+            .set('id', userid);
+
+        this.requestOptions = {
+            params: this.requestParams,
+            headers: new HttpHeaders(headers)
+        };
+
+        return this.http.get<userPermissionObject>(this._url_getUserPremission, this.requestOptions)
             .pipe(
                 retry(3),
                 catchError(this.handleError)

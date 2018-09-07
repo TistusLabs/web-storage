@@ -60,11 +60,6 @@ export class UsersComponent implements OnInit {
         }
     }
 
-    clearUserForm(newUserForm: NgForm) {
-        this.newUser = {};
-        newUserForm.reset();
-    }
-
     private loadAllUsers() {
         this.authService.getAllUsers().subscribe(userdetails => {
             this.allusers = new Array<userObject>();
@@ -122,12 +117,16 @@ export class UsersComponent implements OnInit {
                             this.myContentService.shareWithUser(this.toShare[s].un, _data.userId.toString(), this.toShare[s].ty.toLowerCase())
                                 .subscribe(data => {
                                     this.shareOnUserCreateCounter++;
-                                    if(this.shareOnUserCreateCounter == this.toShare.length){
-                                        alert("Shared file with the selected Users.");
-                                        this.shareOnUserCreateCounter = 0;
+                                    if (this.toShare.length > 0) {
+                                        if(this.shareOnUserCreateCounter == this.toShare.length){
+                                            alert("Shared file with the selected Users.");
+                                            this.shareOnUserCreateCounter = 0;
+                                            $("#initNewUser").modal('hide');
+                                        };
+                                    } else {
                                         $("#initNewUser").modal('hide');
-                                    };
-
+                                        alert("Shared file with the selected Users.");
+                                    }
                                     // if (userIDs.length > ++index) {
                                     //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
                                     // } else {
@@ -234,41 +233,50 @@ export class UsersComponent implements OnInit {
 
     updateUser(id) {
         this.userLoading = true;
+        let servicesMarker = 0;
         this.authService.getProfileInfo(id)
             .subscribe(data => {
                 this.newUser = data;
-                this.authService.getAllUsersSub()
-                    .subscribe(_data => {
-                        for(const p of Object.keys(_data)) {
-                            if(_data[p].userId == id) {
-                                this.newUser.password = _data[p].password;
-                                this.newUser.username = _data[p].username;
-                                this.newUser.userType = _data[p].userType;
+                servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
+            });
+        this.authService.getAllUsersSub()
+            .subscribe(_data => {
+                for(const p of Object.keys(_data)) {
+                    if(_data[p].userId == id) {
+                        this.newUser.password = _data[p].password;
+                        this.newUser.username = _data[p].username;
+                        this.newUser.userType = _data[p].userType;
+                    }
+                }
+                servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
+            });
+        this.shareContent == [];
+        this.getAllContent();
+        this.myContentService.getItemsInFolder(id)
+            .subscribe( (usercont:any) => {
+                this.userToUpdateContent = usercont;
+                for(const sc of this.shareContent) {
+                    if (sc.type == 'Folder') {
+                        for(const sfo of usercont.sharedFolders) {
+                            if(sfo.uniqueName == sc.uniqueFileName) {
+                                sc.isChecked = true;
                             }
                         }
-                        this.shareContent == [];
-                        this.getAllContent();
-                        this.myContentService.getItemsInFolder(id)
-                            .subscribe( (usercont:any) => {
-                                this.userToUpdateContent = usercont;
-                                for(const sc of this.shareContent) {
-                                    if(sc.type == 'Folder') {
-                                        for(const sfo of usercont.sharedFolders) {
-                                            if(sfo.uniqueName == sc.uniqueFileName) {
-                                                sc.isChecked = true;
-                                            }
-                                        }
-                                    }else if(sc.type == 'File') {
-                                        for(const sfi of usercont.sharedFiles) {
-                                            if(sfi.uniqueFileName == sc.uniqueFileName) {
-                                                sc.isChecked = true;
-                                            }
-                                        }
-                                    }
-                                }
-                                this.userLoading = false;
-                            });
-                    });
+                    } else if (sc.type == 'File') {
+                        for(const sfi of usercont.sharedFiles) {
+                            if(sfi.uniqueFileName == sc.uniqueFileName) {
+                                sc.isChecked = true;
+                            }
+                        }
+                    }
+                }
+                servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
+            });
+
+        this.authService.getUserPermission(id)
+            .subscribe(userPermissions => {
+                this.userpermission = userPermissions;
+                servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
             });
     }
 

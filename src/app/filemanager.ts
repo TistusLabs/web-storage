@@ -58,12 +58,14 @@ export class profileObject {
 }
 
 export class userPermissionObject {
+    Id: string;
     canEdit: number;
     canView: number;
     canDownload: number;
     canAdd: number;
     canDelete: number;
     createFolder: number;
+    userId: string;
 }
 
 export interface loginResponse {
