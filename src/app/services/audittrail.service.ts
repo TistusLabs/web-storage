@@ -14,7 +14,7 @@ export class AuditTrailService {
     private requestOptions;
     private requestParams;
 
-    private _url_auditTrailService = "http://104.196.2.1/filemanagement/filemanager/api/auditTrail/";
+    private _url_auditTrailService = "http://23.96.7.8/filemanagement/filemanager/api/auditTrail/";
 
     private _headers = {
         'Content-Type': 'application/json',
