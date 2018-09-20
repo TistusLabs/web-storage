@@ -53,13 +53,14 @@ export class ProfileComponent implements OnInit {
 
     updateProfileDetails() {
         const uploadData = new FormData();
+        const jwt = this.authService.extractToken();
         uploadData.append('profileId', this.profileDetails.profileId == undefined ? null : this.profileDetails.profileId);
         uploadData.append('firstName', this.profileDetails.firstName);
         uploadData.append('lastName', this.profileDetails.lastName);
         uploadData.append('email', this.profileDetails.email);
         uploadData.append('upfile', this.profileDetails.upfile);
 
-        this.authService.saveProfile(uploadData)
+        this.authService.saveProfile(uploadData, jwt.nameid)
             .subscribe(event => {
                 this.auditTrailService.addAudiTrailLog("Profile details updated for user '" + this.profileDetails.firstName + " " + this.profileDetails.lastName + "'");
                 this.getprofileData();

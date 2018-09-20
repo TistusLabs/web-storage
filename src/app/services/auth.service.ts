@@ -36,14 +36,14 @@ export class AuthService {
     private authPermissions;
     private profileDetails;
 
-    private _url_createuser = "http://104.196.2.1/filemanagement/user_management/users/registration";
-    private _url_loginuser = "http://104.196.2.1/filemanagement/user_management/users/login/";
-    private _url_getAllusers = "http://104.196.2.1/filemanagement/user_management/profile/getAllProfile";
-    private _url_getAllUsersSub = "http://104.196.2.1/filemanagement/user_management/users/getAll/";
-    private _url_saveProfile = "http://104.196.2.1/filemanagement/user_management/profile/saveProfile";
-    private _url_getProfile = "http://104.196.2.1/filemanagement/user_management/profile/getProfile";
-    private _url_updateUser = "http://104.196.2.1/filemanagement/user_management/users/updateUser";
-    private _url_getUserPremission = "http://104.196.2.1/filemanagement/user_management/permission/getPermission";
+    private _url_createuser = "http://23.96.7.8/filemanagement/user_management/users/registration";
+    private _url_loginuser = "http://23.96.7.8/filemanagement/user_management/users/login/";
+    private _url_getAllusers = "http://23.96.7.8/filemanagement/user_management/profile/getAllProfile";
+    private _url_getAllUsersSub = "http://23.96.7.8/filemanagement/user_management/users/getAll/";
+    private _url_saveProfile = "http://23.96.7.8/filemanagement/user_management/profile/saveProfile";
+    private _url_getProfile = "http://23.96.7.8/filemanagement/user_management/profile/getProfile";
+    private _url_updateUser = "http://23.96.7.8/filemanagement/user_management/users/updateUser";
+    private _url_getUserPremission = "http://23.96.7.8/filemanagement/user_management/permission/getPermission";
 
     private _headers = {
         'Content-Type': 'application/json',
@@ -145,6 +145,7 @@ export class AuthService {
         this.newUserObject = {};
         this.newUserObject.user = this.newUserDetails;
         this.newUserObject.permission = this.newUserPermissions;
+        this.newUserObject.data = null;
 
         return this.http.post<NewUserTemplate>(this._url_createuser, this.newUserObject, this.requestOptions)
             .pipe(
@@ -153,11 +154,10 @@ export class AuthService {
             );
     }
 
-    public saveProfile(formData: FormData) {
+    public saveProfile(formData: FormData, id: string) {
 
         formData.append('authorize', this.getAuthToken());
-        const jwt = this.extractToken();
-        return this.http.post<profileObject>(this._url_saveProfile + '?userId=' + jwt.nameid, formData)
+        return this.http.post<profileObject>(this._url_saveProfile + '?userId=' + id, formData)
             .pipe(
                 retry(3),
                 catchError(this.handleError)

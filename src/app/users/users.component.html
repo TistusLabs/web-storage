@@ -84,7 +84,7 @@
 
                         <div class="row">
                             <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                                <input [(ngModel)]="newUser.username" fill-width type="text" placeholder="Username" id="username" name="username" required
+                                <input [disabled]="userEditing" [(ngModel)]="newUser.username" fill-width type="text" placeholder="Username" id="username" name="username" required
                                        #username="ngModel">
                                 <div [hidden]="username.valid || username.pristine" class="ws-alert ws-alert-danger">
                                     Username is required

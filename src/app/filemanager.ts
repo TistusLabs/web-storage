@@ -32,9 +32,10 @@ export interface UploadTemplate {
     userId: string
 }
 
-export interface NewUserTemplate {
-    user: userObject,
-    permission: userPermissionObject
+export class NewUserTemplate {
+    user: userObject;
+    permissions: userPermissionObject;
+    data: any;
 }
 
 export class userObject {

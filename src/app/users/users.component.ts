@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IFilemanager, userObject, userPermissionObject} from '../filemanager';
+import {IFilemanager, NewUserTemplate, userObject, userPermissionObject} from '../filemanager';
 import { AuthService } from '../services/auth.service';
 import { AuditTrailService } from '../services/audittrail.service';
 import { MyContentService } from '../services/mycontent.service';
@@ -29,6 +29,7 @@ export class UsersComponent implements OnInit {
     itemsLayout = 'grid';
     shareOnUserCreateCounter = 0;
     userLoading = false;
+    userEditing = false;
     userToUpdateContent = {
         files: [],
         folders: [],
@@ -85,6 +86,7 @@ export class UsersComponent implements OnInit {
         this.userpermission.canAdd = false;
         this.userpermission.canDelete = false;
         this.userpermission.createFolder = false;
+        this.userEditing = false;
     }
 
     private setFile = function (event, eventType) {
@@ -103,38 +105,43 @@ export class UsersComponent implements OnInit {
         uploadData.append('email', user.email);
         uploadData.append('upfile', user.upfile);
 
-        this.authService.saveProfile(uploadData)
+        this.authService.saveProfile(uploadData, user.id)
             .subscribe(_data => {
                 debugger;
                 this.auditTrailService.addAudiTrailLog("Created new profile for user '" + user.firstName + " " + user.lastName + "'");
 
-                /* Username + Password setup */
-                this.authService.updateUser(_data.userId.toString(), user.username, user.password)
-                    .subscribe(d => {
-                        /* Sharing selected content */
-                        this.takeShared(this.shareContent);
-                        for (let s=0;s<this.toShare.length;s++) {
-                            this.myContentService.shareWithUser(this.toShare[s].un, _data.userId.toString(), this.toShare[s].ty.toLowerCase())
-                                .subscribe(data => {
-                                    this.shareOnUserCreateCounter++;
-                                    if (this.toShare.length > 0) {
-                                        if(this.shareOnUserCreateCounter == this.toShare.length){
-                                            alert("Shared file with the selected Users.");
-                                            this.shareOnUserCreateCounter = 0;
-                                            $("#initNewUser").modal('hide');
-                                        };
-                                    } else {
-                                        $("#initNewUser").modal('hide');
+                /* Sharing selected content */
+                this.takeShared(this.shareContent);
+                if (this.toShare.length > 0) {
+                    for (let s=0;s<this.toShare.length;s++) {
+                        this.myContentService.shareWithUser(this.toShare[s].un, _data.userId.toString(), this.toShare[s].ty.toLowerCase())
+                            .subscribe(data => {
+                                this.shareOnUserCreateCounter++;
+                                if (this.toShare.length > 0) {
+                                    if(this.shareOnUserCreateCounter == this.toShare.length){
                                         alert("Shared file with the selected Users.");
-                                    }
-                                    // if (userIDs.length > ++index) {
-                                    //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
-                                    // } else {
-                                    //     alert("Shared file with the selected Users.");
-                                    // }
-                                });
-                        }
-                    });
+                                        this.shareOnUserCreateCounter = 0;
+                                        $("#initNewUser").modal('hide');
+                                        this.userEditing = false;
+                                    };
+                                }
+                                else {
+                                    $("#initNewUser").modal('hide');
+                                    this.userEditing = false;
+                                    alert("Shared file with the selected Users.");
+                                }
+                                // if (userIDs.length > ++index) {
+                                //     this.addPermissionToUser(userIDs, index++, this.selectedContentItem.uniqueFileName);
+                                // } else {
+                                //     alert("Shared file with the selected Users.");
+                                // }
+                            });
+                    }
+                } else {
+                    $("#initNewUser").modal('hide');
+                    this.userEditing = false;
+                    alert("User saved successfully");
+                }
             });
     }
 
@@ -163,8 +170,10 @@ export class UsersComponent implements OnInit {
 
     private addNewUser() {
         let userobj = this.getPermissionObject();
-        this.authService.signUpUser({ "user": this.newUser, "permissions": userobj })
+        this.authService.signUpUser({ "user": this.newUser, "permissions": userobj, "data": null })
             .subscribe(data => {
+                debugger;
+                this.newUser.id = data['data'].userId;
                 this.addNewProfile(this.newUser);
                 this.auditTrailService.addAudiTrailLog("User '" + this.newUser.username + "' was created.");
                 // alert("new user was created");
@@ -233,6 +242,7 @@ export class UsersComponent implements OnInit {
 
     updateUser(id) {
         this.userLoading = true;
+        this.userEditing = true;
         let servicesMarker = 0;
         this.authService.getProfileInfo(id)
             .subscribe(data => {
