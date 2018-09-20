@@ -344,24 +344,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 file.fileSize = this.uiHelperService.formatBytes(file.fileSize, null);
                 this.allFilesFolders.push(file);
             }
-            for (const sharedfile of items.sharedFiles) {
-                sharedfile.id = sharedfile.id;
-                sharedfile.name = sharedfile.filename;
-                sharedfile.starred = sharedfile.starred == null ? false : sharedfile.starred;
-                sharedfile.category = 'file';
-                sharedfile.icon = 'add_photo_alternate';
-                sharedfile.fileSize = this.uiHelperService.formatBytes(sharedfile.fileSize, null);
-                this.allFilesFolders.push(sharedfile);
-            }
-            for (const sharedFolder of items.sharedFolders) {
-                sharedFolder.id = sharedFolder.folderId;
-                sharedFolder.name = sharedFolder.folderName;
-                sharedFolder.starred = false;
-                sharedFolder.category = 'folder';
-                sharedFolder.icon = 'folder_shared';
-                sharedFolder.fileSize = "";
-                this.allFilesFolders.push(sharedFolder);
-            }
+            // for (const sharedfile of items.sharedFiles) {
+            //     sharedfile.id = sharedfile.id;
+            //     sharedfile.name = sharedfile.filename;
+            //     sharedfile.starred = sharedfile.starred == null ? false : sharedfile.starred;
+            //     sharedfile.category = 'file';
+            //     sharedfile.icon = 'add_photo_alternate';
+            //     sharedfile.fileSize = this.uiHelperService.formatBytes(sharedfile.fileSize, null);
+            //     this.allFilesFolders.push(sharedfile);
+            // }
+            // for (const sharedFolder of items.sharedFolders) {
+            //     sharedFolder.id = sharedFolder.folderId;
+            //     sharedFolder.name = sharedFolder.folderName;
+            //     sharedFolder.starred = false;
+            //     sharedFolder.category = 'folder';
+            //     sharedFolder.icon = 'folder_shared';
+            //     sharedFolder.fileSize = "";
+            //     this.allFilesFolders.push(sharedFolder);
+            // }
         }
         this.content = this.allFilesFolders;
         this.itemLoading = '';
