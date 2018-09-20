@@ -219,7 +219,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     renameDocument() {
-        if (this.selectedContentItem.category == 'image') {
+        if (this.selectedContentItem.category == 'file') {
             this.myContentService.renameFile(this.newfilename, this.selectedContentItem.uniqueFileName).subscribe(data => {
                 this.getcontentforPage(this.pageID);
                 this.auditTrailService.addAudiTrailLog("Renamed file from '" + this.selectedContentItem.name + "' to '" + this.newfilename + "'.");
@@ -272,7 +272,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     deleteContent() {
         if (confirm("Are you sure you want to delete this " + this.selectedContentItem.category + "?")) {
             debugger
-            if (this.selectedContentItem.category == 'image') {
+            if (this.selectedContentItem.category == 'file') {
                 this.myContentService.deleteFile(this.selectedContentItem.uniqueFileName).subscribe(data => {
                     this.auditTrailService.addAudiTrailLog("Deleted file '" + this.selectedContentItem.name + "'.");
                     this.getcontentforPage(this.pageID);

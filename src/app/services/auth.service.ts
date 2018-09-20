@@ -44,6 +44,7 @@ export class AuthService {
     private _url_getProfile = "http://23.96.7.8/filemanagement/user_management/profile/getProfile";
     private _url_updateUser = "http://23.96.7.8/filemanagement/user_management/users/updateUser";
     private _url_getUserPremission = "http://23.96.7.8/filemanagement/user_management/permission/getPermission";
+    private _url_updateUserPremission = "http://23.96.7.8/filemanagement/user_management/permission/updatePermission";
 
     private _headers = {
         'Content-Type': 'application/json',
@@ -310,6 +311,29 @@ export class AuthService {
         };
 
         return this.http.get<userPermissionObject>(this._url_getUserPremission, this.requestOptions)
+            .pipe(
+                retry(3),
+                catchError(this.handleError)
+            );
+    }
+
+    public updateUserPermission(userid: string, userObj: userPermissionObject) {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': "Bearer " + this.getAuthToken()
+        };
+
+        this.requestParams = new HttpParams()
+            .set('id', userid);
+
+        this.requestOptions = {
+            params: this.requestParams,
+            headers: new HttpHeaders(headers)
+        };
+
+        return this.http.post<userPermissionObject>(this._url_updateUserPremission, userObj, this.requestOptions)
             .pipe(
                 retry(3),
                 catchError(this.handleError)

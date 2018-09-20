@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                                <input [(ngModel)]="newUser.password" fill-width type="password" placeholder="Password" id="password" name="password" required
+                                <input [disabled]="userEditing" [(ngModel)]="newUser.password" fill-width type="password" placeholder="Password" id="password" name="password" required
                                        #password="ngModel">
                                 <div [hidden]="password.valid || password.pristine" class="ws-alert ws-alert-danger">
                                     Password is required

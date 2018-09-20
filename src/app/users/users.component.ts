@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {IFilemanager, NewUserTemplate, userObject, userPermissionObject} from '../filemanager';
-import { AuthService } from '../services/auth.service';
-import { AuditTrailService } from '../services/audittrail.service';
-import { MyContentService } from '../services/mycontent.service';
-import {HttpEvent} from "@angular/common/http";
-import { UIHelperService } from '../services/uihelper.service';
-import {debug} from "util";
-import {NgForm} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {userObject, userPermissionObject} from '../filemanager';
+import {AuthService} from '../services/auth.service';
+import {AuditTrailService} from '../services/audittrail.service';
+import {MyContentService} from '../services/mycontent.service';
+import {UIHelperService} from '../services/uihelper.service';
 
 @Component({
     selector: 'app-users',
@@ -170,16 +167,23 @@ export class UsersComponent implements OnInit {
 
     private addNewUser() {
         let userobj = this.getPermissionObject();
-        this.authService.signUpUser({ "user": this.newUser, "permissions": userobj, "data": null })
-            .subscribe(data => {
-                debugger;
-                this.newUser.id = data['data'].userId;
-                this.addNewProfile(this.newUser);
-                this.auditTrailService.addAudiTrailLog("User '" + this.newUser.username + "' was created.");
-                // alert("new user was created");
-                this.loadAllUsers();
-                this.resetNewUser();
-            });
+        if(this.userEditing) {
+            this.authService.updateUserPermission(this.newUser.userId, userobj)
+                .subscribe(userPermissionRes => {
+                    this.addNewProfile(this.newUser);
+                });
+        } else {
+            this.authService.signUpUser({ "user": this.newUser, "permissions": userobj, "data": null })
+                .subscribe(data => {
+                    debugger;
+                    this.newUser.id = data['data'].userId;
+                    this.addNewProfile(this.newUser);
+                    this.auditTrailService.addAudiTrailLog("User '" + this.newUser.username + "' was created.");
+                    // alert("new user was created");
+                    this.loadAllUsers();
+                    this.resetNewUser();
+                });
+        }
     }
 
     private extractItems(data) {
