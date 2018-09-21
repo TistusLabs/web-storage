@@ -36,15 +36,15 @@ export class AuthService {
     private authPermissions;
     private profileDetails;
 
-    private _url_createuser = "http://23.96.7.8/filemanagement/user_management/users/registration";
-    private _url_loginuser = "http://23.96.7.8/filemanagement/user_management/users/login/";
-    private _url_getAllusers = "http://23.96.7.8/filemanagement/user_management/profile/getAllProfile";
-    private _url_getAllUsersSub = "http://23.96.7.8/filemanagement/user_management/users/getAll/";
-    private _url_saveProfile = "http://23.96.7.8/filemanagement/user_management/profile/saveProfile";
-    private _url_getProfile = "http://23.96.7.8/filemanagement/user_management/profile/getProfile";
-    private _url_updateUser = "http://23.96.7.8/filemanagement/user_management/users/updateUser";
-    private _url_getUserPremission = "http://23.96.7.8/filemanagement/user_management/permission/getPermission";
-    private _url_updateUserPremission = "http://23.96.7.8/filemanagement/user_management/permission/updatePermission";
+    private _url_createuser = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/registration";
+    private _url_loginuser = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/login/";
+    private _url_getAllusers = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/profile/getAllProfile";
+    private _url_getAllUsersSub = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/getAll/";
+    private _url_saveProfile = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/profile/saveProfile";
+    private _url_getProfile = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/profile/getProfile";
+    private _url_updateUser = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/updateUser";
+    private _url_getUserPremission = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/permission/getPermission";
+    private _url_updateUserPremission = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/permission/updatePermission";
 
     private _headers = {
         'Content-Type': 'application/json',
