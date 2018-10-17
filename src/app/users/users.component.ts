@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {userObject, userPermissionObject} from '../filemanager';
-import {AuthService} from '../services/auth.service';
-import {AuditTrailService} from '../services/audittrail.service';
-import {MyContentService} from '../services/mycontent.service';
-import {UIHelperService} from '../services/uihelper.service';
+import { Component, OnInit } from '@angular/core';
+import { userObject, userPermissionObject } from '../filemanager';
+import { AuthService } from '../services/auth.service';
+import { AuditTrailService } from '../services/audittrail.service';
+import { MyContentService } from '../services/mycontent.service';
+import { UIHelperService } from '../services/uihelper.service';
 
 @Component({
     selector: 'app-users',
@@ -27,6 +27,7 @@ export class UsersComponent implements OnInit {
     shareOnUserCreateCounter = 0;
     userLoading = false;
     userEditing = false;
+    formStatus = "";
     userToUpdateContent = {
         files: [],
         folders: [],
@@ -48,7 +49,7 @@ export class UsersComponent implements OnInit {
     takeShared(c) {
         for (const s of c) {
             if (s.isChecked) {
-                this.toShare.push({un: s.uniqueFileName, ty: s.type});
+                this.toShare.push({ un: s.uniqueFileName, ty: s.type });
             }
             if (s.children) {
                 if (s.children.length > 0) {
@@ -95,6 +96,7 @@ export class UsersComponent implements OnInit {
     }
 
     private addNewProfile(user) {
+        //debugger
         const uploadData = new FormData();
         uploadData.append('profileId', null);
         uploadData.append('firstName', user.firstName);
@@ -102,7 +104,7 @@ export class UsersComponent implements OnInit {
         uploadData.append('email', user.email);
         uploadData.append('upfile', user.upfile);
 
-        this.authService.saveProfile(uploadData, user.id)
+        this.authService.saveProfile(uploadData, user.userId)
             .subscribe(_data => {
                 debugger;
                 this.auditTrailService.addAudiTrailLog("Created new profile for user '" + user.firstName + " " + user.lastName + "'");
@@ -110,12 +112,12 @@ export class UsersComponent implements OnInit {
                 /* Sharing selected content */
                 this.takeShared(this.shareContent);
                 if (this.toShare.length > 0) {
-                    for (let s=0;s<this.toShare.length;s++) {
+                    for (let s = 0; s < this.toShare.length; s++) {
                         this.myContentService.shareWithUser(this.toShare[s].un, _data.userId.toString(), this.toShare[s].ty.toLowerCase())
                             .subscribe(data => {
                                 this.shareOnUserCreateCounter++;
                                 if (this.toShare.length > 0) {
-                                    if(this.shareOnUserCreateCounter == this.toShare.length){
+                                    if (this.shareOnUserCreateCounter == this.toShare.length) {
                                         alert("Shared file with the selected Users.");
                                         this.shareOnUserCreateCounter = 0;
                                         $("#initNewUser").modal('hide');
@@ -162,21 +164,32 @@ export class UsersComponent implements OnInit {
         if (this.userpermission.createFolder) {
             this.newPermission.createFolder = 1;
         }
+        if (this.userpermission.canShare) {
+            this.newPermission.canShare = 1;
+        }
+        if (this.userpermission.canUnShare) {
+            this.newPermission.canUnShare = 1;
+        }
         return this.newPermission;
     }
 
     private addNewUser() {
         let userobj = this.getPermissionObject();
-        if(this.userEditing) {
-            this.authService.updateUserPermission(this.newUser.userId, userobj)
-                .subscribe(userPermissionRes => {
-                    this.addNewProfile(this.newUser);
+        if (this.userEditing) {
+            debugger
+            this.authService.updateUser(this.newUser)
+                .subscribe(updatedUser => {
+                    this.authService.updateUserPermission(this.newUser.userId, userobj)
+                        .subscribe(updatedPermissions => {
+                            this.addNewProfile(this.newUser);
+                        });
                 });
+
         } else {
             this.authService.signUpUser({ "user": this.newUser, "permissions": userobj, "data": null })
                 .subscribe(data => {
                     debugger;
-                    this.newUser.id = data['data'].userId;
+                    this.newUser.userId = data['data'].userId;
                     this.addNewProfile(this.newUser);
                     this.auditTrailService.addAudiTrailLog("User '" + this.newUser.username + "' was created.");
                     // alert("new user was created");
@@ -188,20 +201,20 @@ export class UsersComponent implements OnInit {
 
     private extractItems(data) {
         let obj = [];
-        let folder = {'name':'','uniqueFileName':'','visited':false,'isFOpen':false,'children':[],'type':'Folder','isChecked':false};
-        let file = {'name':'','uniqueFileName':'', 'type': 'File','isChecked':false};
+        let folder = { 'name': '', 'uniqueFileName': '', 'visited': false, 'isFOpen': false, 'children': [], 'type': 'Folder', 'isChecked': false };
+        let file = { 'name': '', 'uniqueFileName': '', 'type': 'File', 'isChecked': false };
 
         for (const _f of data.folders) {
             folder.name = _f.folderName;
             folder.uniqueFileName = _f.uniqueName;
             obj.push(folder);
-            folder = {'name':'','uniqueFileName':'','visited':false,'isFOpen':false,'children':[],'type':'Folder','isChecked':false};
+            folder = { 'name': '', 'uniqueFileName': '', 'visited': false, 'isFOpen': false, 'children': [], 'type': 'Folder', 'isChecked': false };
         }
         for (const __f of data.files) {
             file.name = __f.filename;
             file.uniqueFileName = __f.uniqueFileName;
             obj.push(file);
-            file = {'name':'','uniqueFileName':'', 'type': 'File','isChecked':false};
+            file = { 'name': '', 'uniqueFileName': '', 'type': 'File', 'isChecked': false };
         }
         return obj;
     }
@@ -220,18 +233,18 @@ export class UsersComponent implements OnInit {
                 .subscribe(data => {
                     let folderItems = this.extractItems(data);
                     let ul = document.createElement('ul');
-                    ul.setAttribute('id', f.uniqueFileName+'collap');
+                    ul.setAttribute('id', f.uniqueFileName + 'collap');
                     ul.setAttribute('class', 'collapse show');
                     for (const fi of folderItems) {
-                        if(fi.type == 'Folder') {
-                            for(const sfo of this.userToUpdateContent.sharedFolders) {
-                                if(sfo.uniqueName == fi.uniqueFileName) {
+                        if (fi.type == 'Folder') {
+                            for (const sfo of this.userToUpdateContent.sharedFolders) {
+                                if (sfo.uniqueName == fi.uniqueFileName) {
                                     fi.isChecked = true;
                                 }
                             }
-                        }else if(fi.type == 'File') {
-                            for(const sfi of this.userToUpdateContent.sharedFiles) {
-                                if(sfi.uniqueFileName == fi.uniqueFileName) {
+                        } else if (fi.type == 'File') {
+                            for (const sfi of this.userToUpdateContent.sharedFiles) {
+                                if (sfi.uniqueFileName == fi.uniqueFileName) {
                                     fi.isChecked = true;
                                 }
                             }
@@ -244,7 +257,14 @@ export class UsersComponent implements OnInit {
         }
     };
 
+    createNewUser = function () {
+        this.resetNewUser();
+        this.formStatus = "new";
+    }
+
     updateUser(id) {
+        this.resetNewUser();
+        this.formStatus = "update";
         this.userLoading = true;
         this.userEditing = true;
         let servicesMarker = 0;
@@ -255,11 +275,12 @@ export class UsersComponent implements OnInit {
             });
         this.authService.getAllUsersSub()
             .subscribe(_data => {
-                for(const p of Object.keys(_data)) {
-                    if(_data[p].userId == id) {
+                for (const p of Object.keys(_data)) {
+                    if (_data[p].userId == id) {
                         this.newUser.password = _data[p].password;
                         this.newUser.username = _data[p].username;
                         this.newUser.userType = _data[p].userType;
+                        this.newUser.active = _data[p].active;
                     }
                 }
                 servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
@@ -267,18 +288,18 @@ export class UsersComponent implements OnInit {
         this.shareContent == [];
         this.getAllContent();
         this.myContentService.getItemsInFolder(id)
-            .subscribe( (usercont:any) => {
+            .subscribe((usercont: any) => {
                 this.userToUpdateContent = usercont;
-                for(const sc of this.shareContent) {
+                for (const sc of this.shareContent) {
                     if (sc.type == 'Folder') {
-                        for(const sfo of usercont.sharedFolders) {
-                            if(sfo.uniqueName == sc.uniqueFileName) {
+                        for (const sfo of usercont.sharedFolders) {
+                            if (sfo.uniqueName == sc.uniqueFileName) {
                                 sc.isChecked = true;
                             }
                         }
                     } else if (sc.type == 'File') {
-                        for(const sfi of usercont.sharedFiles) {
-                            if(sfi.uniqueFileName == sc.uniqueFileName) {
+                        for (const sfi of usercont.sharedFiles) {
+                            if (sfi.uniqueFileName == sc.uniqueFileName) {
                                 sc.isChecked = true;
                             }
                         }

@@ -134,6 +134,7 @@ export class AuthService {
         this.newUserDetails.username = userdata.user.username;
         this.newUserDetails.password = userdata.user.password;
         this.newUserDetails.userType = userdata.user.userType;
+        this.newUserDetails.active = userdata.user.active;
 
         this.newUserPermissions = {};
         this.newUserPermissions.canEdit = userdata.permissions.canEdit;
@@ -235,7 +236,7 @@ export class AuthService {
         return this.allUsers;
     }
 
-    public updateUser(userid: string, username: string, password: string) {
+    public updateUser(user: any) {
         const headers = {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Headers': '*',
@@ -244,18 +245,18 @@ export class AuthService {
         };
 
         this.requestParams = new HttpParams()
-            .set('id', userid);
+            .set('id', user.userId);
 
         this.requestOptions = {
             params: this.requestParams,
             headers: new HttpHeaders(headers)
-        };
+        };;
 
         let sendObj = {
-            "username": username,
-            "password": password,
-            "userType":1,
-            "userId":userid
+            // "username": user.username,
+            // "password": user.password,
+            "userType": user.userType,
+            "userId": user.active
         };
 
         return this.http.put<Blob>(this._url_updateUser, sendObj, this.requestOptions)
@@ -303,7 +304,7 @@ export class AuthService {
         };
 
         this.requestParams = new HttpParams()
-            .set('id', userid);
+            .set('userId', userid);
 
         this.requestOptions = {
             params: this.requestParams,

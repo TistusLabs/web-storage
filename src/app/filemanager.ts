@@ -4,7 +4,7 @@ export class FileTemplate {
     filename: string;
     uniqueName: string;
     uniqueFileName: string;
-    contentType:string;
+    contentType: string;
     name: string;
     parentFolder: string;
     category: string;
@@ -47,6 +47,7 @@ export class userObject {
     lastName: string;
     email: string;
     imageUrl: string;
+    active: boolean;
 }
 
 export class profileObject {
@@ -66,6 +67,8 @@ export class userPermissionObject {
     canAdd: number;
     canDelete: number;
     createFolder: number;
+    canShare: number;
+    canUnShare: number;
     userId: string;
 }
 

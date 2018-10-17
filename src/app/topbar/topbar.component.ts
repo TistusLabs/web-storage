@@ -94,7 +94,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     setProfileDetails = function (data) {
         if (typeof data != "string") {
             this.user.name = data.firstName + " " + data.lastName;
-            this.user.image = data.imageurl == "" || data.imageurl == null ? "assets/images/avatar.png" : "http://104.196.2.1" + data.imageurl;
+            this.user.image = data.imageurl == "" || data.imageurl == null ? "assets/images/avatar.png" : "http://dmsuat.eastus.cloudapp.azure.com" + data.imageurl;
         } else {
             this.user.name = "Username";
             this.user.image = "assets/images/avatar.png";

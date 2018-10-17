@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
                 this.profileDetails = {};
             } else {
                 this.profileDetails = data;
-                this.profileDetails.imageurl = this.profileDetails.imageurl == "" || this.profileDetails.imageurl == null ? "assets/images/avatar.png" : "http://104.196.2.1" + this.profileDetails.imageurl;
+                this.profileDetails.imageurl = this.profileDetails.imageurl == "" || this.profileDetails.imageurl == null ? "assets/images/avatar.png" : "http://dmsuat.eastus.cloudapp.azure.com" + this.profileDetails.imageurl;
             }
         });
     }

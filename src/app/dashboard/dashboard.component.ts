@@ -62,7 +62,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             for (const user of Object.keys(userdetails)) {
                 let newuser = <userObject>{};
                 newuser.userId = userdetails[user].userId;
-                newuser.username = userdetails[user].username;
+                newuser.username = userdetails[user].firstName + " " + userdetails[user].lastName;
                 newuser.userType = userdetails[user].userType;
                 this.allusers.push(newuser);
             }
@@ -321,7 +321,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 file.name = file.filename;
                 file.starred = file.starred == null ? false : file.starred;
                 file.category = 'file';
-                file.icon = 'image';
+                //file.icon = 'image';
+                file.icon = this.getMimeType(file.contentType);
                 file.fileSize = this.uiHelperService.formatBytes(file.fileSize, null);
                 this.allFilesFolders.push(file);
             }
@@ -340,7 +341,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 file.name = file.filename;
                 file.starred = file.starred == null ? false : file.starred;
                 file.category = 'file';
-                file.icon = 'image';
+                // file.icon = 'image';
+                file.icon = this.getMimeType(file.contentType);
                 file.fileSize = this.uiHelperService.formatBytes(file.fileSize, null);
                 this.allFilesFolders.push(file);
             }
@@ -433,6 +435,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
     }
 
+    getMimeType = function (contentType) {
+        let x = contentType.split("/");
+        console.log(x[0]);
+        return x[0];
+    }
+
     openContentItem = function (item, e) {
         // debugger
         if (e.target.className.split(' ')[0] != 'ws-overhead-btn') {
@@ -447,12 +455,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 for (var i = 0; i < this.allFilesFolders.length; i++) {
                     if (this.allFilesFolders[i].id == item.id) {
                         const count = i;
+                        console.log("Item to display:", this.allFilesFolders[count]);
                         this.myContentService.getItemToDisplay(item.uniqueFileName, item.userId)
                             .subscribe((resp: HttpResponse<Blob>) => {
-                                //debugger
-                                console.log("Item to display:", this.allFilesFolders[count]);
                                 this.selectedContentItem = this.allFilesFolders[count];
-                                this.createImageFromBlob(resp);
+                                if (this.getMimeType(item.contentType) == "image") {
+                                    this.createImageFromBlob(resp);
+                                } else if (this.getMimeType(item.contentType) == "audio") {
+                                    this.imageToShow = "https://cdn4.iconfinder.com/data/icons/Pretty_office_icon_part_2/256/audio-file.png";
+                                } else if (this.getMimeType(item.contentType) == "text") {
+                                    this.imageToShow = "https://www.freeiconspng.com/uploads/extension-file-text-txt-type-icon--icon-search-engine--21.png";
+                                } else if (this.getMimeType(item.contentType) == "video") {
+                                    this.imageToShow = "https://cdn0.iconfinder.com/data/icons/line-file-type-icons/100/file_video_3-512.png";
+                                } else if (this.getMimeType(item.contentType) == "application") {
+                                    this.imageToShow = "https://banner2.kisspng.com/20180320/acq/kisspng-binary-file-computer-icons-binary-number-source-co-binary-data-icon-5ab0c5640493f2.8305504515215343080188.jpg";
+                                }
                                 // this.selectedContentItem.filedata = data;
                                 this.isContentItemFull = true;
                                 this.itemLoading = '';

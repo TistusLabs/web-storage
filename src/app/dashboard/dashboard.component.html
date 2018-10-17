@@ -46,7 +46,7 @@
                                 <i class="ws-overhead-btn material-icons ws-list-item-icon">cloud_download</i>
                                 <span class="ws-overhead-btn ws-list-item-text">Download {{item.category}}</span>
                             </li>
-                            <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
+                            <li *ngIf="authPermissions.canShare" class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
                                 data-toggle="modal" data-target="#initShareFile">
                                 <i class="ws-overhead-btn material-icons ws-list-item-icon">share</i>
                                 <span class="ws-overhead-btn ws-list-item-text">Share</span>
@@ -68,7 +68,11 @@
                         </ul>
                     </div>
                     <div class="ws-content-item-preview">
-                        <i class="material-icons">{{ item.icon }}</i>
+                        <i *ngIf="item.icon == 'image'" class="material-icons">image</i>
+                        <i *ngIf="item.icon == 'audio'" class="material-icons">audiotrack</i>
+                        <i *ngIf="item.icon == 'video'" class="material-icons">video_library</i>
+                        <i *ngIf="item.icon == 'application'" class="material-icons">code</i>
+                        <i *ngIf="item.icon == 'text'" class="material-icons">text_format</i>
                     </div>
                     <div class="ws-content-item-info {{content.layout}}">
                         <h3 class="ws-info-text-title">{{ itemsLayout==='grid' ? (item.name | slice:0:18) : itemsLayout==='list' ? (item.name | slice:0:50) : null }} {{item.name.length
@@ -180,7 +184,7 @@
             <div class="col-md-4 col-sm-6 col-6"></div>
             <div class="col-md-4 col-sm-6 col-6">
                 <ul class="nav ws-list-horizontal justify-content-end">
-                    <li class="nav-item" data-toggle="modal" data-target="#initShareFile">
+                    <li *ngIf="authPermissions.canShare" class="nav-item" data-toggle="modal" data-target="#initShareFile">
                         <button class="ws-button-flat iconed">
                             <i class="material-icons ws-color-white">share</i>
                         </button>
