@@ -121,10 +121,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     getcontent() {
         this.filterByType = "";
+        let remark = null;
         this.actrouter.queryParams.subscribe(params => {
             if (params.page != undefined) {
                 this.pageID = params.page;
-                this.getcontentforPage(this.pageID);
+                if(params.remark){
+                  remark = JSON.parse(params.remark);
+                }
+                this.getcontentforPage(this.pageID, remark);
             } else if (params.search != undefined) {
                 this.pageID = "search";
                 this.searchContent(params.search);
@@ -307,9 +311,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getcontentforPage = function (page) {
+    private getcontentforPage = function (page, remark) {
         this.myContentService.setCurrentFolder(page);
+      if(remark) {
+        this.getSharedFolderItems(page, remark)
+      } else {
         this.getAllItemsForPage(page);
+      }
     }
 
     private populateItems(items) {
@@ -406,6 +414,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
             });
     }
 
+    private getSharedFolderItems(folderID: string, remark: object) {
+        this.myContentService.getSharedFolderItems(folderID, remark.userId)
+            .subscribe(data => {
+                this.populateItems(data);
+            });
+    }
+
     changeContentLayout = function (layout) {
         this.layout = layout;
     };
@@ -466,8 +481,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (e.target.className.split(' ')[0] != 'ws-overhead-btn') {
             if (item.category == "folder") {
                 // debugger
+                let remark = null;
+                item.remark && item.remark == 'shared' ? remark = {'shared':true,'userId': item.userId} : null;
                 this.itemLoading = item.id;
-                this.goToRoute(item.uniqueName);
+                this.goToRoute(item.uniqueName, remark);
             } else {
                 // debugger
                 this.imageToShow = Object;
@@ -501,9 +518,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
     };
 
-    goToRoute = function (route) {
+    goToRoute = function (route, remark) {
         let navigationExtras: NavigationExtras = {
-            queryParams: { 'page': route }
+            queryParams: {
+              'page': route,
+              'remark' : JSON.stringify(remark)
+            }
         };
         this.router.navigate(['ws/dashboard'], navigationExtras);
     }
