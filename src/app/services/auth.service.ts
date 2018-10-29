@@ -256,8 +256,8 @@ export class AuthService {
         };;
 
         let sendObj = {
-            // "username": user.username,
-            // "password": user.password,
+            "username": user.username,
+            "password": null,
             "userType": user.userType,
             "userId": user.active
         };
