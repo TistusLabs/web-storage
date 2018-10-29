@@ -38,11 +38,12 @@ export class AuthService {
 
     private _url_createuser = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/registration";
     private _url_loginuser = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/login/";
-    private _url_getAllusers = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/profile/getAllProfile";
-    private _url_getAllUsersSub = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/getAll/";
+    private _url_getAllProfiles = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/profile/getAllProfile";
+    private _url_getAllUsers = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/getAll/";
     private _url_saveProfile = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/profile/saveProfile";
     private _url_getProfile = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/profile/getProfile";
     private _url_updateUser = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/updateUser";
+    private _url_deleteUser = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/users/deleteUser";
     private _url_getUserPremission = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/permission/getPermission";
     private _url_updateUserPremission = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/user_management/permission/updatePermission";
 
@@ -143,6 +144,8 @@ export class AuthService {
         this.newUserPermissions.canAdd = userdata.permissions.canAdd;
         this.newUserPermissions.canDelete = userdata.permissions.canDelete;
         this.newUserPermissions.createFolder = userdata.permissions.createFolder;
+        this.newUserPermissions.canShare = userdata.permissions.canShare;
+        this.newUserPermissions.canUnShare = userdata.permissions.canUnShare;
 
         this.newUserObject = {};
         this.newUserObject.user = this.newUserDetails;
@@ -203,6 +206,18 @@ export class AuthService {
             );
     }
 
+    public getAllProfiles() {
+
+        const headers = {
+            'Authorization': "Bearer " + this.getAuthToken()
+        };
+
+        this.requestOptions = {
+            headers: new HttpHeaders(headers)
+        };
+        return this.http.get<userObject>(this._url_getAllProfiles, this.requestOptions);
+    }
+
     public getAllUsers() {
 
         const headers = {
@@ -212,19 +227,7 @@ export class AuthService {
         this.requestOptions = {
             headers: new HttpHeaders(headers)
         };
-        return this.http.get<userObject>(this._url_getAllusers, this.requestOptions);
-    }
-
-    public getAllUsersSub() {
-
-        const headers = {
-            'Authorization': "Bearer " + this.getAuthToken()
-        };
-
-        this.requestOptions = {
-            headers: new HttpHeaders(headers)
-        };
-        return this.http.get(this._url_getAllUsersSub, this.requestOptions);
+        return this.http.get(this._url_getAllUsers, this.requestOptions);
     }
 
 
@@ -260,6 +263,29 @@ export class AuthService {
         };
 
         return this.http.put<Blob>(this._url_updateUser, sendObj, this.requestOptions)
+            .pipe(
+                retry(3),
+                catchError(this.handleError)
+            );
+    };
+
+    public deleteUser(user: any) {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': "Bearer " + this.getAuthToken()
+        };
+
+        this.requestParams = new HttpParams()
+            .set('id', user);
+
+        this.requestOptions = {
+            params: this.requestParams,
+            headers: new HttpHeaders(headers)
+        };
+
+        return this.http.delete<Blob>(this._url_deleteUser, this.requestOptions)
             .pipe(
                 retry(3),
                 catchError(this.handleError)

@@ -20,26 +20,37 @@ export class AuthComponent implements OnInit {
   };
 
   errorMessage = "";
-
+  // token = window.localStorage.getItem('token');
   login = function (input) {
     //debugger
-    if (input.inputUsername != "" && input.inputPassword != "") {
-      this.authService.loginUser(input)
-        .subscribe(data => {
-          if (data.status) {
-            this.authService.setAuthToken(data.data);
-            let navigationExtras: NavigationExtras = {
-              queryParams: { 'page': "" }
-            };
-            this.router.navigate(['ws/dashboard'], navigationExtras);
-            this.authService.setUserValidity(true);
-            this.authService.getAllUsers();
-          } else {
-            this.errorMessage = "Incorrect Username or Password.";
-          }
-        });
+    if(this.token) {
+      this.authService.setAuthToken(this.token);
+      let navigationExtras: NavigationExtras = {
+        queryParams: { 'page': "" }
+      };
+      this.router.navigate(['ws/dashboard'], navigationExtras);
+      this.authService.setUserValidity(true);
+      this.authService.getAllProfiles();
     } else {
-      this.errorMessage = "Username & Password is required";
+      if (input.inputUsername != "" && input.inputPassword != "") {
+        this.authService.loginUser(input)
+          .subscribe(data => {
+            if (data.status) {
+              // debugger;
+              this.authService.setAuthToken(data.data);
+              let navigationExtras: NavigationExtras = {
+                queryParams: { 'page': "" }
+              };
+              this.router.navigate(['ws/dashboard'], navigationExtras);
+              this.authService.setUserValidity(true);
+              this.authService.getAllProfiles();
+            } else {
+              this.errorMessage = "Incorrect Username or Password.";
+            }
+          });
+      } else {
+        this.errorMessage = "Username & Password is required";
+      }
     }
   }
 

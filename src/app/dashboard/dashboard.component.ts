@@ -57,21 +57,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private auditTrailService: AuditTrailService,
         private broadcaster: BroadcasterService
     ) {
-        this.authService.getAllUsers().subscribe(userdetails => {
-            this.allusers = new Array<userObject>();
-            for (const user of Object.keys(userdetails)) {
-                let newuser = <userObject>{};
-                newuser.userId = userdetails[user].userId;
-                newuser.username = userdetails[user].firstName + " " + userdetails[user].lastName;
-                newuser.userType = userdetails[user].userType;
-                this.allusers.push(newuser);
-            }
-            const controls = this.allusers.map(c => new FormControl(false));
-            // controls[0].setValue(true); // Set the first checkbox to true (checked)
+        this.authService.getAllProfiles()
+          .subscribe(allprofiles => {
+            this.authService.getAllUsers()
+              .subscribe(allusers => {
+                this.allusers = new Array<userObject>();
+                for (const profile of Object.keys(allprofiles)) {
+                  let newuser = <userObject>{};
+                  for (const user of Object.keys(allusers)) {
+                    newuser.userId = allprofiles[profile].userId;
+                    newuser.username = allprofiles[profile].firstName + " " + allprofiles[profile].lastName;
+                    if(allprofiles[profile].userId === allusers[user].userId){
+                      newuser.userType = allusers[user].userType;
+                    }
+                  }
+                  this.allusers.push(newuser);
+                }
+                const controls = this.allusers.map(c => new FormControl(false));
+                // controls[0].setValue(true); // Set the first checkbox to true (checked)
 
-            this.form = this.fb.group({
-                allusers: new FormArray(controls)
-            });
+                this.form = this.fb.group({
+                  allusers: new FormArray(controls)
+                });
+
+              });
         });
     }
 
@@ -190,6 +199,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.addPermissionToUser(userIDs, 0, uniqueName);
     }
 
+    unShareItem (item) {
+      this.itemLoading = item.id;
+      this.myContentService.unShareItem(item)
+        .subscribe(unshareres => {
+          this.itemLoading = item.id;
+          debugger;
+        });
+    }
+
     downloadFile(item) {
         // download any file
         if (item.category != 'folder') {
@@ -302,6 +320,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 sharedfile.name = sharedfile.filename;
                 sharedfile.starred = sharedfile.starred == null ? false : sharedfile.starred;
                 sharedfile.category = 'file';
+                sharedfile.remark = 'shared';
                 sharedfile.icon = 'add_photo_alternate';
                 sharedfile.fileSize = this.uiHelperService.formatBytes(sharedfile.fileSize, null);
                 this.allFilesFolders.push(sharedfile);
@@ -311,7 +330,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 sharedFolder.name = sharedFolder.folderName;
                 sharedFolder.starred = false;
                 sharedFolder.category = 'folder';
-                sharedFolder.icon = 'folder_shared';
+              sharedFolder.remark = 'shared';
+              sharedFolder.icon = 'folder_shared';
                 sharedFolder.fileSize = "";
                 this.allFilesFolders.push(sharedFolder);
             }

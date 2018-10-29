@@ -36,6 +36,8 @@ export class MyContentService {
     private _url_deleteditems = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/filemanager/Admin/getdeletedItems";
     private _url_permanentDelete = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/filemanager/Admin/deleteItems";
     private _url_sharebyemail = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/filemanager/filemanager/sendByEmail";
+    private _url_unshare_file = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/filemanager/filemanager/unSharefile";
+    private _url_unshare_folder = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/filemanager/filemanager/unSharefolders";
     //private _url_uploadfile = "https://f7c89f2a.ngrok.io/filemanager/uploadfile";
     // private _token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InNoZWhhbiIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uIjoie1wiSWRcIjo2LFwidXNlcklkXCI6NixcImNhbkVkaXRcIjpmYWxzZSxcImNhblZpZXdcIjpmYWxzZSxcImNhbkRvd25sb2FkXCI6ZmFsc2UsXCJjYW5BZGRcIjpmYWxzZSxcImNhbkRlbGV0ZVwiOmZhbHNlfSIsIm5iZiI6MTUyOTU5ODE5NSwiZXhwIjoxNTI5Njg0NTk1LCJpYXQiOjE1Mjk1OTgxOTUsImlzcyI6InNlbGYiLCJhdWQiOiJsb2NhbGhvc3QifQ.Z8A2KK5VI_cm9JgWkjdz4QWMqIoGmkBK4N1zokoz_WI";
     private _headers = {
@@ -73,6 +75,18 @@ export class MyContentService {
         this.requestParams = new HttpParams()
             .set('userId', this.authService.getUserID())
             .set('folder', folderID);
+
+        this.requestOptions = {
+            params: this.requestParams,
+            headers: new HttpHeaders(this._headers)
+        };
+        return this.http.get<IFilemanager>(this._url_getitems, this.requestOptions);
+    }
+
+    public getItemsByUserId(user: string): Observable<HttpEvent<IFilemanager>> {
+        this.requestParams = new HttpParams()
+            .set('userId', user)
+            .set('folder', '');
 
         this.requestOptions = {
             params: this.requestParams,
@@ -192,6 +206,25 @@ export class MyContentService {
             headers: new HttpHeaders(headers)
         };
         return this.http.get(_url, this.requestOptions);
+    }
+
+    public unShareItem(file: FileTemplate) {
+      debugger;
+      const headers = {
+        'Authorization': "Bearer " + this.authService.getAuthToken()
+      };
+      this.requestParams = new HttpParams()
+        .set('sharedUserId', this.authService.getUserID());
+
+      if (file['category'] === 'File') this.requestParams.set('uniqueFileName', file['uniqueFilename']);
+      if (file['category'] === 'Folder') this.requestParams.set('uniqueFolderName', file['uniqueFilename']);
+
+      this.requestOptions = {
+        params: this.requestParams,
+        headers: new HttpHeaders(headers)
+      };
+
+      return this.http.get(file['category'] === 'File' ? this._url_unshare_file : this._url_unshare_folder, this.requestOptions);
     }
 
     public searchItems(query): Observable<HttpEvent<IFilemanager>> {

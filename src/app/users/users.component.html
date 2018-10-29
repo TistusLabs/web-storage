@@ -1,232 +1,275 @@
 <div fill-width>
-    <div class="ws-page-title clearfix row">
-        <h2 class="col-md-6 col-sm-6 col-6">Users</h2>
-        <div class="col-md-6 col-sm-6 col-6 text-right">
-            <button class="ws-button-primary ws-text-icon" role="button" data-toggle="modal" data-target="#initNewUser"
-                (click)="createNewUser()">
-                <span>+</span>
-                <span>ADD USER</span>
-            </button>
-        </div>
+  <div class="ws-preloader-line" *ngIf="userLoading">
+    <div class="ws-preloader-load-bar">
+      <div class="ws-preloader-bar"></div>
+      <div class="ws-preloader-bar"></div>
+      <div class="ws-preloader-bar"></div>
     </div>
-    <div class="clearfix">
-        <div class="item-compact" [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
-            *ngFor="let user of allusers">
-            <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" role="button"
-                data-toggle="modal" data-target="#initNewUser" (click)="updateUser(user.userId)">
-                <i class="ws-overhead-btn ws-content-more-ops material-icons">edit</i>
-            </button>
-            <div class="ws-content-item-preview item-preview-compact">
+  </div>
+  <div class="ws-page-title clearfix row" *ngIf="!userLoading">
+    <h2 class="col-md-6 col-sm-6 col-6">Users</h2>
+    <div class="col-md-6 col-sm-6 col-6 text-right">
+      <button class="ws-button-primary ws-text-icon" role="button" data-toggle="modal" data-target="#initNewUser"
+              (click)="createNewUser()">
+        <span>+</span>
+        <span>ADD USER</span>
+      </button>
+    </div>
+  </div>
+  <div class="clearfix" *ngIf="!userLoading">
+    <div class="item-compact" [ngClass]="{'ws-content-item-horizontal': itemsLayout==='list', 'ws-content-item': itemsLayout==='grid'}"
+         *ngFor="let user of allusers">
+      <!--<button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" role="button"-->
+      <!--data-toggle="modal" data-target="#initNewUser" (click)="updateUser(user.userId)">-->
+      <!--<i class="ws-overhead-btn ws-content-more-ops material-icons">edit</i>-->
+      <!--</button>-->
+      <button class="ws-overhead-btn ws-content-more-ops ws-button-flat iconed ws-abs-button" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="userControls-{{user.userId}}">
+        <i class="ws-overhead-btn ws-content-more-ops material-icons">more_vert</i>
+      </button>
+      <!--User controls-->
+      <div class="ws-shadow-full ws-dropdown-menu dropdown-menu dropdown-menu-right" attr.aria-labelledby="userControls-{{user.userId}}">
+        <ul class="ws-list ws-iconed-list">
+          <li class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" role="button" data-toggle="modal" data-target="#initNewUser"  (click)="updateUser(user.userId)">
+            <i class="ws-overhead-btn material-icons ws-list-item-icon">edit</i>
+            <span class="ws-overhead-btn ws-list-item-text">Edit</span>
+          </li>
+          <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" data-toggle="modal" data-target="#initDeleteUser" (click)="setCandidateUser(user)">
+            <i class="ws-overhead-btn material-icons ws-list-item-icon">delete</i>
+            <span class="ws-overhead-btn ws-list-item-text">Delete</span>
+          </li>
+        </ul>
+      </div>
+      <!-- end - User controls-->
+      <div class="ws-content-item-preview item-preview-compact">
                 <span class="ws-userimg-wrap">
-                    <img src="{{'http://dmsuat.eastus.cloudapp.azure.com' + user.imageUrl }}" alt="{{ user.firstName}}"
-                        class="ws-images ws-image-small ws-image-circular">
+                    <!--<img src="{{'http://dmsuat.eastus.cloudapp.azure.com' + user.imageUrl ? user.imageUrl : 'avatar.png' }}" alt="{{ user.firstName}}"-->
+                         <!--class="ws-images ws-image-small ws-image-circular">-->
                 </span>
-            </div>
-            <div class="ws-content-item-info">
-                <h3 class="ws-info-text-title">{{user.firstName + ' ' + user.lastName}}</h3>
-                <!--<div class="ws-info-text-sub">-->
-                <!--{{ user.username }}</div>-->
-                <div class="ws-info-text-sub">
-                    {{ user.email }}</div>
-            </div>
-        </div>
+      </div>
+      <div class="ws-content-item-info">
+        <h3 class="ws-info-text-title">{{user.firstName + ' ' + user.lastName}}</h3>
+        <!--<div class="ws-info-text-sub">-->
+        <!--{{ user.username }}</div>-->
+        <div class="ws-info-text-sub">{{ user.email }}</div>
+      </div>
     </div>
-    <ul class="ws-list row">
-        <!--<li class="ws-list-item col-md-4 col-sm-6 col-12" *ngFor="let user of allusers">-->
-        <!--<span class="ws-userimg-wrap">-->
-        <!--<img src="assets/images/avatar.png" alt="{{ user.username}}" class="ws-images ws-image-small ws-image-circular">-->
-        <!--</span>-->
-        <!--<span class="ws-username-wrap">-->
-        <!--{{ user.username}}-->
-        <!--</span>-->
-        <!--</li>-->
-    </ul>
+  </div>
+  <ul class="ws-list row">
+    <!--<li class="ws-list-item col-md-4 col-sm-6 col-12" *ngFor="let user of allusers">-->
+    <!--<span class="ws-userimg-wrap">-->
+    <!--<img src="assets/images/avatar.png" alt="{{ user.username}}" class="ws-images ws-image-small ws-image-circular">-->
+    <!--</span>-->
+    <!--<span class="ws-username-wrap">-->
+    <!--{{ user.username}}-->
+    <!--</span>-->
+    <!--</li>-->
+  </ul>
 </div>
 
 <!--New User-->
-<div class="modal fade" id="initNewUser" tabindex="-1" role="dialog" aria-labelledby="initNewUserCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered ws-modal-large" role="document">
-        <div class="modal-content ws-card">
-            <div class="modal-header ws-card-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">New User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" form="newUserForm" (click)="resetNewUser()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="modal fade" id="initNewUser" tabindex="-1" role="dialog" aria-labelledby="initNewUserLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered ws-modal-large" role="document">
+    <div class="modal-content ws-card">
+      <div class="modal-header ws-card-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">New User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" form="newUserForm" (click)="resetNewUser()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- <div class="ws-body-hints">
+            <p>Here you can add new user with given permissions to them. Bellow all the system users are displayed where could edit their details as you need.</p>
+          </div> -->
+        <form (ngSubmit)="addNewUser()" id="newUserForm" #newUserForm="ngForm">
+          <div class="ws-preloader-line" *ngIf="userLoading">
+            <div class="ws-preloader-load-bar">
+              <div class="ws-preloader-bar"></div>
+              <div class="ws-preloader-bar"></div>
+              <div class="ws-preloader-bar"></div>
             </div>
-            <div class="modal-body">
-                <!-- <div class="ws-body-hints">
-                    <p>Here you can add new user with given permissions to them. Bellow all the system users are displayed where could edit their details as you need.</p>
-                  </div> -->
-                <form (ngSubmit)="addNewUser()" id="newUserForm" #newUserForm="ngForm">
-                    <div class="ws-preloader-line" *ngIf="userLoading">
-                        <div class="ws-preloader-load-bar">
-                            <div class="ws-preloader-bar"></div>
-                            <div class="ws-preloader-bar"></div>
-                            <div class="ws-preloader-bar"></div>
-                        </div>
-                    </div>
-                    <div *ngIf="!userLoading">
-                        <div class="ws-page-subtitle">
-                            <h3>General</h3>
-                        </div>
-                        <div class="row">
-                            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                                <input [(ngModel)]="newUser.firstName" fill-width type="text" placeholder="First name"
-                                    id="fname" name="fname" required #fname="ngModel">
-                                <div [hidden]="fname.valid || fname.pristine" class="ws-alert ws-alert-danger">
-                                    First name is required
-                                </div>
-                            </div>
-
-                            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                                <input [(ngModel)]="newUser.lastName" fill-width type="text" placeholder="Last name" id="lname"
-                                    name="lname" required #lname="ngModel">
-                                <div [hidden]="lname.valid || lname.pristine" class="ws-alert ws-alert-danger">
-                                    Last name is required
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                                <input [disabled]="userEditing" [(ngModel)]="newUser.username" fill-width type="text"
-                                    placeholder="Username" id="username" name="username" required #username="ngModel">
-                                <div [hidden]="username.valid || username.pristine" class="ws-alert ws-alert-danger">
-                                    Username is required
-                                </div>
-                            </div>
-
-                            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                                <input [disabled]="userEditing" [(ngModel)]="newUser.password" fill-width type="password"
-                                    placeholder="Password" id="password" name="password" required #password="ngModel">
-                                <div [hidden]="password.valid || password.pristine" class="ws-alert ws-alert-danger">
-                                    Password is required
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                                <input [(ngModel)]="newUser.email" fill-width type="email" placeholder="Email" id="email"
-                                    name="email" required #email="ngModel">
-                                <div [hidden]="email.valid || email.pristine" class="ws-alert ws-alert-danger">
-                                    Email is required
-                                </div>
-                            </div>
-
-                            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                                <label for="usertype"></label>
-                                <select fill-width id="usertype" name="usertype" [(ngModel)]="newUser.userType"
-                                    required>
-                                    <option value="3">Owner</option>
-                                    <option value="1">Administrator</option>
-                                    <option value="2">User</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                                <input name="upfile" id="upFile" type="file" accept="image/*" (change)="setFile($event)"
-                                    fill-width placeholder="Select Profile Image" />
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" id="isActive" name="isActive" [(ngModel)]="newUser.active">
-                                <label for="isActive">Set user Active</label>
-                            </div>
-                        </div>
-
-                        <div class="ws-page-subtitle">
-                            <h3>Permissions</h3>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" id="canEdit" name="canEdit" [(ngModel)]="userpermission.canEdit">
-                                <label for="canEdit">Enable Editing files</label>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" id="canView" name="canView" [(ngModel)]="userpermission.canView">
-                                <label for="canView">Enable Viewing files</label>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" id="canDownload" name="canDownload" [(ngModel)]="userpermission.canDownload">
-                                <label for="canDownload">Enable Download files</label>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" id="canAdd" name="canAdd" [(ngModel)]="userpermission.canAdd">
-                                <label for="canAdd">Enable uploading new files</label>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" name="createFolder" id="createFolder" [(ngModel)]="userpermission.createFolder">
-                                <label for="createFolder">Enable Creating Folders</label>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" id="canDelete" name="canDelete" [(ngModel)]="userpermission.canDelete">
-                                <label for="canDelete">Enable Deleting files</label>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" id="canShare" name="canShare" [(ngModel)]="userpermission.canShare">
-                                <label for="canShare">Enable File Sharing</label>
-                            </div>
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" id="canUnShare" name="canUnShare" [(ngModel)]="userpermission.canUnShare">
-                                <label for="canUnShare">Enable File Unsharing</label>
-                            </div>
-                        </div>
-                        <div class="ws-page-subtitle">
-                            <h3>Share</h3>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-12">
-                                <ul class="ws-collap-list">
-
-                                    <ng-template #recursiveList let-shareContent>
-                                        <li id="share{{shareItem.uniqueFileName}}" *ngFor="let shareItem of shareContent">
-                                            <i data-toggle="collapse" [attr.href]="'#' + shareItem.uniqueFileName + 'collap'"
-                                                (click)="getFolderItems(shareItem)" *ngIf="shareItem.type == 'Folder'"
-                                                class="material-icons ws-collap-list-toggle">{{shareItem.isFOpen ?
-                                                'indeterminate_check_box' : 'add_box'}}</i>
-                                            <a>
-                                                <!--<i class="material-icons ws-collap-list-item-chk">{{shareItem.isChecked ? 'check_box' : 'check_box_outline_blank'}}</i>
-                                                <i class="material-icons">{{shareItem.type == 'File' ? 'crop_original' : 'folder_open'}}</i>{{shareItem.name}}-->
-                                                <input type="checkbox" name="input{{shareItem.uniqueFileName}}" id="input{{shareItem.uniqueFileName}}"
-                                                    [(ngModel)]="shareItem.isChecked">
-                                                <label for="input{{shareItem.uniqueFileName}}"><i class="material-icons">{{shareItem.type
-                                                        == 'File' ? 'crop_original' : 'folder_open'}}</i>{{shareItem.name}}</label>
-                                            </a>
-                                            <ul *ngIf="shareItem.type == 'Folder'" class="collapse" id="{{shareItem.uniqueFileName}}collap">
-                                                <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: shareItem.children }"></ng-container>
-                                            </ul>
-                                        </li>
-                                    </ng-template>
-                                    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: shareContent }"></ng-container>
-
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- <div *ngIf="newUser.active" class="ws-page-subtitle">
-                            <h3>Danger Zone</h3>
-                        </div>
-                        <div *ngIf="newUser.active" class="row">
-                            <div class="form-group col-md-6 col-sm-12 col-12">
-                                <input type="checkbox" name="deactivate" id="deactivate" [(ngModel)]="!newUser.active">
-                                <label for="deactivate">Deactivate User</label>
-                            </div>
-
-                        </div> -->
-                    </div>
-                    <!-- <button type="submit" [disabled]="!newUserForm.form.valid" class="btn btn-success">Add New User</button> -->
-                </form>
+          </div>
+          <div *ngIf="!userLoading">
+            <div class="ws-page-subtitle">
+              <h3>General</h3>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
-                <button *ngIf="formStatus == 'new'" type="submit" form="newUserForm" class="ws-button-primary ws-raised"
-                    [disabled]="!newUserForm.form.valid">Add</button>
-                <button *ngIf="formStatus == 'update'" type="submit" form="newUserForm" class="ws-button-primary ws-raised"
-                    [disabled]="!newUserForm.form.valid">Update</button>
-                <!--<button type="button" class="ws-button-flat" (click)="addNewProfile(newUser)">New Profile</button>-->
+            <div class="row">
+              <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                <input [(ngModel)]="newUser.firstName" fill-width type="text" placeholder="First name"
+                       id="fname" name="fname" required #fname="ngModel">
+                <div [hidden]="fname.valid || fname.pristine" class="ws-alert ws-alert-danger">
+                  First name is required
+                </div>
+              </div>
+
+              <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                <input [(ngModel)]="newUser.lastName" fill-width type="text" placeholder="Last name" id="lname"
+                       name="lname" required #lname="ngModel">
+                <div [hidden]="lname.valid || lname.pristine" class="ws-alert ws-alert-danger">
+                  Last name is required
+                </div>
+              </div>
             </div>
-        </div>
+
+            <div class="row">
+              <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                <input autocomplete=off [disabled]="userEditing" [(ngModel)]="newUser.username" fill-width type="text"
+                       placeholder="Username" id="username" name="username" required #username="ngModel">
+                <div [hidden]="username.valid || username.pristine" class="ws-alert ws-alert-danger">
+                  Username is required
+                </div>
+              </div>
+
+              <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                <input autocomplete=off [disabled]="userEditing" [(ngModel)]="newUser.password" fill-width type="password"
+                       placeholder="Password" id="password" name="password" required #password="ngModel">
+                <div [hidden]="password.valid || password.pristine" class="ws-alert ws-alert-danger">
+                  Password is required
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                <input [(ngModel)]="newUser.email" fill-width type="email" placeholder="Email" id="email"
+                       name="email" required #email="ngModel">
+                <div [hidden]="email.valid || email.pristine" class="ws-alert ws-alert-danger">
+                  Email is required
+                </div>
+              </div>
+
+              <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                <label for="usertype"></label>
+                <select fill-width id="usertype" name="usertype" [(ngModel)]="newUser.userType"
+                        required>
+                  <option value="3">Owner</option>
+                  <option value="1">Administrator</option>
+                  <option value="2">User</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
+                <input name="upfile" id="upFile" type="file" accept="image/*" (change)="setFile($event)"
+                       fill-width placeholder="Select Profile Image" />
+              </div>
+              <div class="form-group col-md-6 col-sm-12 col-12">
+                <input type="checkbox" id="isActive" name="isActive" [(ngModel)]="newUser.active">
+                <label for="isActive">Set user Active</label>
+              </div>
+            </div>
+
+            <div class="ws-page-subtitle">
+              <h3>Permissions</h3>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6 col-sm-12 col-12">
+                <input type="checkbox" id="canEdit" name="canEdit" [(ngModel)]="userpermission.canEdit">
+                <label for="canEdit">Enable Editing files</label>
+              </div>
+              <div class="form-group col-md-6 col-sm-12 col-12">
+                <input type="checkbox" id="canView" name="canView" [(ngModel)]="userpermission.canView">
+                <label for="canView">Enable Viewing files</label>
+              </div>
+              <div class="form-group col-md-6 col-sm-12 col-12">
+                <input type="checkbox" id="canDownload" name="canDownload" [(ngModel)]="userpermission.canDownload">
+                <label for="canDownload">Enable Download files</label>
+              </div>
+              <div class="form-group col-md-6 col-sm-12 col-12">
+                <input type="checkbox" id="canAdd" name="canAdd" [(ngModel)]="userpermission.canAdd">
+                <label for="canAdd">Enable uploading new files</label>
+              </div>
+              <div class="form-group col-md-6 col-sm-12 col-12">
+                <input type="checkbox" name="createFolder" id="createFolder" [(ngModel)]="userpermission.createFolder">
+                <label for="createFolder">Enable Creating Folders</label>
+              </div>
+              <div class="form-group col-md-6 col-sm-12 col-12">
+                <input type="checkbox" id="canDelete" name="canDelete" [(ngModel)]="userpermission.canDelete">
+                <label for="canDelete">Enable Deleting files</label>
+              </div>
+              <div class="form-group col-md-6 col-sm-12 col-12">
+                <input type="checkbox" id="canShare" name="canShare" [(ngModel)]="userpermission.canShare">
+                <label for="canShare">Enable File Sharing</label>
+              </div>
+              <div class="form-group col-md-6 col-sm-12 col-12">
+                <input type="checkbox" id="canUnShare" name="canUnShare" [(ngModel)]="userpermission.canUnShare">
+                <label for="canUnShare">Enable File Un-sharing</label>
+              </div>
+            </div>
+            <!--<ng-container *ngIf="user.type === 'owner'">-->
+            <ng-container>
+              <div class="ws-page-subtitle">
+                <h3>Share</h3>
+              </div>
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-12">
+                  <ul class="ws-collap-list">
+
+                    <ng-template #recursiveList let-shareContent>
+                      <li id="share{{shareItem.uniqueFileName}}" *ngFor="let shareItem of shareContent">
+                        <i data-toggle="collapse" [attr.href]="'#' + shareItem.uniqueFileName + 'collap'"
+                           (click)="getFolderItems(shareItem)" *ngIf="shareItem.type == 'Folder'"
+                           class="material-icons ws-collap-list-toggle">{{shareItem.isFOpen ?
+                          'indeterminate_check_box' : 'add_box'}}</i>
+                        <a>
+                          <!--<i class="material-icons ws-collap-list-item-chk">{{shareItem.isChecked ? 'check_box' : 'check_box_outline_blank'}}</i>
+                          <i class="material-icons">{{shareItem.type == 'File' ? 'crop_original' : 'folder_open'}}</i>{{shareItem.name}}-->
+                          <input type="checkbox" name="input{{shareItem.uniqueFileName}}" id="input{{shareItem.uniqueFileName}}"
+                                 [(ngModel)]="shareItem.isChecked">
+                          <label for="input{{shareItem.uniqueFileName}}"><i class="material-icons">{{shareItem.type
+                            == 'File' ? 'crop_original' : 'folder_open'}}</i>{{shareItem.name}}</label>
+                        </a>
+                        <ul *ngIf="shareItem.type == 'Folder'" class="collapse" id="{{shareItem.uniqueFileName}}collap">
+                          <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: shareItem.children }"></ng-container>
+                        </ul>
+                      </li>
+                    </ng-template>
+                    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: shareContent }"></ng-container>
+
+                  </ul>
+                </div>
+              </div>
+            </ng-container>
+            <!-- <div *ngIf="newUser.active" class="ws-page-subtitle">
+                <h3>Danger Zone</h3>
+            </div>
+            <div *ngIf="newUser.active" class="row">
+                <div class="form-group col-md-6 col-sm-12 col-12">
+                    <input type="checkbox" name="deactivate" id="deactivate" [(ngModel)]="!newUser.active">
+                    <label for="deactivate">Deactivate User</label>
+                </div>
+
+            </div> -->
+          </div>
+          <!-- <button type="submit" [disabled]="!newUserForm.form.valid" class="btn btn-success">Add New User</button> -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
+        <button *ngIf="formStatus == 'new'" type="submit" form="newUserForm" class="ws-button-primary ws-raised"
+                [disabled]="!newUserForm.form.valid">Add</button>
+        <button *ngIf="formStatus == 'update'" type="submit" form="newUserForm" class="ws-button-primary ws-raised"
+                [disabled]="!newUserForm.form.valid">Update</button>
+        <!--<button type="button" class="ws-button-flat" (click)="addNewProfile(newUser)">New Profile</button>-->
+      </div>
     </div>
+  </div>
 </div>
 <!-- end - New User-->
+
+<!--Delete User-->
+<div class="modal fade ws-dialog-confirm" id="initDeleteUser" tabindex="-1" role="dialog" aria-labelledby="initDeleteUserLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        Are you sure you want to delete this user forever?
+      </div>
+      <div class="modal-footer">
+        <button class="ws-button-flat" data-dismiss="modal" aria-label="Close">No</button>
+        <button class="ws-button-primary" (click)="deleteUser(candidateUser.userId)">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end - Delete User-->

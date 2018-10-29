@@ -18,6 +18,7 @@ export class UsersComponent implements OnInit {
         private uiHelperService: UIHelperService,
         private auditTrailService: AuditTrailService) { }
 
+    user;
     userpermission;
     newUser;
     newPermission;
@@ -34,11 +35,13 @@ export class UsersComponent implements OnInit {
         sharedFiles: [],
         sharedFolders: []
     };
+    candidateUser = null;
 
     ngOnInit() {
         this.resetNewUser();
         this.loadAllUsers();
         this.getAllContent();
+        this.user = this.authService.getProfileData();
 
         this.uiHelperService.itemsLayoutEmitter.subscribe(il => {
             this.itemsLayout = il;
@@ -60,7 +63,8 @@ export class UsersComponent implements OnInit {
     }
 
     private loadAllUsers() {
-        this.authService.getAllUsers().subscribe(userdetails => {
+      this.userLoading = true;
+        this.authService.getAllProfiles().subscribe(userdetails => {
             this.allusers = new Array<userObject>();
             for (const user of Object.keys(userdetails)) {
                 let newuser = <userObject>{};
@@ -71,6 +75,8 @@ export class UsersComponent implements OnInit {
                 newuser.imageUrl = userdetails[user].imageurl;
                 this.allusers.push(newuser);
             }
+
+          this.userLoading = false;
         });
     }
 
@@ -188,13 +194,16 @@ export class UsersComponent implements OnInit {
         } else {
             this.authService.signUpUser({ "user": this.newUser, "permissions": userobj, "data": null })
                 .subscribe(data => {
-                    debugger;
-                    this.newUser.userId = data['data'].userId;
-                    this.addNewProfile(this.newUser);
-                    this.auditTrailService.addAudiTrailLog("User '" + this.newUser.username + "' was created.");
-                    // alert("new user was created");
-                    this.loadAllUsers();
-                    this.resetNewUser();
+                    if (data['status']) {
+                      this.newUser.userId = data['data'].userId;
+                      this.addNewProfile(this.newUser);
+                      this.auditTrailService.addAudiTrailLog("User '" + this.newUser.username + "' was created.");
+                      // alert("new user was created");
+                      this.loadAllUsers();
+                      this.resetNewUser();
+                    } else {
+                      alert(data['error']);
+                    }
                 });
         }
     }
@@ -236,20 +245,24 @@ export class UsersComponent implements OnInit {
                     ul.setAttribute('id', f.uniqueFileName + 'collap');
                     ul.setAttribute('class', 'collapse show');
                     for (const fi of folderItems) {
+                      if (f.type === "Folder" && f.isChecked && this.userEditing) {
+                        fi.isChecked = true;
+                      } else {
                         if (fi.type == 'Folder') {
-                            for (const sfo of this.userToUpdateContent.sharedFolders) {
-                                if (sfo.uniqueName == fi.uniqueFileName) {
-                                    fi.isChecked = true;
-                                }
+                          for (const sfo of this.userToUpdateContent.sharedFolders) {
+                            if (sfo.uniqueName == fi.uniqueFileName) {
+                              fi.isChecked = true;
                             }
+                          }
                         } else if (fi.type == 'File') {
-                            for (const sfi of this.userToUpdateContent.sharedFiles) {
-                                if (sfi.uniqueFileName == fi.uniqueFileName) {
-                                    fi.isChecked = true;
-                                }
+                          for (const sfi of this.userToUpdateContent.sharedFiles) {
+                            if (sfi.uniqueFileName == fi.uniqueFileName) {
+                              fi.isChecked = true;
                             }
+                          }
                         }
-                        f.children.push(fi);
+                      }
+                      f.children.push(fi);
                     }
                     // $('#share'+f.uniqueFileName).append(ul);
                     f.visited = true;
@@ -257,10 +270,14 @@ export class UsersComponent implements OnInit {
         }
     };
 
+    setCandidateUser = function (user) {
+      this.candidateUser = user;
+    };
+
     createNewUser = function () {
         this.resetNewUser();
         this.formStatus = "new";
-    }
+    };
 
     updateUser(id) {
         this.resetNewUser();
@@ -273,7 +290,7 @@ export class UsersComponent implements OnInit {
                 this.newUser = data;
                 servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
             });
-        this.authService.getAllUsersSub()
+        this.authService.getAllUsers()
             .subscribe(_data => {
                 for (const p of Object.keys(_data)) {
                     if (_data[p].userId == id) {
@@ -286,32 +303,50 @@ export class UsersComponent implements OnInit {
                 servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
             });
         this.shareContent == [];
-        this.getAllContent();
-        this.myContentService.getItemsInFolder(id)
+      this.myContentService.getAllFolders()
+        .subscribe(data => {
+          this.shareContent = this.extractItems(data);
+          this.myContentService.getItemsByUserId(id)
             .subscribe((usercont: any) => {
-                this.userToUpdateContent = usercont;
-                for (const sc of this.shareContent) {
-                    if (sc.type == 'Folder') {
-                        for (const sfo of usercont.sharedFolders) {
-                            if (sfo.uniqueName == sc.uniqueFileName) {
-                                sc.isChecked = true;
-                            }
-                        }
-                    } else if (sc.type == 'File') {
-                        for (const sfi of usercont.sharedFiles) {
-                            if (sfi.uniqueFileName == sc.uniqueFileName) {
-                                sc.isChecked = true;
-                            }
-                        }
+              this.userToUpdateContent = usercont;
+              debugger;
+              for (const sc of this.shareContent) {
+                if (sc.type == 'Folder') {
+                  for (const sfo of usercont.sharedFolders) {
+                    if (sfo.uniqueName == sc.uniqueFileName) {
+                      sc.isChecked = true;
                     }
+                  }
+                } else if (sc.type == 'File') {
+                  for (const sfi of usercont.sharedFiles) {
+                    if (sfi.uniqueFileName == sc.uniqueFileName) {
+                      sc.isChecked = true;
+                    }
+                  }
                 }
-                servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
+              }
+              servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
             });
+        });
 
         this.authService.getUserPermission(id)
             .subscribe(userPermissions => {
                 this.userpermission = userPermissions;
                 servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
+            });
+    }
+
+    deleteUser(id) {
+        this.userLoading = true;
+        $("#initDeleteUser").modal('hide');
+        this.authService.deleteUser(id)
+            .subscribe((userdelres: any) => {
+              if(userdelres.status) {
+                this.loadAllUsers();
+              }else{
+                alert("Error deleting user");
+                this.loadAllUsers();
+              }
             });
     }
 

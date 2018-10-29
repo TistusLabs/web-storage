@@ -52,7 +52,7 @@ export class AudittrailComponent implements OnDestroy, OnInit {
   }
 
   private loadAllUsers() {
-    this.authService.getAllUsers().subscribe(userdetails => {
+    this.authService.getAllProfiles().subscribe(userdetails => {
       this.persons = new Array<userObject>();
       for (const user of Object.keys(userdetails)) {
         let newuser = <userObject>{};

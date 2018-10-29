@@ -39,21 +39,32 @@
       <i class="material-icons ws-list-item-icon">history</i>
       <span class="ws-list-item-text">History</span>
     </li>
-    <hr>
-    <span *ngIf="authPermissions.role == 'admin'">
-      <h3 class="ws-sub-header">Administration</h3>
-    </span>
-    <li *ngIf="authPermissions.role == 'admin'" class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/users','')">
-      <i class="material-icons ws-list-item-icon">people_outline</i>
-      <span class="ws-list-item-text">Users</span>
+    <li *ngIf="!authPermissions.role">
+      <div class="ws-preloader-line">
+        <div class="ws-preloader-load-bar">
+          <div class="ws-preloader-bar"></div>
+          <div class="ws-preloader-bar"></div>
+          <div class="ws-preloader-bar"></div>
+        </div>
+      </div>
     </li>
-    <li *ngIf="authPermissions.role == 'admin'" class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/trash','')">
-      <i class="material-icons ws-list-item-icon">delete</i>
-      <span class="ws-list-item-text">Trashed Items</span>
-    </li>
-    <li *ngIf="authPermissions.role == 'admin'" class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/audit-trail','')">
-      <i class="material-icons ws-list-item-icon">list</i>
-      <span class="ws-list-item-text">Audit Trail</span>
-    </li>
+    <ng-container *ngIf="authPermissions.role == 'admin' || authPermissions.role == 'owner'">
+      <hr>
+      <span>
+        <h3 class="ws-sub-header">Administration</h3>
+      </span>
+      <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/users','')">
+        <i class="material-icons ws-list-item-icon">people_outline</i>
+        <span class="ws-list-item-text">Users</span>
+      </li>
+      <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/trash','')">
+        <i class="material-icons ws-list-item-icon">delete</i>
+        <span class="ws-list-item-text">Trashed Items</span>
+      </li>
+      <li class="ws-sidenav-item ws-list-item clickable ws-hover-flat-primary" (click)="goToRoute('/ws/audit-trail','')">
+        <i class="material-icons ws-list-item-icon">list</i>
+        <span class="ws-list-item-text">Audit Trail</span>
+      </li>
+    </ng-container>
   </ul>
 </div>

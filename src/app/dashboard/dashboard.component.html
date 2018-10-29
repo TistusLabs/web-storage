@@ -40,7 +40,7 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="ws-overhead-btn ws-content-more-ops material-icons">more_vert</i>
                     </button>
-                    <div class="ws-shadow-full dropdown-menu dropdown-menu-right" attr.aria-labelledby="moreOptions-{{item.id}}">
+                    <div class="ws-shadow-full ws-dropdown-menu dropdown-menu dropdown-menu-right" attr.aria-labelledby="moreOptions-{{item.id}}">
                         <ul class="ws-list ws-iconed-list">
                             <li *ngIf="authPermissions.canDownload" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="downloadFile(item)">
                                 <i class="ws-overhead-btn material-icons ws-list-item-icon">cloud_download</i>
@@ -56,6 +56,10 @@
                                 <i class="ws-overhead-btn material-icons ws-list-item-icon">link</i>
                                 <span class="ws-overhead-btn ws-list-item-text">Share by Email</span>
                             </li>
+                            <li *ngIf="item.remark === 'shared' && authPermissions.canUnShare" class="ws-overhead-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item);unShareItem(item)">
+                                <i class="ws-overhead-btn material-icons ws-list-item-icon">undo</i>
+                                <span class="ws-overhead-btn ws-list-item-text">Un-share</span>
+                            </li>
                             <li class="ws-overhead-btn ws-content-share-btn ws-list-item clickable ws-hover-flat-primary" (click)="setcurrentItem(item)"
                                 data-toggle="modal" data-target="#initRenameFile">
                                 <i class="ws-overhead-btn material-icons ws-list-item-icon">text_format</i>
@@ -68,6 +72,7 @@
                         </ul>
                     </div>
                     <div class="ws-content-item-preview">
+                        <i *ngIf="item.category == 'folder'" class="material-icons">{{item.icon}}</i>
                         <i *ngIf="item.icon == 'image'" class="material-icons">image</i>
                         <i *ngIf="item.icon == 'audio'" class="material-icons">audiotrack</i>
                         <i *ngIf="item.icon == 'video'" class="material-icons">video_library</i>
@@ -106,9 +111,12 @@
                     <div class="modal-body">
                         <p>Select the users below to set permission for this file:</p>
                         <div class="row">
-                            <div class="col-md-6 col-sm-12 col-12" formArrayName="allusers" *ngFor="let user of form.controls.allusers.controls; let i = index">
-                                <input type="checkbox" id="{{allusers[i].username}}" [formControlName]="i"> <label for="{{allusers[i].username}}">{{allusers[i].username}}</label>
-                            </div>
+                            <ng-container formArrayName="allusers"
+                                 *ngFor="let user of form.controls.allusers.controls; let i = index">
+                                 <div class="col-md-6 col-sm-12 col-12" *ngIf="allusers[i].userType != 3">
+                                  <input type="checkbox" id="{{allusers[i].username}}" [formControlName]="i"> <label for="{{allusers[i].username}}">{{allusers[i].username}}</label>
+                                 </div>
+                            </ng-container>
                         </div>
                         <div *ngIf="!form.valid">At least one user must be selected.</div>
                     </div>
