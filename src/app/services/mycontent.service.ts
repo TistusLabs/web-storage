@@ -83,7 +83,7 @@ export class MyContentService {
         return this.http.get<IFilemanager>(this._url_getitems, this.requestOptions);
     }
 
-    public getSharedFolderItems(folderID: string, userId: number): Observable<HttpEvent<IFilemanager>> {
+    public getSharedFolderItems(folderID: string, userId: string): Observable<HttpEvent<IFilemanager>> {
         this.requestParams = new HttpParams()
             .set('userId', userId)
             .set('folder', folderID);

@@ -54,12 +54,14 @@ export class AuthService {
     };
 
     public setAuthToken(token) {
+      debugger
         this.authToken = token;
         const helper = new JwtHelperService();
         this.authObject = helper.decodeToken(token);
         this.setAuthPermissions(this.authObject.permission);
         this.getProfile(this.authObject.nameid).subscribe(data => {
             this.profileDetails = data;
+            this.profileDetails.temp_role = this.authObject.role;
         });
     }
 

@@ -198,7 +198,7 @@
               </div>
             </div>
             <!--<ng-container *ngIf="user.type === 'owner'">-->
-            <ng-container>
+            <ng-container *ngIf="user.temp_role === 'owner'">
               <div class="ws-page-subtitle">
                 <h3>Share</h3>
               </div>

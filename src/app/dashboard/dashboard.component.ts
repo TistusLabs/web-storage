@@ -243,7 +243,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     renameDocument() {
         if (this.selectedContentItem.category == 'file') {
             this.myContentService.renameFile(this.newfilename, this.selectedContentItem.uniqueFileName).subscribe(data => {
-                this.getcontentforPage(this.pageID);
+                this.getcontentforPage(this.pageID, null);
                 this.auditTrailService.addAudiTrailLog("Renamed file from '" + this.selectedContentItem.name + "' to '" + this.newfilename + "'.");
                 alert("File rename successfull.");
             });
@@ -251,7 +251,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (this.selectedContentItem.category == 'folder') {
             this.myContentService.renameFolder(this.newfilename, this.selectedContentItem.uniqueName).subscribe(data => {
                 this.auditTrailService.addAudiTrailLog("Renamed folder from '" + this.selectedContentItem.folderName + "' to '" + this.newfilename + "'.");
-                this.getcontentforPage(this.pageID);
+                this.getcontentforPage(this.pageID, null);
                 alert("Folder rename successfull.");
             });
         }
@@ -267,7 +267,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         let filename = this.selectedContentItem.uniqueFileName;
         this.myContentService.shareByEmail(subject, body, to, cc, filename).subscribe(data => {
             this.auditTrailService.addAudiTrailLog("Shared a file with " + to + ".");
-            this.getcontentforPage(this.pageID);
+            this.getcontentforPage(this.pageID, null);
             alert("File sharing successfull.");
         });
     }
@@ -277,7 +277,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.myContentService.starFile(item.id).subscribe(data => {
             this.auditTrailService.addAudiTrailLog("File '" + item.name + "' marked as favorite.");
             this.itemLoading = "";
-            this.getcontentforPage(this.pageID);
+            this.getcontentforPage(this.pageID, null);
         });
     }
 
@@ -287,7 +287,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.myContentService.unstarFile(item.id).subscribe(data => {
             this.auditTrailService.addAudiTrailLog("File '" + item.name + "' unmarked as favorite.");
             this.itemLoading = "";
-            this.getcontentforPage(this.pageID);
+            this.getcontentforPage(this.pageID, null);
         });
     }
 
@@ -297,14 +297,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
             if (this.selectedContentItem.category == 'file') {
                 this.myContentService.deleteFile(this.selectedContentItem.uniqueFileName).subscribe(data => {
                     this.auditTrailService.addAudiTrailLog("Deleted file '" + this.selectedContentItem.name + "'.");
-                    this.getcontentforPage(this.pageID);
+                    this.getcontentforPage(this.pageID, null);
                     alert("File deleted successfull.");
                 });
             }
             if (this.selectedContentItem.category == 'folder') {
                 this.myContentService.deleteFolder(this.selectedContentItem.uniqueName).subscribe(data => {
                     this.auditTrailService.addAudiTrailLog("Deleted folder '" + this.selectedContentItem.folderName + "'.");
-                    this.getcontentforPage(this.pageID);
+                    this.getcontentforPage(this.pageID, null);
                     alert("Folder deleted successfull.");
                 });
             }
@@ -415,7 +415,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private getSharedFolderItems(folderID: string, remark: object) {
-        this.myContentService.getSharedFolderItems(folderID, remark.userId)
+      debugger
+        this.myContentService.getSharedFolderItems(folderID, remark['userId'])
             .subscribe(data => {
                 this.populateItems(data);
             });
