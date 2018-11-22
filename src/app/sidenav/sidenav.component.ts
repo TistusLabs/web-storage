@@ -12,7 +12,7 @@ export class SidenavComponent implements OnInit {
   constructor(public myContentService: MyContentService, private router: Router, private authService: AuthService) { }
   myFolders = null;
   xsBreadcrumbInfo = {
-    selectedSection: 'Choose sections here',
+    selectedSection: 'Navigate here..',
     selectedFolder: '',
     icon: ''
   };

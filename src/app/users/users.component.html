@@ -246,7 +246,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="ws-button-flat" data-dismiss="modal">Cancel</button>
+        <button type="button" class="ws-button-flat" data-dismiss="modal" (click)="resetNewUser()">Cancel</button>
         <button *ngIf="formStatus == 'new'" type="submit" form="newUserForm" class="ws-button-primary ws-raised"
                 [disabled]="!newUserForm.form.valid">Add</button>
         <button *ngIf="formStatus == 'update'" type="submit" form="newUserForm" class="ws-button-primary ws-raised"

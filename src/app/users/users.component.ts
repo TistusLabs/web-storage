@@ -91,6 +91,7 @@ export class UsersComponent implements OnInit {
         this.userpermission.canDelete = false;
         this.userpermission.createFolder = false;
         this.userEditing = false;
+        this.userLoading = false;
     }
 
     private setFile = function (event, eventType) {
