@@ -432,7 +432,7 @@ body {
     .ws-content-item-info {
       flex: 1;
       background: #fafafa;
-      padding: $ws-padding-inner-primary;
+      padding: $ws-padding-inner-primary 0 $ws-padding-inner-primary $ws-padding-inner-primary;
       border-radius: 0 0 $ws-border-radius-secondary $ws-border-radius-secondary;
       .ws-info-text-title {
         margin: 0 0 5px 0;

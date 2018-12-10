@@ -46,10 +46,15 @@ export class AuthComponent implements OnInit {
               this.authService.getAllProfiles();
             } else {
               this.errorMessage = "Incorrect Username or Password.";
+              this.inputCredentials.inputUsername = "";
+              this.inputCredentials.inputPassword = "";
+              $('#username').focus();
             }
           });
       } else {
         this.errorMessage = "Username & Password is required";
+        this.inputCredentials.inputUsername = "";
+        this.inputCredentials.inputPassword = "";
       }
     }
   }

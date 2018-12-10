@@ -82,7 +82,7 @@
         <!-- <div class="ws-body-hints">
             <p>Here you can add new user with given permissions to them. Bellow all the system users are displayed where could edit their details as you need.</p>
           </div> -->
-        <form (ngSubmit)="addNewUser()" id="newUserForm" #newUserForm="ngForm">
+        <form (ngSubmit)="addNewUser()" id="newUserForm" #newUserForm="ngForm" autocomplete="off">
           <div class="ws-preloader-line" *ngIf="userLoading">
             <div class="ws-preloader-load-bar">
               <div class="ws-preloader-bar"></div>
@@ -114,7 +114,7 @@
 
             <div class="row">
               <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                <input autocomplete=off [disabled]="userEditing" [(ngModel)]="newUser.username" fill-width type="text"
+                <input autocomplete="off" [disabled]="userEditing" [(ngModel)]="newUser.username" fill-width type="text"
                        placeholder="Username" id="username" name="username" required #username="ngModel">
                 <div [hidden]="username.valid || username.pristine" class="ws-alert ws-alert-danger">
                   Username is required
@@ -122,7 +122,7 @@
               </div>
 
               <div class="form-group ws-form-alerted col-md-6 col-sm-12 col-12">
-                <input autocomplete=off [disabled]="userEditing" [(ngModel)]="newUser.password" fill-width type="password"
+                <input autocomplete="off" [disabled]="userEditing" [(ngModel)]="newUser.password" fill-width type="password"
                        placeholder="Password" id="password" name="password" required #password="ngModel">
                 <div [hidden]="password.valid || password.pristine" class="ws-alert ws-alert-danger">
                   Password is required
