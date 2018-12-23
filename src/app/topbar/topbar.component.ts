@@ -26,10 +26,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
         name: ""
     };
 
-    newFileData = {
-        filename: "",
-        upfile: {}
-    };
+    newFilesData = [];
 
     tempFileSize = 0;
     searchtext = "";
@@ -37,6 +34,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
     xsSearchBar = false;
     private subscription: Subscription;
     fileTypes = [];
+    fileUploaderCounter = 0;
+    filesUploading = false;
 
     constructor(
         public myContentService: MyContentService,
@@ -164,45 +163,60 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
     setFile = function (event, eventType) {
         if (eventType === 'dnd') {
-            this.newFileData.upfile = event.dataTransfer.files[0];
+            this.newFilesData.push({
+              upfile : event.dataTransfer.files[0],
+              size : this.uiHelperService.formatBytes(event.dataTransfer.files[0].size)
+            });
         } else {
-            this.newFileData.upfile = event.target.files[0];
+          this.newFilesData.push({
+            upfile : event.target.files[0],
+            size : this.uiHelperService.formatBytes(event.target.files[0].size)
+          });
         }
-        this.tempFileSize = this.uiHelperService.formatBytes(this.newFileData.upfile.size);
         this.fileReady = true;
     }
 
     reloadPage = function () {
         this.goToRoute(this.myContentService.getCurrenFolder());
-    }
+    };
 
     addNewFile = function () {
         //this.myContentService.addNewFile();
 
         // debugger
-        const uploadData = new FormData();
-        uploadData.append('filename', this.newFileData.upfile.name);
-        uploadData.append('upfile', this.newFileData.upfile);
-        uploadData.append('folderName', this.myContentService.getCurrenFolder());
-        uploadData.append('userId', this.authService.getUserID());
-        uploadData.append('fileSize', this.newFileData.upfile.size);
-        uploadData.append('contentType', this.newFileData.upfile.type);
+        if (this.newFilesData.length) {
+          this.filesUploading = true;
+          for (const file of this.newFilesData) {
+            const uploadData = new FormData();
+            uploadData.append('filename', file.upfile.name);
+            uploadData.append('upfile', file.upfile);
+            uploadData.append('folderName', this.myContentService.getCurrenFolder());
+            uploadData.append('userId', this.authService.getUserID());
+            uploadData.append('fileSize', file.upfile.size);
+            uploadData.append('contentType', file.upfile.type);
 
-        // this.newFileDetails.filename = filedata.filename;
-        // this.newFileDetails.folderName = this.getCurrenFolder(); // get from service
-        // this.newFileDetails.userId = this._userID;
-        // this.newFileDetails.upfile = filedata.upfile;
-        // debugger
-        this.myContentService.addNewFile(uploadData)
-            .subscribe(event => {
-                this.auditTrailService.addAudiTrailLog("Uploaded file '" + this.newFileData.upfile.name + "'");
+            // this.newFileDetails.filename = filedata.filename;
+            // this.newFileDetails.folderName = this.getCurrenFolder(); // get from service
+            // this.newFileDetails.userId = this._userID;
+            // this.newFileDetails.upfile = filedata.upfile;
+            // debugger
+            this.myContentService.addNewFile(uploadData)
+              .subscribe(event => {
+                this.fileUploaderCounter ++;
+                this.auditTrailService.addAudiTrailLog("Uploaded file '" + file.upfile.name + "'");
                 console.log(event);
-                this.newFileData.filename = "";
-                this.newFileData.upfile = {};
-                this.fileReady = false;
-                $('#initNewFile').modal('hide');
-                this.reloadPage();
-            });
+                // this.newFileData.filename = "";
+                // this.newFileData.upfile = {};
+                if (this.fileUploaderCounter === this.newFilesData.length) {
+                  this.fileReady = false;
+                  this.filesUploading = false;
+                  this.newFilesData = [];
+                  $('#initNewFile').modal('hide');
+                  this.reloadPage();
+                }
+              });
+          }
+        }
     }
 
     logoutUser = function () {
@@ -210,5 +224,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
             this.authService.logoutUser();
         }
     }
+
+  cancelFileUpload = () => {
+      this.newFilesData = [];
+  }
 
 }
