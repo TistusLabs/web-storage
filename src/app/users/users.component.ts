@@ -110,7 +110,7 @@ export class UsersComponent implements OnInit {
         uploadData.append('lastName', user.lastName);
         uploadData.append('email', user.email);
         uploadData.append('upfile', user.upfile);
-
+        debugger
         this.authService.saveProfile(uploadData, user.userId)
             .subscribe(_data => {
                 debugger;
@@ -288,7 +288,14 @@ export class UsersComponent implements OnInit {
         let servicesMarker = 0;
         this.authService.getProfileInfo(id)
             .subscribe(data => {
-                this.newUser = data;
+                this.newUser = {
+                  email: data['email'],
+                  firstName: data['firstName'],
+                  imageurl: data['imageurl'],
+                  lastName: data['lastName'],
+                  profileId: data['profileId'],
+                  userId: data['userId']
+                };
                 servicesMarker == 3 ? this.userLoading = false : servicesMarker += 1;
             });
         this.authService.getAllUsers()

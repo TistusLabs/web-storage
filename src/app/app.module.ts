@@ -33,6 +33,7 @@ import { GroupsComponent } from './groups/groups.component';
 import { AudittrailComponent } from './audittrail/audittrail.component';
 import { TrashComponent } from './trash/trash.component';
 import { ProfileComponent } from './profile/profile.component';
+import {OrderModule} from 'ngx-order-pipe';
 
 @NgModule({
     declarations: [
@@ -60,7 +61,8 @@ import { ProfileComponent } from './profile/profile.component';
         ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule,
-        DataTablesModule
+        DataTablesModule,
+        OrderModule
     ],
     providers: [
         MyContentService,

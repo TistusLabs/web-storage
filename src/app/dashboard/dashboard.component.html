@@ -113,7 +113,7 @@
                         <div class="row">
                             <ng-container formArrayName="allusers"
                                  *ngFor="let user of form.controls.allusers.controls; let i = index">
-                                 <div class="col-md-6 col-sm-12 col-12" *ngIf="allusers[i].userType != 3">
+                                 <div class="col-md-12 col-sm-12 col-12" *ngIf="allusers[i].userType != 3">
                                   <input type="checkbox" id="{{allusers[i].username}}" [formControlName]="i"> <label for="{{allusers[i].username}}">{{allusers[i].username}}</label>
                                  </div>
                             </ng-container>
@@ -129,7 +129,7 @@
     </div>
     <!--Share file initialization - ENDS -->
 
-    <!--Share file initialization-->
+    <!--Rename file initialization-->
     <div class="modal fade" id="initRenameFile" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content ws-card">
@@ -154,7 +154,7 @@
             </div>
         </div>
     </div>
-    <!--Share file initialization - ENDS -->
+    <!--Rename file initialization - ENDS -->
 
     <!--Share by email initialization-->
     <div class="modal fade" id="initShareByEmail" tabindex="-1" role="dialog" aria-labelledby="initNewFileCenterTitle" aria-hidden="true">
@@ -181,7 +181,7 @@
             </div>
         </div>
     </div>
-    <!--Share file initialization - ENDS -->
+    <!--Share by email initialization - ENDS -->
 
     <!--Full view-->
     <div class="ws-content-item-full" *ngIf="isContentItemFull" [ngStyle]="isContentItemFull ? {'width':'100%' , 'height':'100%'} : {'width':'0' , 'height':'0'}">

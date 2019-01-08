@@ -162,18 +162,22 @@ export class TopbarComponent implements OnInit, OnDestroy {
     }
 
     setFile = function (event, eventType) {
+      if (event.dataTransfer.files[0].type !== '' && event.dataTransfer.files[0].size !== 0) {
         if (eventType === 'dnd') {
-            this.newFilesData.push({
-              upfile : event.dataTransfer.files[0],
-              size : this.uiHelperService.formatBytes(event.dataTransfer.files[0].size)
-            });
+          this.newFilesData.push({
+            upfile: event.dataTransfer.files[0],
+            size: this.uiHelperService.formatBytes(event.dataTransfer.files[0].size)
+          });
         } else {
           this.newFilesData.push({
-            upfile : event.target.files[0],
-            size : this.uiHelperService.formatBytes(event.target.files[0].size)
+            upfile: event.target.files[0],
+            size: this.uiHelperService.formatBytes(event.target.files[0].size)
           });
         }
         this.fileReady = true;
+      } else {
+        alert('Invalid file type');
+      }
     }
 
     reloadPage = function () {

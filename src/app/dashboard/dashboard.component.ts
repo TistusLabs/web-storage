@@ -73,6 +73,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
                   }
                   this.allusers.push(newuser);
                 }
+                debugger
+                this.allusers = this.allusers.sort((a,b) => {
+                  if(a.username < b.username) { return -1; }
+                  if(a.username > b.username) { return 1; }
+                  return 0;
+                });
                 const controls = this.allusers.map(c => new FormControl(false));
                 // controls[0].setValue(true); // Set the first checkbox to true (checked)
 
