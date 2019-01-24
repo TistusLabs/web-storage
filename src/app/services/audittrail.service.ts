@@ -14,7 +14,7 @@ export class AuditTrailService {
     private requestOptions;
     private requestParams;
 
-    private _url_auditTrailService = "http://dmsuat.eastus.cloudapp.azure.com/filemanagement/filemanager/api/auditTrail/";
+    private _url_auditTrailService = "http://dmsuat.eastasia.cloudapp.azure.com/filemanagement/filemanager/api/auditTrail/";
 
     private _headers = {
         'Content-Type': 'application/json',

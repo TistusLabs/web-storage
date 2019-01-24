@@ -162,7 +162,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     }
 
     setFile = function (event, eventType) {
-      if (event.dataTransfer.files[0].type !== '' && event.dataTransfer.files[0].size !== 0) {
+      if (event.target.files[0].type !== '' && event.target.files[0].size !== 0) {
         if (eventType === 'dnd') {
           this.newFilesData.push({
             upfile: event.dataTransfer.files[0],

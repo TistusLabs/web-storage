@@ -187,6 +187,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     setcurrentItem(item) {
+      debugger
         this.selectedContentItem = item;
         if (item.category != "folder") {
             this.newfilename = item.filename;
@@ -208,6 +209,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.selectedContentItem.uniqueFileName != undefined ? uniqueName = this.selectedContentItem.uniqueFileName : uniqueName = this.selectedContentItem.uniqueName;
         this.addPermissionToUser(userIDs, 0, uniqueName);
     }
+
+    closeShareDialog() {
+      this.form.reset();
+    }
+    // $("#initShareFile").on('hidden.bs.modal', function () {
+    //   $(this).data('bs.modal', null);
+    // });
 
     unShareItem (item) {
       this.itemLoading = item.id;

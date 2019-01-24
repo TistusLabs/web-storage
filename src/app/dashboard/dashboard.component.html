@@ -102,8 +102,8 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content ws-card">
                 <div class="modal-header ws-card-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Share File</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Share {{selectedContentItem.category == 'folder' ? 'Folder' : 'File'}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeShareDialog()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

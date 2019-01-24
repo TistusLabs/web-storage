@@ -4,7 +4,7 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 export class UIHelperService {
     constructor() { }
     @Output() itemsLayoutEmitter: EventEmitter<string> = new EventEmitter();
-    
+
     /* Items Layout =========================*/
     itemsLayout = 'grid';
     toggleItemsLayout(l) {
@@ -21,6 +21,4 @@ export class UIHelperService {
             f = Math.floor(Math.log(a) / Math.log(c));
         return parseFloat((a / Math.pow(c, f)).toFixed(d)) + ' ' + e[f];
     }
-
-
 }
